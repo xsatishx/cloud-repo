@@ -17,10 +17,9 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
     oracle-java${JAVA_VERSION}-installer && \ 
     apt-get clean autoclean && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer && \
-
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer  && \
 # Install packages required by python , gcc, make , wget etc
-apt-get install ant python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev python-dateutil python-docutils python-feedparser python-gdata python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid python-psycopg2 python-psutil python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi -y 
+    apt-get install ant python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev python-dateutil python-docutils python-feedparser python-gdata python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid python-psycopg2 python-psutil python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi -y 
 
 # Download the tools - All wget should go here
 RUN wget https://github.com/samtools/samtools/releases/download/1.2/samtools-1.2.tar.bz2 && \
@@ -89,9 +88,13 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.2/samtools-1.2
      git clone https://github.com/swift-lang/swift-k.git swift-0.96 && \
      cd swift-0.96/ && \
      git checkout -b release-0.96-swift && \
-     ant redist
-
-
+     ant redist 
+ 
+# Getting bwa output
+RUN mkdir /dnasoft/sequences && \
+    cd /dnasoft/sequences && \
+    wget https://s3.amazonaws.com/data-upload-satish/human_g1k_v37_bwaoutput.tar.gz && \
+    tar -xvf human_g1k_v37_bwaoutput.tar.gz
 # Clean Up
 
 RUN rm -rf /dnasoft/Platypus-latest.tgz && \
@@ -100,8 +103,8 @@ RUN rm -rf /dnasoft/Platypus-latest.tgz && \
     rm -rf /dnasoft/htslib-1.3.tar.bz2 && \
     rm -rf /dnasoft/samtools-1.2.tar.bz2 && \
     rm -rf /dnasoft/picard.tar.gz && \
-    rm -rf /dnasoft/bamutils.tar.gz 
-
+    rm -rf /dnasoft/bamutils.tar.gz &&\
+    rm -rf /dnasoft/sequences/human_g1k_v37_bwaoutput.tar.gz
 # Set PATH
 ENV LD_LIBRARY_PATH /dnasoft/htslib-1.3/
 ENV PATH /dnasoft/Platypus_0.8.1/:$PATH
