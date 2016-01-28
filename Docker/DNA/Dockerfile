@@ -90,11 +90,8 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.2/samtools-1.2
      git checkout -b release-0.96-swift && \
      ant redist 
  
-# Getting bwa output
+# Create a directory for sequences 
 RUN mkdir /dnasoft/sequences && \
-    cd /dnasoft/sequences && \
-    wget https://s3.amazonaws.com/data-upload-satish/human_g1k_v37_bwaoutput.tar.gz && \
-    tar -xvf human_g1k_v37_bwaoutput.tar.gz
 # Clean Up
 
 RUN rm -rf /dnasoft/Platypus-latest.tgz && \
@@ -104,7 +101,6 @@ RUN rm -rf /dnasoft/Platypus-latest.tgz && \
     rm -rf /dnasoft/samtools-1.2.tar.bz2 && \
     rm -rf /dnasoft/picard.tar.gz && \
     rm -rf /dnasoft/bamutils.tar.gz &&\
-    rm -rf /dnasoft/sequences/human_g1k_v37_bwaoutput.tar.gz
 # Set PATH
 ENV LD_LIBRARY_PATH /dnasoft/htslib-1.3/
 ENV PATH /dnasoft/Platypus_0.8.1/:$PATH
