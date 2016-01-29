@@ -1,6 +1,8 @@
-# Installs BWA and does a bwa index with a trimmed human_g1k_v37 sequence - For Demo Only
+
 FROM ubuntu:14.04
 MAINTAINER      Satish <satish@healthseq.com>
+# Use this to use BWA. 
+
 RUN apt-get update && \
     apt-get -y install gcc mono-mcs zlib1g-dev make wget git -y -f && \
 
@@ -14,10 +16,13 @@ cd /dnasoft/bwa-0.7.12 && \
 make && \
 
 cd /dnasoft && \
+
+# Download your sequence below
 wget https://s3.amazonaws.com/data-upload-satish/human_g1k_v37_trimmed.fasta.gz && \
 gunzip human_g1k_v37_trimmed.fasta.gz && \
 
+
 cd /dnasoft/bwa-0.7.12 && \
+
+#Run BWA commands
 ./bwa index /dnasoft/human_g1k_v37_trimmed.fasta
-
-

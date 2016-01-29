@@ -1,8 +1,10 @@
-FROM debian:jessie
-MAINTAINER      Satish <balakrishnan.satish@gmail.com>
+# DNA pipeline- Swiftseq Dockerfile
 
-# TODO - Clean all setupfiles to reduce the image size
-# TODO - Mention where the executables are available - the path
+FROM debian:jessie
+
+#Maintainer
+MAINTAINER      Satish <satish@healthseq.com>
+
 # TODO - Change cd to WORKDIR
 ENV JAVA_VERSION=8
 
