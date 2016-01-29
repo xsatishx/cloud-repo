@@ -1,0 +1,3 @@
+{"total_rows":1,"offset":0,"rows":[
+{"id":"sullivan","key":"sullivan","value":{"rev":"4-7702ceecef0825515518e02d05e026db"},"doc":{"_id":"sullivan","_rev":"4-7702ceecef0825515518e02d05e026db","udpipe":{"cores":4,"command":"up -n %s -p %s -l %s > %s","host":"sullivan.opensciencedatacloud.org"}}}
+]}

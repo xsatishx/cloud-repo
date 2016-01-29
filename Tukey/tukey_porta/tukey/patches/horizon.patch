@@ -1,0 +1,17 @@
+diff --git a/horizon/decorators.py b/horizon/decorators.py
+index 5ee6772..11e7a56 100644
+--- a/horizon/decorators.py
++++ b/horizon/decorators.py
+@@ -52,6 +52,12 @@ def require_auth(view_func):
+     def dec(request, *args, **kwargs):
+         if request.user.is_authenticated():
+             return view_func(request, *args, **kwargs)
++        #TODO this is absolutely horrible must fix this somehow
++        #from tukey.views import register_user
++        #try:
++        #       return register_user(request)
++        #except AttributeError:
++        #    pass
+         raise NotAuthenticated(_("Please log in to continue."))
+     return dec
+ 

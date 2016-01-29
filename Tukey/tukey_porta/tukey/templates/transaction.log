@@ -1,0 +1,57 @@
+2014-09-02 17:19:32 INFO Shibboleth-TRANSACTION [27]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-02 17:19:32 INFO Shibboleth-TRANSACTION [27]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-02 17:19:32 INFO Shibboleth-TRANSACTION [27]: }
+2014-09-03 10:54:18 INFO Shibboleth-TRANSACTION [32]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 10:54:18 INFO Shibboleth-TRANSACTION [32]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 10:54:18 INFO Shibboleth-TRANSACTION [32]: }
+2014-09-03 11:36:07 INFO Shibboleth-TRANSACTION [32]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 11:36:07 INFO Shibboleth-TRANSACTION [32]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 11:36:07 INFO Shibboleth-TRANSACTION [32]: }
+2014-09-03 11:36:10 INFO Shibboleth-TRANSACTION [31]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 11:36:10 INFO Shibboleth-TRANSACTION [31]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 11:36:10 INFO Shibboleth-TRANSACTION [31]: }
+2014-09-03 11:38:31 INFO Shibboleth-TRANSACTION [31]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 11:38:31 INFO Shibboleth-TRANSACTION [31]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 11:38:31 INFO Shibboleth-TRANSACTION [31]: }
+2014-09-03 14:28:26 INFO Shibboleth-TRANSACTION [34]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 14:28:26 INFO Shibboleth-TRANSACTION [34]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 14:28:26 INFO Shibboleth-TRANSACTION [34]: }
+2014-09-03 14:38:51 INFO Shibboleth-TRANSACTION [34]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 14:38:51 INFO Shibboleth-TRANSACTION [34]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 14:38:51 INFO Shibboleth-TRANSACTION [34]: }
+2014-09-03 14:39:20 INFO Shibboleth-TRANSACTION [34]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 14:39:20 INFO Shibboleth-TRANSACTION [34]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 14:39:20 INFO Shibboleth-TRANSACTION [34]: }
+2014-09-03 14:42:40 INFO Shibboleth-TRANSACTION [33]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 14:42:40 INFO Shibboleth-TRANSACTION [33]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 14:42:40 INFO Shibboleth-TRANSACTION [33]: }
+2014-09-03 15:27:43 INFO Shibboleth-TRANSACTION [34]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 15:27:43 INFO Shibboleth-TRANSACTION [34]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 15:27:43 INFO Shibboleth-TRANSACTION [34]: }
+2014-09-03 15:57:05 INFO Shibboleth-TRANSACTION [34]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 15:57:05 INFO Shibboleth-TRANSACTION [34]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 15:57:05 INFO Shibboleth-TRANSACTION [34]: }
+2014-09-03 15:57:11 INFO Shibboleth-TRANSACTION [33]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 15:57:11 INFO Shibboleth-TRANSACTION [33]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 15:57:11 INFO Shibboleth-TRANSACTION [33]: }
+2014-09-03 15:57:59 INFO Shibboleth-TRANSACTION [35]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 15:57:59 INFO Shibboleth-TRANSACTION [35]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 15:57:59 INFO Shibboleth-TRANSACTION [35]: }
+2014-09-03 15:58:29 INFO Shibboleth-TRANSACTION [35]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 15:58:29 INFO Shibboleth-TRANSACTION [35]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 15:58:29 INFO Shibboleth-TRANSACTION [35]: }
+2014-09-03 16:06:16 INFO Shibboleth-TRANSACTION [37]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 16:06:16 INFO Shibboleth-TRANSACTION [37]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 16:06:16 INFO Shibboleth-TRANSACTION [37]: }
+2014-09-03 16:12:04 INFO Shibboleth-TRANSACTION [38]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 16:12:04 INFO Shibboleth-TRANSACTION [38]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 16:12:04 INFO Shibboleth-TRANSACTION [38]: }
+2014-09-03 16:26:42 INFO Shibboleth-TRANSACTION [39]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 16:26:42 INFO Shibboleth-TRANSACTION [39]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 16:26:42 INFO Shibboleth-TRANSACTION [39]: }
+2014-09-03 16:26:45 INFO Shibboleth-TRANSACTION [39]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 16:26:45 INFO Shibboleth-TRANSACTION [39]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 16:26:45 INFO Shibboleth-TRANSACTION [39]: }
+2014-09-03 16:32:51 INFO Shibboleth-TRANSACTION [39]: New session (ID: ) with (applicationId: default) for principal from (IdP: urn:mace:incommon:uchicago.edu) at (ClientAddress: 128.135.219.150) with (NameIdentifier: none) using (Protocol: urn:oasis:names:tc:SAML:2.0:protocol) from (AssertionID: )
+2014-09-03 16:32:51 INFO Shibboleth-TRANSACTION [39]: Cached the following attributes with session (ID: ) for (applicationId: default) {
+2014-09-03 16:32:51 INFO Shibboleth-TRANSACTION [39]: }

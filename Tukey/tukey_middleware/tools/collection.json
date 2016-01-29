@@ -1,0 +1,21 @@
+[ {
+        "protocol": "udpipe",
+        "udpipe": {
+            "destination": "sullivan",
+            "port": 9000,
+            "local_path": "/home/ubuntu/uningested_genome1",
+            "password": "EiShoo7g"
+        },
+        "filepath": "/glusterfs/users/mgreenway/ingested_genome1"
+    },
+    {
+        "protocol": "udpipe",
+        "udpipe": {
+            "destination": "sullivan",
+            "port": 9000,
+            "local_path": "/home/ubuntu/uningested_genome2",
+            "password": "EiShoo7g"
+        },
+        "filepath": "/glusterfs/users/mgreenway/ingested_genome2"
+    }
+]

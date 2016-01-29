@@ -1,0 +1,19 @@
+{
+  "name": "base",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[ssh-keys]",
+    "recipe[apt]",
+    "recipe[osdc_ca]",
+    "recipe[nscd]",
+    "recipe[fasterdata]"
+  ],
+  "env_run_lists": {
+  }
+}

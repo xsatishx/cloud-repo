@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block meta_title %}{% trans "Overview" %}{% endblock %}
+
+{% block header %}
+<header class="jumbotron">
+  <h1>Open Science Data Cloud</h1>
+  <p class="lead">Cloud services for the scientific community</p>
+</header>
+{% endblock %}
+
+{% block main %}
+<script type="text/javascript">
+$("#nav-overview").addClass('active')
+</script>
+
+<div class="row">
+
+    {{ form.as_P }}
+
+    <div class="span5 hero-unit">
+        <h3>Register your login credentials</h3>
+    	To sign in with this identifier please send an email to support
+        indicating that you would like to use method and identifier
+        below:
+{% comment %}
+register using your OSDC username
+    	then run the following command from the login server:
+    	<code>tukey-confirm-id {{identifier}}</code>
+    	<form class="form-horizontal">
+
+{% endcomment %}
+    	    <div class="control-group">
+    	    <label>Authentication Method:</label>
+    	    <span class="input-xlarge uneditable-input">{{method}}</span>
+    	    <label>Federated Identifier:</label>
+    	    <span class="input-xlarge uneditable-input">{{identifier}}</span>
+    	    </div>
+{% comment %}
+    	    <label>OSDC Username</label>
+    	    <input class="span2" type="text" id="username" name="username" 
+                placeholder="username" />
+    	    <span class="help-block">If you have an OSDC account enter your username to access it from the Console.</span>
+    	    <button type="submit" class="btn btn-primary">Register</button>
+    	</form>
+{% endcomment %}
+    </div>
+
+
+	<div class="span4 hero-unit">
+        <h3>Don't have an account?</h3>
+	To use the Open Science Data Cloud Console you need to
+        <a href="/dev/apply">apply for an account</a>.
+        <br /> <br />
+        <a href="/dev/apply" class="btn btn-large btn-block btn-danger">Apply Now</a>
+{% comment %}{<a href="{% url logout %}?next=/Shibboleth.sso/Logout%3Freturn%3Dhttp%3A%2F%2Fconsole.opensciencedatacloud.org{% url login%}%3Fshib%3Dtrue" class="btn btn-large btn-block btn-warning">Sign Out</a>
+{% endcomment %}
+    </div>
+</div>
+
+{% endblock %}
+

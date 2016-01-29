@@ -1,0 +1,20 @@
+{% extends 'osdc/files/file_base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Groups" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Groups") %}
+{% endblock page_header %}
+
+{% block main %}
+  <div class="project_groups">
+  {{ project_groups_table.render }}
+  </div>
+  <div class="groups">
+  {{ groups_table.render }}
+  </div>
+  <div class="group_users">
+   {{ group_users_table.render }}
+  </div>
+{% endblock %}

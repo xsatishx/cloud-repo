@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block meta_title %}OSDC Application{% endblock %}
+
+{% block content %}
+<div class='maincontent'>
+<header class="jumbotron subhead">
+  <h1>Apply for an OSDC Allocation</h1>
+</header>
+
+<div class="span12">
+<p>
+Please fill out the form below for access to the Open Science Data Cloud. Once your application is submitted, a member of our team will be in touch regarding your application as soon as possible.
+</p>
+<p>
+  If you are interested in our Protected
+  Data Cloud for The Cancer Genome Atlas please see the <a href="https://bionimbus-pdc.opensciencedatacloud.org/">Bionimbus PDC page</a>.
+  Any questions about the application process can be directed to
+  <a href="mailto:accounts@occ-data.org">accounts@occ-data.org</a>. Thank you.
+</p>
+</div>
+<div class="span12">
+<form action="/apply/" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+  <fieldset>
+
+    <div class="control-group {% if form.first_name.errors %}error{% endif %}">
+      <label class="control-label" for="id_first_name">First Name*</label>
+      <div class="controls">
+        {{ form.first_name }}
+        <span class="help-inline">{{form.first_name.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.last_name.errors %}error{% endif %}">
+      <label class="control-label" for="id_last_name">Last Name*</label>
+      <div class="controls">
+        {{ form.last_name }}
+        <span class="help-inline">{{form.last_name.errors}}</span>
+      </div>
+    </div>
+
+
+    <div class="control-group {% if form.email.errors %}error{% endif %}">
+      <label class="control-label" for="id_email">E-mail*</label>
+      <div class="controls">
+        {{ form.email }}
+        {{ form.eppn.as_hidden }}
+	{{ form.method.as_hidden }}
+        <span class="help-inline">{{form.email.errors}}</span>
+        <span class="help-block-apply">
+          You may change your contact email above.
+          The identity <span class="label label-info">{{ form.eppn.value }}</span> will be sent in your application as your identifier.
+          To use a different identifier please sign out of your federated account and start the application process over.
+        </span>
+      </div>
+    </div>
+
+
+    <div class="control-group {% if form.organization.errors %}error{% endif %}">
+      <label class="control-label" for="id_organization">Organization /University*</label>
+      <div class="controls">
+        {{ form.organization }}
+        <span class="help-inline">{{form.organization.errors}}</span>
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.status.errors %}error{% endif %}">
+      <label class="control-label" for="id_status">Please select your status:*</label>
+      <div class="controls">
+        {{ form.status }}
+        <span class="help-inline">{{form.status.errors}}</span>
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.researchs.errors %}error{% endif %}">
+      <label class="control-label" for="id_researchs">
+	Which of the following categories best describes the nature of the research question you intend to explore using an OSDC resource allocation?*
+	</label>
+      <div class="controls">
+        {{ form.researchs }}
+        <span class="help-inline">{{form.researchs.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.webpage.errors %}error{% endif %}">
+      <label class="control-label" for="id_webpage">Web Page</label>
+      <div class="controls">
+        {{ form.webpage }}
+        <span class="help-inline">{{form.webpage.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.phonenumber.errors %}error{% endif %}">
+      <label class="control-label" for="id_phonenumber">Phone Number</label>
+      <div class="controls">
+        {{ form.phonenumber }}
+        <span class="help-inline">{{form.phonenumber.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.address.errors %}error{% endif %}">
+      <label class="control-label" for="id_address">Address</label>
+      <div class="controls">
+        {{ form.address }}
+        <span class="help-inline">{{form.address.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group control-group-min {% if form.systems.errors %}error{% endif %}">
+      <label class="control-label" for="id_system">Access Requested*</label>
+      <div class="controls">
+      <a href='/systems/#availableResources' target='_blank'>Which Resource is Right For Me?</a>
+        {{ form.systems }}
+        <span class="help-inline"><a href="https://bionimbus-pdc.opensciencedatacloud.org/apply">Apply for access to Bionimbus-PDC (requires dbGaP access to TCGA)</a>{{form.system.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group extra_occy">
+      <label class="control-label" for="id_system">Extra Forms for OCC-Y</label>
+      <div class="controls">
+        <span class="text-block">
+    The OCC-Y Cluster is owned and operated by the OCC, and the equipment is donated by Yahoo! Inc. If you are applying for an account on the OCC-Y Cluster, please complete the following three application forms and email them to <a href="mailto:accounts@opencloudconsortium.org">accounts@opencloudconsortium.org</a>:
+    <ul>
+      <li>1) <a href="http://opencloudconsortium.org/images/OCCYaccount-request.pdf" target="_blank">Account Request</a></li>
+      <li>2) <a href="http://opencloudconsortium.org/images/research-project-description.pdf" target="_blank">Research Project Description</a></li>
+      <li>3) <a href="http://opencloudconsortium.org/images/occ-y-cluster-terms-of-use.pdf" target="_blank">Terms of Use</a></li>
+      </ul>
+
+        </span>
+      </div>
+    </div>
+
+    <div class="control-group extra_pubkey {% if form.pubkey.errors %}error{% endif %}">
+      <label class="control-label" for="id_pubkey">SSH public key*</label>
+      <div class="controls">
+        <span class="text-block">
+          Access to the OCC-Y cluster is only provided by SSH public/private key pairs. Please provide your public key for access. <a href="https://help.github.com/articles/generating-ssh-keys">Here is how to generate your pubkey</a>.
+        </span>
+        {{ form.pubkey }}
+        <span class="help-inline">{{form.pubkey.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectname.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectname">Title for Your Research*</label>
+      <div class="controls">
+        {{ form.projectname }}
+        <span class="help-inline">{{form.projectname.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectlead.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectlead">Research Group Lead*</label>
+      <div class="controls">
+        {{ form.projectlead }}
+        <span class="help-inline">{{form.projectlead.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectlead_email.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectlead_email">Research Group Lead E-mail*</label>
+      <div class="controls">
+        {{ form.projectlead_email }}
+        <span class="help-inline">{{form.projectlead_email.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectdescr.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectdescr">Description of Your Research (500 words or less - Public Abstract)*</label>
+      <div class="controls">
+        {{ form.projectdescr }}
+        <span class="help-inline">{{form.projectdescr.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.sharing.errors %}error{% endif %}">
+      <label class="control-label" for="id_sharing">Do you anticipate other new members of your group will need allocations</label>
+      <div class="controls">
+        {{ form.sharing }}
+        <span class="help-inline">{{ form.sharing.errors }}</span>
+      </div>
+    </div>
+
+    <div class="control-group cpus {% if form.cpus.errors %}error{% endif %}">
+      <label class="control-label" for="id_cpus">Estimate of CPUs required*</label>
+      <div class="controls">
+        {{ form.cpus }}
+        <span class="help-inline">{{ form.cpus.errors }}</span>
+      </div>
+    </div>
+
+<!-- if requesting 16+, display below -->
+    <div class="control-group extra_cpus {% if form.more_cpus.errors %}error{% endif %}">
+      <label class="control-label" for="id_more_cpus">Please specify how many CPUs required*</label>
+      <div class="controls">
+        {{ form.more_cpus }}
+        <span class="help-inline">{{ form.more_cpus.errors }}</span>
+      </div>
+    </div>
+<!-- end if 16+-->
+
+    <div class="control-group storage {% if form.storage.errors %}error{% endif %}">
+     <label class="control-label" for="id_storage">Estimate of storage required*</label>
+     <div class="controls">
+       {{ form.storage }}
+       <span class="help-inline">{{ form.storage.errors }}</span>
+     </div>
+    </div>
+
+<!-- If requesting 1+, display below -->
+    <div class="control-group extra_storage {% if form.more_storage.errors %}error{% endif %}">
+      <label class="control-label" for="id_more_storage">Please specify how much storage required*</label>
+      <div class="controls">
+        {{ form.more_storage }}
+        <span class="help-inline">{{ form.more_storage.errors }}</span>
+      </div>
+    </div>
+<!-- end if 1+ -->
+    <div class="control-group {% if form.datadescr.errors %}error{% endif %}">
+      <label class="control-label" for="id_datadescr">Please give us a little more information on how data intensive this project is and how, specifically, it would benefit from the compute and storage requested above* </label>
+      <div class="controls">
+        {{ form.datadescr }}
+        <span class="help-inline">{{ form.datadescr.errors }}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.referral_source.errors %}error{% endif %}">
+      <label class="control-label" for="id_referral_source">Specifically, How did you hear about the OSDC?*</label>
+      <div class="controls">
+        {{ form.referral_source }}
+        <span class="help-inline">{{ form.referral_source.errors }}</span>
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.agreeform.errors %}error{% endif %}">
+      <label class="control-label" for="id_agreeform">If my request for an OSDC resource allocation is approved, I agree to*</label>
+      <div class="controls">
+        <ul style='list-style:inherit; padding-left:18px;'>
+          <li>Make appropriate use of OSDC resources and use good social behavior (ie - terminating VMs when not in use).</li>
+          <li>Do not share ssh keys or login information - One user per resource allocation.</li>
+          <li><a href="https://www.opensciencedatacloud.org/support/citation.html" target="_blank">Cite</a> the OSDC in any papers and publications</li>
+          <li>Regularly respond to quarterly OSDC allocation surveys</li>
+          <li><span>Submit tickets to the <a href="https://support.opensciencedatacloud.org/index.php?/Core/Default/Index" target="_blank">OSDC support ticketing system</a></span> when encountering technical issues not covered by the <a href="https://www.opensciencedatacloud.org/support/" target="_blank">OSDC support documentation</a></li>
+        
+        </ul>
+        <p>{{ form.agreeform }}&nbsp; I agree to fulfill these expectations.&nbsp;</p>
+        <span class="help-inline">{{ form.referral_source.errors }}</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+	<button type="submit" class="btn btn-warning">Submit Application</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    function true_toggle(selector, condition){
+      if (condition) {
+        $(selector).show();
+      }
+      else {
+        $(selector).hide();
+      }
+    }
+
+    $("#nav-apply").addClass('active');
+    $("#id_systems_2").change(function() {
+      true_toggle(".extra_occy", this.checked);
+      true_toggle(".extra_pubkey", this.checked);
+    }).change();
+
+    function displayMoreCPUs() {
+      var cpus = $("#id_cpus").val();
+      if (cpus == "16plus") {
+        $(".extra_cpus").show();
+      } else {
+        $(".extra_cpus").hide();
+      }
+    }
+
+    function displayMoreStorage() {
+      var storage = $("#id_storage").val();
+      if (storage == "1plus") {
+        $(".extra_storage").show();
+      } else {
+        $(".extra_storage").hide();
+      }
+    }
+
+    $("#id_cpus").change(displayMoreCPUs);
+    $("#id_storage").change(displayMoreStorage);
+    displayMoreCPUs();
+    displayMoreStorage();
+
+});
+</script>
+{% endblock %}

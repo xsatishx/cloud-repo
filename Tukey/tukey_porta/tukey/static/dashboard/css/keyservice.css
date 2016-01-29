@@ -1,0 +1,9 @@
+.keyservice-form label,.keyservice-form .errorlist{
+    display: inline-block;
+}
+.keyservice-form input, .keyservice-form textarea,.keyservice-form select{
+    display:block;
+} 
+.errorlist {
+    color:#F2183C;
+}

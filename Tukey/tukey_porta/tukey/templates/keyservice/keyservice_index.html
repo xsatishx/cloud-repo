@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Key Service{% endblock %}
+
+{% block content %}
+<div class='maincontent'>
+<header class="jumbotron subhead">
+  <h1>Key Service</h1>
+</header>
+
+<div class="span12">
+<p>
+<a href="http://www.cdlib.org/inside/diglib/ark/">Archival Resource Keys (ARK)</a> are provided for data hosted on the OSDC by using the Open Cloud Consortium's Name Assigning Authority Number (NAAN). An ARK provides a persistent identifier for locating data and associated metadata. For example, the ARK for the Earth Observing-1 Mission is ark:/31807/osdc-c6458e33. 
+</p>
+<p>
+The location of this data can be found by using the OSDC key service. This is done by either directly using the URL: <a href="/keyservice/ark:/31807/osdc-c6458e33">https://www.opensciencedatacloud.org/keyservice/ark:/31807/osdc-c6458e33</a> or by using the form below.
+</p>
+<p>
+The metadata for OSDC datasets can be retrieved by appending a "?" to the ARK directly using the URL: <a href='/keyservice/ark:/31807/osdc-c6458e33?'>https://www.opensciencedatacloud.org/keyservice/ark:/31807/osdc-c6458e33?</a> or by using the form below.
+</p>
+<p>
+If you have a dataset that you would like to contribute to the OSDC public data commons, you can apply to have your data hosted <a href='/keyservice/request'>here</a>.
+</p>
+<p>
+<h3>Locate data from an OCC ARK Key (e.g. ark:/31807/osdc-c6458e33):</h3>
+</p>
+<p>
+<form action="/keyservice/" method="post" enctype="multipart/form-data" class="form-inline">{% csrf_token %}
+<fieldset>
+    <div class="control-group {% if form.ark_key.errors %}error{% endif %}">
+	{{ form.ark_key }}
+	<button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</fieldset>
+</form>
+</div>
+</div>
+
+{% endblock %}

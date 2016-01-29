@@ -1,0 +1,265 @@
+import os
+
+from django.utils.translation import ugettext_lazy as _
+from settings import *
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+USE_X_FORWARDED_HOST = True
+
+
+TUKEY_ROOT = os.path.abspath(os.path.join(ROOT_PATH, '..', 'tukey'))
+STATIC_ROOT = os.path.abspath(os.path.join(TUKEY_ROOT, 'static'))
+TEMPLATE_DIRS = ( os.path.abspath(os.path.join(TUKEY_ROOT, 'templates')), )
+
+TEMPLATE_CONTEXT_PROCESSORS += ( "tukey.context_processors.logout_url", )
+
+OPENSTACK_HOST = "127.0.0.1"
+OPENSTACK_KEYSTONE_URL = "http://%s:8774/v2.0" % OPENSTACK_HOST
+OPENSTACK_KEYSTONE_DEFAULT_ROLE = "Member"
+
+OPENSTACK_KEYSTONE_BACKEND = {
+    'name': 'native',
+    'can_edit_user': True
+}
+
+API_RESULT_LIMIT = 1000
+API_RESULT_PAGE_SIZE = 1000
+
+LOGGING = {
+        'version': 1,
+        # When set to True this will disable all logging except
+        # for loggers specified in this configuration dictionary. Note that
+        # if nothing is specified here and disable_existing_loggers is True,
+        # django.db.backends will still log unless it is disabled explicitly.
+        'disable_existing_loggers': False,
+        'handlers': {
+            'null': {
+                'level': 'DEBUG',
+                'class': 'django.utils.log.NullHandler',
+                },
+            'console': {
+                # Set the level to "DEBUG" for verbose output logging.
+                'level': 'INFO',
+                'class': 'logging.StreamHandler',
+                },
+            },
+        'loggers': {
+            # Logging from django.db.backends is VERY verbose, send to null
+            # by default.
+            'django.db.backends': {
+                'handlers': ['null'],
+                'propagate': False,
+                },
+            'horizon': {
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'openstack_dashboard': {
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'novaclient': {
+                'handlers': ['console'],
+               'propagate': False,
+            },
+            'keystoneclient': {
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'glanceclient': {
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'nose.plugins.manager': {
+                'handlers': ['console'],
+                'propagate': False,
+            }
+        }
+}
+
+INSTALLED_APPS = (
+    'compressor',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.humanize',
+    'django.contrib.messages',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sessions',
+    'django.contrib.staticfiles',
+    'captcha',
+    'django.contrib.staticfiles',
+    'horizon',
+    'openstack_dashboard',
+    'openstack_dashboard.dashboards.admin',
+    'openstack_dashboard.dashboards.project',
+    'openstack_dashboard.dashboards.settings',
+    'django_openid_auth',
+    'openstack_auth',
+    'tukey.content',
+    'tukey.customtags',
+    'tukey.datasets',
+    'tukey.files',
+    'tukey.keyservice',
+    'tukey.status',
+    'tukey.webforms',
+)
+
+AUTHENTICATION_BACKENDS = (
+     'django_openid_auth.auth.OpenIDBackend',
+     'openstack_auth.backend.KeystoneBackend',
+)
+
+OPENID_CREATE_USERS = True
+DISABLE_SECURITY_GROUPS_AND_IPS = True
+
+TIME_ZONE = 'America/Chicago'
+
+LOGIN_URL = "/federated/login"
+LOGOUT_URL = '?next=/Shibboleth.sso/Logout%3Freturn%3Dhttps%3A%2F%2Fwww.opensciencedatacloud.org' + LOGIN_URL + '%3Fshib%3Dtrue'
+
+SITE_BRANDING = 'Open Science Data Cloud'
+
+DATABASES = {
+    'default': {
+        # Ends with 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # DB name or path to database file if using sqlite3.
+        'NAME': 'osdcdb',
+        # Not used with sqlite3.
+        'USER': 'osdcdb_user',
+        # Not used with sqlite3.
+        'PASSWORD': 'password',
+        # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': 'localhost',
+        # Set to empty string for default. Not used with sqlite3.
+        'PORT': '',
+    }
+}
+
+# For times when a user needs to choose a resource to perform a
+# certain action on we need to know what resources support that
+# function those functions are currently:
+CLOUD_FUNCTIONS = {
+    'import_keypair': ['sullivan', 'loginatwood', 'logingoldberg','loginadler', 'loginsullivan', 'logincobb', 'all'],
+    'create_keypair': ['adler', 'sullivan', 'loginatwood', 'logingoldberg', 'loginadler', 'loginsullivan', 'logincobb', 'all'],
+    'associate_ip': [],#['sullivan', 'atwood', 'goldberg'],
+    'edit_instance': ['sullivan', 'atwood', 'goldberg', 'cobb'],
+    'launch_multiple': ['sullivan', 'atwood', 'goldberg', 'cobb'],
+    'namable_servers': ['sullivan', 'atwood', 'goldberg', 'cobb'],
+    'instance_keys': ['adler', 'sullivan'],
+    'security_groups': ['adler', 'sullivan', 'atwood'],
+    'launch_cluster': ['sullivan', 'atwood'],
+    'osdcquery': []
+}
+
+# Cloud ids that will match the tukey-middleware etc/enabled config
+# files as keys and the values a short description
+CLOUD_DETAILS = {
+    'loginadler': 'Adler login server',
+    'loginsullivan': 'Sullivan login server',
+    'loginatwood': 'Atwood login server',
+    'logingoldberg': 'Goldberg login server',
+    'adler':    'Adler instances',
+    'goldberg':    'Goldberg instances',
+    'cobb':    'Cobb instances',
+    'logincobb':    'Cobb login server',
+    'sullivan': 'Sullivan instances',
+    'atwood': 'Atwood instances',
+    'all': 'All Resources'
+}
+
+
+# Shibboleth headers to consume in order
+SHIB_HEADERS = ('HTTP_EPPN', 'HTTP_PERSISTENT_ID', 'HTTP_TARGETED_ID')
+
+USAGE_ATTRIBUTES = {
+    'OCC-Y Hadoop Disk (GB):': 'occ_y_hdfsdu',
+    'OCC-Y Jobs:': 'occ_y_jobs',
+    'OCC LVOC Hadoop Disk (GB):': 'occ_lvoc_hdfsdu',
+    'OCC LVOC Jobs:': 'occ_lvoc_jobs',
+    'Sullivan Glusterfs Disk (GB):': 'sullivan_du',
+    'Sullivan Cloud Virtual Cores:': 'sullivan_cores',
+    'Sullivan Cloud RAM Hours (GB Hours):': 'sullivan_ram',
+    'Goldberg Glusterfs Disk (GB):': 'goldberg_du',
+    'Goldberg Cloud Virtual Cores:': 'goldberg_cores',
+    'Goldberg Cloud RAM Hours (GB Hours):': 'goldberg_ram',
+    'Atwood PDC Glusterfs Disk (GB):': 'atwood_du',
+    'Atwood PDC Cloud Virtual Cores:': 'atwood_cores',
+    'Atwood PDC Cloud RAM Hours (GB Hours):': 'atwood_ram',
+    'Adler Glusterfs Disk (GB):': 'adler_du',
+    'Adler Cloud RAM Hours (GB Hours):': 'adler_ram',
+    'Adler Cloud Virtual Cores:': 'adler_cores'}
+
+
+APPLICATION_EMAIL = 'accounts@opencloudconsortium.org'
+DEMO_REG_EMAIL = ''
+
+APPLICATION_INVITE_EMAIL = 'accounts@opencloudconsortium.org'
+SUPPORT_EMAIL = 'support@opensciencedatacloud.org'
+
+SESSION_TIMEOUT = 3000
+
+
+STATUS_URLS = ["http://dashboard.bionimbus.opensciencedatacloud.org/state.json",
+"http://dashboard.opensciencedatacloud.org/state.json"]
+
+STATUS = [
+    ("Sullivan", {
+        "dashboard": "OSDC-Sullivan",
+        "type": "cloud"
+    }),
+    ("Adler", {
+        "dashboard": "OSDC-Adler",
+        "type": "cloud"
+    }),
+#    ("Goldberg", {
+#        "dashboard": "goldberg",
+#        "type": "cloud"
+#    }),
+    ("Bionimbus PDC", {
+        "dashboard":"Bionimbus-PDC",
+        "type": "cloud"
+    }),
+    ("Atwood PDC (Conte Center)", {
+        "dashboard":"atwood",
+        "type": "cloud"
+    }),
+    ("OCC-Y", {
+        "dashboard": "OCC-Y",
+        "type": "map_reduce"
+    }),
+#    ("OCC-LVOC", {
+#        "dashboard": "OCC-LVOC-HADOOP",
+#        "type": "map_reduce"
+#    }),
+    ("OCC-Root", {
+        "dashboard": "OCC-Root",
+        "type": "storage"
+    })
+]
+
+
+RECAPTCHA_PUBLIC_KEY = ""
+
+RECAPTCHA_PRIVATE_KEY = ""
+
+RECAPTCHA_USE_SSL = True
+
+SECRET_KEY = ''
+
+API_ENDPOINT_REPLACEMENTS = [
+    #("http://localhost", "https://api.opensciencedatacloud.org"),
+    ("http://localhost:8774/v2.0", "https://api.opensciencedatacloud.org:5000/sullivan/v2.0/"),
+#    ("http://127.0.0.1", "https://api.opensciencedatacloud.org"),
+#    ("http://sullivan.127.0.0.1", "http://sullivan.api.opensciencedatacloud.org"),
+#    ("http://atwood.127.0.0.1", "http://atwood.api.opensciencedatacloud.org"),
+#    ("http://goldberg.127.0.0.1", "http://goldberg.api.opensciencedatacloud.org"),
+#    ("http://adler.127.0.0.1", "http://adler.api.opensciencedatacloud.org")
+]
+
+TUKEY_PASSWORD = 'password'
+
+SITE_URL = 'https://www.opensciencedatacloud.org'
+

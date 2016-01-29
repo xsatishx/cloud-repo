@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+# ======== Make/install parcel lib ========
+make clean
+make
+
+# ======== Install python package ========
+set +e
+yes | pip uninstall parcel >> /dev/null &2>1
+python setup.py install

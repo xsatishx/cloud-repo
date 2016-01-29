@@ -1,0 +1,42 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block modal_class %}login {% if hide %}modal hide{% endif %}{% endblock %}
+
+
+{% block form_action %}{% url login %}{% endblock %}
+
+
+{% block modal-body %}
+     <p> <span class="label label-warning">WARNING:</span>
+     To protect the system from unauthorized use and to ensure that the
+     system is functioning properly, activities on this system are monitored and
+     recorded and subject to audit. Use of this system is expressed consent to such
+     monitoring and recording. Any unauthorized access or use of this Automated
+     Information System is prohibited and could be subject to criminal and civil
+     penalties. 
+     </p>
+     <p>Users are prohibited from using the system in a non approved manner. All
+     data is to be treated as privileged information and transferred in an approved
+     secure manner.
+     </p>
+
+     <div>
+         <a class="btn" href="https://itrusteauth.nih.gov/affwebservices/public/saml2sso?SPID=https://bionimbus-pdc.opensciencedatacloud.org/shibboleth">
+          {% trans "Sign in" %}
+         </a>
+     {% if request.GET.shib %}
+     <br />
+     <span class="label label-important">{% trans "To sign out of your ID provider close all open browser windows." %}</span>
+     {% endif %}
+     </div>
+  <!--
+  <fieldset>
+    {% if next %}<input type="hidden" name="{{ redirect_field_name }}" value="{{ next }}" />{% endif %}
+    {% include "horizon/common/_form_fields.html" %}
+  </fieldset>
+  -->
+{% endblock %}
+
+{% block modal-footer %}
+{% endblock %}

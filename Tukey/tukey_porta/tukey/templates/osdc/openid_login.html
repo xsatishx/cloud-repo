@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block body_id %}splash{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include 'osdc/shibboleth_openid_box.html' %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-console").addClass('active')
+</script>
+{% endblock %}
+

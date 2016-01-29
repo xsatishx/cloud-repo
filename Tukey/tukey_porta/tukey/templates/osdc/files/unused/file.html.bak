@@ -1,0 +1,61 @@
+
+{% block meta_title %}Permissions Editor{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>OSDC Permissions Editor</h2>
+
+</header>
+{% endblock %}
+
+
+{% block main %}
+<script type="text/javascript">
+$("#nav-files").attr('class', 'active')
+</script>
+
+Signed in as {{ request.user }}
+
+{% if files %}
+
+    <table>
+	<tr><th>Name</th><th>Real Location</th></tr>
+	{% for file in files%}
+	    <tr><td>{{ file.f_name }}</td><td>{{ file.f_real_location }}</td></tr>
+	{% endfor %}
+    </table>
+
+{% elif users %}
+
+    <table>
+	<tr><th>Name</th><th>Email</th></tr>
+	{% for user in users %}
+	    <tr><td>{{ user.f_name }}</td><td>{{ user.f_email }}</td></tr>
+	{% endfor %}
+    </table>
+
+{% elif groups %}
+
+    <table>
+        <tr><th>Name</th></tr>
+        {% for group in groups %}
+            <tr><td>{{ group.f_name }}</td></tr>
+        {% endfor %}
+    </table>
+
+{% elif permissions %}
+
+    <table>
+        <tr><th>Name</th></tr>
+        {% for permission in permissions %}
+            <tr><td>{{ permission.f_group_ref.f_name }}</td></tr>
+        {% endfor %}
+    </table>
+
+
+{% else %}
+
+    <p>No users are available.</p>
+
+{% endif %}
+{% endblock %}

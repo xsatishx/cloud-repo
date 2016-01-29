@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+
+#  Copyright 2013 Open Cloud Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+
+import argparse
+
+from tukey_middleware.tools_utils import add_openstack_env, TokenFileClient
+from tukey_middleware.modules.ids import Client
+
+
+def xsv2json(xsv, separator='\t'):
+    ''' converts x separated values data into JSON. Default separator is
+    tab.  Use the first line as the key names and then return a list of
+    objects using those keys'''
+    lines = xsv.split("\n")
+    keys = lines[0].split(separator)
+
+    as_dict = [{key: value for key, value in zip(keys, values.split(separator))}
+            for values in lines[1:] if values]
+
+    return as_dict
+
+def main():
+    ''' upload xml, csv, or tsv to metadata/id service and print the id
+    service ids corresponding to the created collections'''
+
+    parser = argparse.ArgumentParser(
+            description="upload file from file metadata")
+    # -d is the first flag not in the three command programs
+    parser.add_argument("-d", dest="id_service",
+            default="http://127.0.0.1:8774/", type=str)
+    parser.add_argument("project", type=str)
+    parser.add_argument("metadata_file", type=str)
+    parser.add_argument("-i", dest="interface", type=str)
+    file_format = parser.add_mutually_exclusive_group()
+    file_format.add_argument("--csv", action="store_true")
+    file_format.add_argument("--tsv", action="store_true")
+
+    add_openstack_env(parser)
+
+    args = parser.parse_args()
+
+    with open(args.metadata_file) as metadata_file:
+        metadata = metadata_file.read()
+
+    if args.csv:
+        metadata = xsv2json(metadata, separator=",")
+    if args.tsv:
+        metadata = xsv2json(metadata)
+
+    with TokenFileClient(args, path='~/.id_service_auth_token') as client:
+        for result in client.upload_metadata(args.project, metadata):
+            print result
+
+
+if __name__ == "__main__":
+    main()

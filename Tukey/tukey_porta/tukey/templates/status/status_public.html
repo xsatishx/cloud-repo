@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block meta_title %}Status{% endblock %}
+{% load util_tags %}
+{% block content %}
+<div class="maincontent">
+<header class="jumbotron subhead">
+  <h1>OSDC Status</h1>
+</header>
+
+<div class='cloud-wrapper'>
+{% for name in cloud_names %}
+<div id="{{name.split|join:"-"}}" class="cloud-section">
+<div class="span12 status-header">
+{% if not name|startswith:"OCC" %}
+<h3>OSDC-{{ name }}</h3>
+{% else %}
+{% if name == "OCC-Root" %}
+<h3>OSDC-Root</h3>
+{% else %}
+<h3>{{ name }}</h3>
+{% endif %}
+{% endif %}
+
+{% if update_times|getvalue:name == "None" %}
+<em>Status Unavailable</em>
+{% else %}
+<em>Status at {{ update_times|getvalue:name }} (CST) </em>
+{% endif %}
+</div>
+
+
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+function setstatuswidth(selector, boundselector, percent){
+var statuswidth = $(boundselector).width() * percent;
+
+$(selector).width(statuswidth + "px");
+
+}
+function intToString (value) {
+     suffixes = ["", "k", "m", "b","t"];
+     suffixNum = Math.floor(((""+value).length-1)/3);
+     shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000,suffixNum)) : value).toPrecision(2));
+    if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
+    return shortValue+suffixes[suffixNum];
+}
+
+function getData(){
+    $(".row.status-row").css("display","none");
+    var index=0;
+    var sections=$(".cloud-section")
+    {% for name in cloud_names %}
+        var data=[]
+    {% for v in status_data|getvalue:name %}
+        data.push({"key":"{{v.0}}", "value":"{{v.4}}" , "text":intToString({{v.2|floatformat:0}})+"/"+intToString({{v.3|floatformat:0}})+" ({{v.4|multiply:100|floatformat:0}}%)"});
+    {% endfor %}
+        var element=$(sections[index]);
+        index++;
+        chart=new BarChart(element,data);
+        chart.addText();
+        chart.addColor();
+    {% endfor %}
+}
+   
+$(document).ready(function() {
+
+$("#nav-status").attr('class', 'active')
+
+{% for name in cloud_names %}
+{% for v in status_data|getvalue:name %}
+setstatuswidth("#{{ v.1 }}", "#{{ v.1 }}-bound", {{ v.4 }});
+{% endfor %}
+{% endfor %}
+    getData();
+});
+
+$(window).bind('resize', function() {
+
+$("#nav-status").attr('class', 'active')
+
+{% for name in cloud_names %}
+{% for v in status_data|getvalue:name %}
+setstatuswidth("#{{ v.1 }}", "#{{ v.1 }}-bound", {{ v.4 }});
+{% endfor %}
+{% endfor %}
+
+});
+
+</script>
+{% endblock %}
+</div>

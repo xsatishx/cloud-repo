@@ -1,0 +1,22 @@
+{
+              "username": "mgreenway",
+              "protocol": "ssh",
+              "filepath": "/home/ubuntu/tukey_middleware/README.rst",
+              "tenant_name": "mgreenway",
+              "acl": [{
+                  "grantee": {
+                      "type": "username",
+                      "id": "mgreenway"
+                  },
+                  "permission": "full_control"
+              },
+              {
+                  "grantee": {
+                      "type": "tenant_name",
+                      "id": "mgreenway"
+                  },
+                  "permission": "full_control"
+              }],
+              "cloud_name": "sullivan",
+              "metadata_server": ""}
+

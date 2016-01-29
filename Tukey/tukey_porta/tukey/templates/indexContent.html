@@ -1,0 +1,266 @@
+{% load wordpress_rss %}
+{% wordpress_rss rss_category 10 as rss_results %}
+
+<div class="top-header"  >
+  <img class='background' src='{{STATIC_URL}}dashboard/img/home/chicago-dark.jpg'></img>
+  <header class="jumbotron mainheader">
+    <img src='{{STATIC_URL}}dashboard/img/OSDC_RGB_Horiz.svg'  class="brand" alt="OSDC"> </img>
+
+  </header>
+  <div class="row">
+    <div class="span12 maincontent">
+      <h1>A Petabyte-scale Scientific Community Cloud</h1>
+      <h3>
+      The OSDC enables scientific researchers to easily manage, share, and analyze large datasets.
+      </h3>
+      <div class="btn-group">
+        <div><a href="/apply" class="btn-maincontent">New Users</a></div>
+        <div><a href="/console" class="btn-mainlogin">Returning Users</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row intro-info ">
+    <section class="block intro">
+      <div class="maincontent">
+        <h2 class="sub-topic">What is the OSDC?
+          <a href="https://www.youtube.com/watch?v=LHbsS6znPOE" target="_blank">>> Watch a Video</a>
+        </h2>
+        <div class="content">
+        <div class='left'>
+          <h3>OSDC in brief</h3>
+          <p>The Open Science Data Cloud provides the scientific community with resources for storing, sharing, and analyzing terabyte and petabyte-scale scientific datasets. The OSDC is a data science ecosystem in which researchers can house and share their own scientific data, access complementary public datasets, build and share customized virtual machines with whatever tools necessary to analyze their data, and perform the analysis to answer their research questions. It is a one-stop shop for making scientific research faster and easier.     </p> 
+        </div>
+        <div class='right'>
+          <h3> Why is there a need?</h3>
+        <p >With datasets growing larger and larger, researchers are finding that the bottleneck to discovery is no longer a lack of data but an inability to manage, analyze, and share their large datasets. Individual researchers can no longer download and analyze the important datasets in their scientific fields on their own computers. The goal of the Open Science Data Cloud is to remove the bottleneck to discovery by providing researchers with access to a variety of key datasets across scientific disciplines and the computing infrastructure to allow scientists to easily manage and share their data and analysis.<a href='/systems'>>> read more</a> </p>
+      </div>
+      </div>
+    </section>
+    
+     <section class="block white">
+       <div class="maincontent">
+         <h2 class="sub-topic">Featured on the OSDC</h2>
+
+          <div class="item">
+            <a style="background-image:url('/static/dashboard/img/home/genomic-cropped.jpeg')"  href="http://bionimbus.opensciencedatacloud.org" target="_blank">
+                <img src="/static/dashboard/img/home/genomic-cropped.jpeg" alt="Bionimbus">
+                <img class='mask' src="/static/dashboard/img/home/genomic-cropped.jpeg" alt="Bionimbus">
+                <div class='gray mask'></div>
+            </a>
+            <div class="carousel-caption">
+              <div class="title">
+                <a href="http://bionimbus.opensciencedatacloud.org" target="_blank">Bionimbus</a>
+              </div>
+              <p>
+                A cloud-based system for genomic data, developed in collaboration with the <a href="http://www.igsb.anl.gov/" target="_blank">Institute for Genomics and Systems Biology</a> at the <a href="http://www.uchicago.edu" target="_blank">University of Chicago</a>. Bionimbus is used by members of the NIH-funded <a href="http://www.modencode.org/" target="_blank">modENCODE Consortium</a> to analyze data produced by the project.</p>
+            </div>
+          </div>
+
+          <div class="item">
+            <a href="http://matsu.opensciencedatacloud.org" target="_blank" style='background-image:url("/static/dashboard/img/home/world-map-2-crop.png")'>
+                <img src="/static/dashboard/img/home/world-map-2-crop.png" alt="Project Matsu">
+                <img class='mask' src="/static/dashboard/img/home/world-map-2-crop.png" alt="Project Matsu">
+                <div class='gray mask'></div>
+
+            </a>
+            <div class="carousel-caption">
+              <div class="title">
+                <a href="http://matsu.opensciencedatacloud.org" target="_blank">Project Matsu</a>
+              </div>
+              <p> A collaboration with NASA to process <a href="http://eo1.gsfc.nasa.gov/" target="_blank">Earth Observing 1 (EO-1)</a> satellite imagery to detect fires and floods and provide relevant information to first responders. The data is freely available from the OSDC to interested users.</p>
+            </div>
+          </div>
+
+          <div class="item">
+            <a class='tukey' href="http://github.com/LabAdvComp/" target="_blank" style="background-image:url('/static/dashboard/img/home/john-tukey-crop.jpg')">
+                <img src="/static/dashboard/img/home/john-tukey-crop.jpg" alt="Tukey">
+                <img class='mask' src="/static/dashboard/img/home/john-tukey-crop.jpg" alt="Tukey">
+                <div class='gray mask'></div>
+            </a>
+            <div class="carousel-caption">
+              <div class="title">
+              <a href="http://github.com/LabAdvComp/" target="_blank">Tukey</a>
+              </div>
+              <p>The open source software that drives the OSDC console, named after John Tukey, an American mathematician. Tukey has a number of features not found in other cloud console applications.</p>
+            </div>
+          </div>
+
+          <div class="item">
+            <a href="https://www.youtube.com/watch?v=LHbsS6znPOE" target="_blank" style="background-image:url('static/dashboard/img/home/center-crop.jpeg')">
+                <img src="/static/dashboard/img/home/center-crop.jpeg" alt="What is the OSDC?">
+                <img class='mask' src="/static/dashboard/img/home/center-crop.jpeg" alt="What is the OSDC?">
+                <div class='gray mask'></div>
+            </a>
+            <div class="carousel-caption">
+              <div class="title">
+                <a href="https://www.youtube.com/watch?v=LHbsS6znPOE" target="_blank">OSDC Demo</a>
+              </div>
+              <p>Learn more about the OSDC in this short video featuring OSDC Founders and Partners at the 2013 Supercomputing Conference in Denver, Colorado.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    <div class='block news-wrapper'>
+      <div class="topic-wrapper">
+      <h2 class="sub-topic">News </h2>
+      </div>
+      <div class="left-arrow"> <div><</div> </div>
+      <div class="right-arrow"><div> ></div> </div>
+      <ul class='bullets'>
+        {% for item in rss_results %}
+        <li></li>
+        {% endfor %}
+      </ul>
+      
+    <section class="block news">
+      <table>
+        <tr>
+        {% for item in rss_results %}
+          <td class="news-item">
+            <div class="section-wrapper">
+
+              <div class="news-box">
+                <h3><a href={{item.href}} target="_blank">{{item.title}}</a></h3>
+                <div class="news-byline">{{item.published}}</div>
+                <p>{{item.content}}</p>
+              </div>
+            </div>
+          </td>
+        {% endfor %}
+        </tr>
+      </table>
+    </section>
+    </div>
+      <section class="block involved white">
+      <div class="maincontent">
+        <h2 class="sub-topic">How can I get involved?</h2>
+        <div class='row'>
+        <section class="left">
+          <h3>Use OSDC</h3>
+          <div>
+            <h3><a href='/publicdata' >Access the Public Data Commons</a></h3>
+            <p>The OSDC has 1 PB of publicly accessible data in a wide variety of disciplines.  Interested researchers can freely access and download these data to their own machines or apply for resources to compute over the data within the cloud.</p>
+          </div>
+        </section>
+        <section class="right">
+          <h3>Contribute to OSDC</h3>
+          <div>
+            <h3><a href="https://github.com/LabAdvComp/" target="_blank">Develop</a></h3>
+            <p>
+              All of the software developed as part of the OSDC is open source and hosted on GitHub.
+              You can directly help the scientific cloud computing community by contributing to the open source OSDC software stack.
+            </p>
+          </div>
+        </section>
+        </div>
+        <div class='row'>
+        <section class='left'>
+          <div>
+            <h3><a href="/apply" >Apply for Compute and Storage</a></h3>
+            <p>Fill out a short proposal for an OSDC resource allocation.   Allocations start at 16 dedicated cores and 1TB of storage, but scale depending on the project needs and level of organizational partnership.          </p>
+          </div>
+        </section>
+        <section class='right'>
+          <div>
+            <h3><a href="http://occ-data.org/" target="_blank">Partner</a></h3>
+            <p>Partner with us and add your own racks to the OSDC (we will manage            them for you). Organizations can also join the <a href="http://occ-data.org" target="_blank">Open Commons Consortium (OCC)</a>            which is made up of working groups, including the OSDC.          </p>
+          </div>
+        </section>
+        </div>
+        <section class='full'>
+          <div>
+            <h3>Contact Us</h3>
+            <p>Questions? Comments? Suggestions? Contact us at <a href="mailto:info@occ-data.org" target="_blank">info@occ-data.org.</a>
+          </div>
+        </section>
+      </section>
+
+    </div>
+  </div>
+</div>
+{% block additionalJs %}
+<script type='text/javascript' src='{{STATIC_URL}}dashboard/js/jquery.mobile.custom.min.js' charset='utf-8'></script>
+<script>
+$(window).ready(function(){
+    $(".brand").css("display","inline");
+    $(".top-header").css("background-position-y",$(".wrapper").css("margin-top"));
+    
+    /** index of targeted news box ***/
+    index=0;
+    resizeNews();
+    setTimeout(resizeBanner,100); 
+    if ($(".nav-bars").css("display")=="block"){
+    	setTimeout(resizeNewsHeight,500); 
+        $(".brand").attr("src","/static/dashboard/img/OSDC_RGB_Vert.svg");
+    }
+    $(".news table").offset({"left":0});
+    $(window).resize(resizeNews);
+    highLight();
+    /*var lastScrollLeft=$(".news").scrollLeft();
+    $(".news").on("scroll", function(){
+      var difference=$(".news").scrollLeft()-lastScrollLeft;
+      if (difference>10){
+        $(".right-arrow div").click();
+        lastScrollLeft=$(".news").scrollLeft();
+
+      }
+      else if (difference<-10){
+        $(".left-arrow div").click();
+        lastScrollLeft=$(".news").scrollLeft();
+      }
+    });*/
+    var news_table=$(".news table");
+    news_table.offset({"left":0});
+    $(".left-arrow div").click(function(){
+        if (news_table.position().left<0){
+            index-=1;
+            if ($(".nav-bars").css("display")=="block"){
+                resizeNewsHeight();
+	    }
+            var newLeft=-index*$("body").width();
+            news_table.offset({"left":newLeft});
+            highLight();
+        }
+    });
+    $(".right-arrow div").click(function(){
+        if (index<{{rss_results|length}}-1){
+            index+=1;
+        
+	        if ($(".nav-bars").css("display")=="block"){
+                resizeNewsHeight();
+	        }
+            var newLeft=-index*$("body").width();
+            news_table.offset({"left":newLeft});
+            highLight();
+        }
+    });
+});
+function resizeBanner(){
+    $(".top-header").css("background-size","1375px "+($(".header-wrapper").outerHeight()+$(".top-header").outerHeight()).toString()+"px");
+
+}
+function resizeNewsHeight(){
+    targetBox=$($(".news-item")[index]).find(".section-wrapper");
+    $(".block.news").height(targetBox.innerHeight()+50);
+   
+}
+/** highlight focused bullet **/
+function highLight(){
+    $(".focus").removeClass("focus");
+    $($(".bullets li")[index]).addClass("focus");
+
+}
+function resizeNews(){
+    var width=window.innerWidth;
+    $(".news-item").css("width",width);
+    var p =$("<p/>").text(parseInt($(".news").find("td").width())+" "+width);
+    var outerWidth=$(".news-item").length*width;
+    $(".news").find("table").css("width",outerWidth);
+    if ($(".nav-bars").css("display")=="block"){
+    resizeNewsHeight();
+    }
+}
+</script>
+{% endblock %}

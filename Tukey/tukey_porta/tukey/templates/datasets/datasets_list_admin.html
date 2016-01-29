@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Public Data Sets{% endblock %}
+
+{% load util_tags %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h1>Data Sets Admin</h1>
+  
+<div class="data-lead">
+  Select a data set to edit or <a href="{% url datasets:datasets_admin_add %}">add a dataset.</a>
+</div>
+</header>
+{% endblock %}
+
+{% block main %}
+
+{% if datasets %}
+    {% for dataset in datasets %}
+      <div class="span12 data-header"><h3><a href="{% url datasets:datasets_admin_update dataset.ark_key %}">{{ titles|getvalue:dataset.ark_key }} ( {{ dataset.ark_key }} )</a></h3></div>
+    {% endfor %}
+{% else %}
+    <p>No datasets are available.</p>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-publicdata").attr('class', 'active')
+</script> 
+{% endblock %}

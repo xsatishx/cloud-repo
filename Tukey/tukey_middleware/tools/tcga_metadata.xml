@@ -1,0 +1,1566 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ResultSet date="2013-11-12 19:27:34">
+	<Query>disease_abbr:MM</Query>
+	<Hits>42</Hits>
+	<Result id="1">
+		<analysis_id>04778047-db4d-4b8c-b77c-b910fa8c9e12</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:43:50Z</last_modified>
+		<upload_date>2013-04-17T15:38:03Z</upload_date>
+		<published_date>2013-04-30T17:49:15Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>4334b39a-cc4f-4330-9087-6cfe701a5476</aliquot_id>
+		<files>
+			<file>
+				<filename>G26182.KMS-12-BM.2.bam</filename>
+				<filesize>14192384500</filesize>
+				<checksum type="md5">959206cb007ce3eb545f89bbbde47fea</checksum>
+			</file>
+			<file>
+				<filename>G26182.KMS-12-BM.2.bam.bai</filename>
+				<filesize>5402544</filesize>
+				<checksum type="md5">7c6ba4f37ca9d93eb5006dd5254bb8ea</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-12-BM-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/04778047-db4d-4b8c-b77c-b910fa8c9e12</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/04778047-db4d-4b8c-b77c-b910fa8c9e12</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/04778047-db4d-4b8c-b77c-b910fa8c9e12</analysis_data_uri>
+	</Result>
+	<Result id="2">
+		<analysis_id>09e71f96-7178-4090-808c-48c38db2f388</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:44:07Z</last_modified>
+		<upload_date>2013-04-16T17:18:05Z</upload_date>
+		<published_date>2013-04-30T07:20:06Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>0e282848-159e-4351-98b0-c0f44d9b7132</aliquot_id>
+		<files>
+			<file>
+				<filename>G28571.NCI-H929.1.bam</filename>
+				<filesize>19668527516</filesize>
+				<checksum type="md5">62815f46528aff2c9572cc97bc04839f</checksum>
+			</file>
+			<file>
+				<filename>G28571.NCI-H929.1.bam.bai</filename>
+				<filesize>6583856</filesize>
+				<checksum type="md5">eb7891ec26a6511683ff986356acfcb3</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-NCI-H929-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/09e71f96-7178-4090-808c-48c38db2f388</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/09e71f96-7178-4090-808c-48c38db2f388</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/09e71f96-7178-4090-808c-48c38db2f388</analysis_data_uri>
+	</Result>
+	<Result id="3">
+		<analysis_id>0a24407c-296c-4ab9-ad9c-bb4cce06c491</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:44:08Z</last_modified>
+		<upload_date>2013-01-04T19:13:02Z</upload_date>
+		<published_date>2013-01-04T19:40:30Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>f1a9583b-2100-48a8-9c3b-134463ef80ce</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-11.2.bam</filename>
+				<filesize>12037164066</filesize>
+				<checksum type="MD5">0a62ab456063517c8ed2691ed5d72b8c</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-11.2.bam.bai</filename>
+				<filesize>5661656</filesize>
+				<checksum type="md5">5f158f6ed89d206da4c7a952b64aa255</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-11-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/0a24407c-296c-4ab9-ad9c-bb4cce06c491</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/0a24407c-296c-4ab9-ad9c-bb4cce06c491</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/0a24407c-296c-4ab9-ad9c-bb4cce06c491</analysis_data_uri>
+	</Result>
+	<Result id="4">
+		<analysis_id>1754e59c-2df3-4a5c-8cbe-5b77a2bca7da</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:44:54Z</last_modified>
+		<upload_date>2013-04-16T06:48:12Z</upload_date>
+		<published_date>2013-04-30T07:50:41Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>6e5baf01-316b-4a8d-ac2e-c46eb2cf448a</aliquot_id>
+		<files>
+			<file>
+				<filename>G30567.KARPAS-620.1.bam</filename>
+				<filesize>13045196860</filesize>
+				<checksum type="md5">68814ce1084cdbc05ba549b0e4be2741</checksum>
+			</file>
+			<file>
+				<filename>G30567.KARPAS-620.1.bam.bai</filename>
+				<filesize>5742032</filesize>
+				<checksum type="md5">5c5bbf031007621631004c0740e92020</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KARPAS-620-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/1754e59c-2df3-4a5c-8cbe-5b77a2bca7da</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/1754e59c-2df3-4a5c-8cbe-5b77a2bca7da</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/1754e59c-2df3-4a5c-8cbe-5b77a2bca7da</analysis_data_uri>
+	</Result>
+	<Result id="5">
+		<analysis_id>1bae551f-db0a-4b96-92ca-2211d0d5265b</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:08Z</last_modified>
+		<upload_date>2013-04-16T21:07:54Z</upload_date>
+		<published_date>2013-04-29T22:41:20Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>cc79ca2a-a6f9-47f6-9f24-b5fa3867aae4</aliquot_id>
+		<files>
+			<file>
+				<filename>G28050.KMM-1.1.bam</filename>
+				<filesize>11264008319</filesize>
+				<checksum type="md5">bd95bb1e4238537466de07f07cd1973a</checksum>
+			</file>
+			<file>
+				<filename>G28050.KMM-1.1.bam.bai</filename>
+				<filesize>5835760</filesize>
+				<checksum type="md5">22cb29e89a5a968a14bd953b2afff6be</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMM-1-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/1bae551f-db0a-4b96-92ca-2211d0d5265b</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/1bae551f-db0a-4b96-92ca-2211d0d5265b</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/1bae551f-db0a-4b96-92ca-2211d0d5265b</analysis_data_uri>
+	</Result>
+	<Result id="6">
+		<analysis_id>1e0491cc-13e6-40eb-b305-b33b0dd6ef3d</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:18Z</last_modified>
+		<upload_date>2013-04-16T11:18:39Z</upload_date>
+		<published_date>2013-04-30T13:44:22Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>bcfed855-78f4-4964-ab6d-5c290f9a27dd</aliquot_id>
+		<files>
+			<file>
+				<filename>G28845.HuNS1.3.bam</filename>
+				<filesize>14653223650</filesize>
+				<checksum type="md5">218ce0a1fec9f74bb5db1e249f11468d</checksum>
+			</file>
+			<file>
+				<filename>G28845.HuNS1.3.bam.bai</filename>
+				<filesize>5934024</filesize>
+				<checksum type="md5">08efcba031df39a623923928cd8ae140</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-HuNS1-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/1e0491cc-13e6-40eb-b305-b33b0dd6ef3d</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/1e0491cc-13e6-40eb-b305-b33b0dd6ef3d</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/1e0491cc-13e6-40eb-b305-b33b0dd6ef3d</analysis_data_uri>
+	</Result>
+	<Result id="7">
+		<analysis_id>1f055b06-7717-406b-b758-8a8db6e6a1a0</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:22Z</last_modified>
+		<upload_date>2013-01-04T08:06:53Z</upload_date>
+		<published_date>2013-01-04T08:55:55Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>eebfedd5-2a66-4c1f-af10-93c2322cf94b</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-21BM.2.bam</filename>
+				<filesize>17045755546</filesize>
+				<checksum type="MD5">041499b95f4cda243297b7378e81783f</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-21BM.2.bam.bai</filename>
+				<filesize>5808032</filesize>
+				<checksum type="md5">885362ac162e30cd9dc481ac8f730539</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-21BM-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/1f055b06-7717-406b-b758-8a8db6e6a1a0</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/1f055b06-7717-406b-b758-8a8db6e6a1a0</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/1f055b06-7717-406b-b758-8a8db6e6a1a0</analysis_data_uri>
+	</Result>
+	<Result id="8">
+		<analysis_id>1f397140-2414-472b-a206-a21a7252f556</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:23Z</last_modified>
+		<upload_date>2013-04-16T07:28:06Z</upload_date>
+		<published_date>2013-04-30T21:16:15Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>62e24d5e-610b-4a55-93f2-1bddde02a81f</aliquot_id>
+		<files>
+			<file>
+				<filename>G28090.KHM-1B.1.bam</filename>
+				<filesize>11054959771</filesize>
+				<checksum type="md5">49795f650b888cc8b7465daccc85a1eb</checksum>
+			</file>
+			<file>
+				<filename>G28090.KHM-1B.1.bam.bai</filename>
+				<filesize>5514088</filesize>
+				<checksum type="md5">2049e39439d62012fc64824648a0a7fa</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KHM-1B-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/1f397140-2414-472b-a206-a21a7252f556</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/1f397140-2414-472b-a206-a21a7252f556</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/1f397140-2414-472b-a206-a21a7252f556</analysis_data_uri>
+	</Result>
+	<Result id="9">
+		<analysis_id>24148d20-8fe1-41dd-8ca8-9bdce06db27b</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:38Z</last_modified>
+		<upload_date>2013-01-05T17:40:32Z</upload_date>
+		<published_date>2013-01-05T17:55:25Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>77a280b9-ed5b-4b12-a215-4a2e878d0569</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-27.1.bam</filename>
+				<filesize>8829405015</filesize>
+				<checksum type="MD5">467448b421173208a90dd1690d0c0c6e</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-27.1.bam.bai</filename>
+				<filesize>5379064</filesize>
+				<checksum type="md5">42295c46c79993bcc6ee98f585edc958</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-27-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/24148d20-8fe1-41dd-8ca8-9bdce06db27b</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/24148d20-8fe1-41dd-8ca8-9bdce06db27b</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/24148d20-8fe1-41dd-8ca8-9bdce06db27b</analysis_data_uri>
+	</Result>
+	<Result id="10">
+		<analysis_id>26121bd9-4cd6-48aa-a802-475948f83cfc</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:45:46Z</last_modified>
+		<upload_date>2013-04-16T17:44:24Z</upload_date>
+		<published_date>2013-04-30T07:28:13Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>5873a041-a165-4c37-b8a8-ccc310e6aab2</aliquot_id>
+		<files>
+			<file>
+				<filename>G28560.MOLP-8.1.bam</filename>
+				<filesize>18885371790</filesize>
+				<checksum type="md5">190a04a0dff1229164d3b361f1f75fda</checksum>
+			</file>
+			<file>
+				<filename>G28560.MOLP-8.1.bam.bai</filename>
+				<filesize>6177840</filesize>
+				<checksum type="md5">de32f047648ff1b2f9d8870f8cc8bc6d</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MOLP-8-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/26121bd9-4cd6-48aa-a802-475948f83cfc</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/26121bd9-4cd6-48aa-a802-475948f83cfc</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/26121bd9-4cd6-48aa-a802-475948f83cfc</analysis_data_uri>
+	</Result>
+	<Result id="11">
+		<analysis_id>41607563-166a-453c-8dd4-7212be2dc157</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:47:30Z</last_modified>
+		<upload_date>2013-04-17T13:41:33Z</upload_date>
+		<published_date>2013-04-30T15:08:11Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>f18dd332-598b-4b5d-be20-4f6658f85477</aliquot_id>
+		<files>
+			<file>
+				<filename>G26221.L-363.2.bam</filename>
+				<filesize>15083914194</filesize>
+				<checksum type="md5">ce7a762c3d0a77f396d8ab9110c347c4</checksum>
+			</file>
+			<file>
+				<filename>G26221.L-363.2.bam.bai</filename>
+				<filesize>6042504</filesize>
+				<checksum type="md5">84fc0d8017bc214a15e7fe95497c4b27</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-L-363-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/41607563-166a-453c-8dd4-7212be2dc157</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/41607563-166a-453c-8dd4-7212be2dc157</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/41607563-166a-453c-8dd4-7212be2dc157</analysis_data_uri>
+	</Result>
+	<Result id="12">
+		<analysis_id>41f54de7-20ac-40d3-b310-5d301696c9fc</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:47:31Z</last_modified>
+		<upload_date>2013-01-04T18:35:55Z</upload_date>
+		<published_date>2013-01-04T18:52:56Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>025e1b83-4e1c-43a3-baad-d7dbcf977a04</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.JJN-3.1.bam</filename>
+				<filesize>9851775699</filesize>
+				<checksum type="MD5">0d5cb8c2937e3b1e6273c289ee6679cf</checksum>
+			</file>
+			<file>
+				<filename>C836.JJN-3.1.bam.bai</filename>
+				<filesize>5286248</filesize>
+				<checksum type="md5">97ec3bd23a74880abbdb06d9d77d33ae</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-JJN-3-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/41f54de7-20ac-40d3-b310-5d301696c9fc</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/41f54de7-20ac-40d3-b310-5d301696c9fc</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/41f54de7-20ac-40d3-b310-5d301696c9fc</analysis_data_uri>
+	</Result>
+	<Result id="13">
+		<analysis_id>42e5bf91-edbe-4a35-b4b8-9677f6bb8fd1</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:47:34Z</last_modified>
+		<upload_date>2013-04-17T11:35:47Z</upload_date>
+		<published_date>2013-04-30T13:42:23Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>cbad0053-9bd9-4577-bd15-1e7b5b5ee433</aliquot_id>
+		<files>
+			<file>
+				<filename>G27213.AMO-1.1.bam</filename>
+				<filesize>14909551950</filesize>
+				<checksum type="md5">eb8899719cb864cefab54d34742db9b2</checksum>
+			</file>
+			<file>
+				<filename>G27213.AMO-1.1.bam.bai</filename>
+				<filesize>5815888</filesize>
+				<checksum type="md5">5dc4aa7cbdd4ed32dc8431acc6b66e9f</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-AMO-1-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/42e5bf91-edbe-4a35-b4b8-9677f6bb8fd1</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/42e5bf91-edbe-4a35-b4b8-9677f6bb8fd1</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/42e5bf91-edbe-4a35-b4b8-9677f6bb8fd1</analysis_data_uri>
+	</Result>
+	<Result id="14">
+		<analysis_id>47703fe2-639b-4360-8e70-ccbf04536f1b</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:47:50Z</last_modified>
+		<upload_date>2013-04-17T12:00:48Z</upload_date>
+		<published_date>2013-04-30T13:47:32Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>570e8354-b3c2-4553-9baa-12ad3fede74a</aliquot_id>
+		<files>
+			<file>
+				<filename>G27201.SK-MM-2.1.bam</filename>
+				<filesize>14722029885</filesize>
+				<checksum type="md5">058c246b1d6a2a93749a0a86b71d3e44</checksum>
+			</file>
+			<file>
+				<filename>G27201.SK-MM-2.1.bam.bai</filename>
+				<filesize>6024696</filesize>
+				<checksum type="md5">568b742003d69d65c11961cbdfceaf4d</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-SK-MM-2-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/47703fe2-639b-4360-8e70-ccbf04536f1b</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/47703fe2-639b-4360-8e70-ccbf04536f1b</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/47703fe2-639b-4360-8e70-ccbf04536f1b</analysis_data_uri>
+	</Result>
+	<Result id="15">
+		<analysis_id>4790c2b4-96af-4047-8493-23bb315957d2</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:47:50Z</last_modified>
+		<upload_date>2013-04-16T21:04:14Z</upload_date>
+		<published_date>2013-04-29T22:37:59Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>ce341312-448d-4edb-bdad-bebf2247a645</aliquot_id>
+		<files>
+			<file>
+				<filename>G28052.KMS-27.1.bam</filename>
+				<filesize>9870017587</filesize>
+				<checksum type="md5">89337307b86c8173823f4ce61b3d1ee5</checksum>
+			</file>
+			<file>
+				<filename>G28052.KMS-27.1.bam.bai</filename>
+				<filesize>5333584</filesize>
+				<checksum type="md5">8f79b19eb2698eb6eb043bd42bbbec93</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-27-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/4790c2b4-96af-4047-8493-23bb315957d2</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/4790c2b4-96af-4047-8493-23bb315957d2</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/4790c2b4-96af-4047-8493-23bb315957d2</analysis_data_uri>
+	</Result>
+	<Result id="16">
+		<analysis_id>4d801add-74b5-471d-8f15-a866a8569ffa</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:48:13Z</last_modified>
+		<upload_date>2013-01-04T17:08:43Z</upload_date>
+		<published_date>2013-01-04T17:25:10Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>cf87038e-800c-42a5-b8a6-558551a480ae</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-12-BM.1.bam</filename>
+				<filesize>10092987198</filesize>
+				<checksum type="MD5">741107056b1902fd117adc61fcd058d6</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-12-BM.1.bam.bai</filename>
+				<filesize>5529176</filesize>
+				<checksum type="md5">00c5e3a3a6cfae80335e639274491280</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-12-BM-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/4d801add-74b5-471d-8f15-a866a8569ffa</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/4d801add-74b5-471d-8f15-a866a8569ffa</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/4d801add-74b5-471d-8f15-a866a8569ffa</analysis_data_uri>
+	</Result>
+	<Result id="17">
+		<analysis_id>4ecbd6d7-1b84-4966-9d44-3596e0c47088</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:48:18Z</last_modified>
+		<upload_date>2013-04-16T06:04:13Z</upload_date>
+		<published_date>2013-04-30T07:17:35Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>8c353315-2960-4f6c-855d-a217f29a95e0</aliquot_id>
+		<files>
+			<file>
+				<filename>G30577.U266B1.1.bam</filename>
+				<filesize>8401382941</filesize>
+				<checksum type="md5">59b35348d51d559cc60f3bdb0f4fa6d8</checksum>
+			</file>
+			<file>
+				<filename>G30577.U266B1.1.bam.bai</filename>
+				<filesize>4932184</filesize>
+				<checksum type="md5">5fba24b0e54f8121708fb5a1bf08d732</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-U266B1-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/4ecbd6d7-1b84-4966-9d44-3596e0c47088</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/4ecbd6d7-1b84-4966-9d44-3596e0c47088</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/4ecbd6d7-1b84-4966-9d44-3596e0c47088</analysis_data_uri>
+	</Result>
+	<Result id="18">
+		<analysis_id>52499f1d-e428-41ab-857f-ba82da0ca602</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:48:30Z</last_modified>
+		<upload_date>2013-01-04T17:53:10Z</upload_date>
+		<published_date>2013-01-04T18:07:03Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>39e0b2b4-075c-479d-a43a-f576fa85ea8a</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.EJM.1.bam</filename>
+				<filesize>8974866107</filesize>
+				<checksum type="MD5">ade792e18aeaf7f64dff16697907decb</checksum>
+			</file>
+			<file>
+				<filename>C836.EJM.1.bam.bai</filename>
+				<filesize>5335904</filesize>
+				<checksum type="md5">44c93be4cb1c09b7e11594f53eaf0a99</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-EJM-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/52499f1d-e428-41ab-857f-ba82da0ca602</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/52499f1d-e428-41ab-857f-ba82da0ca602</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/52499f1d-e428-41ab-857f-ba82da0ca602</analysis_data_uri>
+	</Result>
+	<Result id="19">
+		<analysis_id>5678f335-ccbd-4465-8ef1-26d25b24fd6b</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:48:46Z</last_modified>
+		<upload_date>2013-04-17T12:06:38Z</upload_date>
+		<published_date>2013-04-30T13:50:54Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>cf38c42b-e2bf-4913-9567-24857cd5b87e</aliquot_id>
+		<files>
+			<file>
+				<filename>G26261.JJN-3.2.bam</filename>
+				<filesize>13736060633</filesize>
+				<checksum type="md5">074e97a82c0c243a26d9fb382e7b760f</checksum>
+			</file>
+			<file>
+				<filename>G26261.JJN-3.2.bam.bai</filename>
+				<filesize>5595064</filesize>
+				<checksum type="md5">60ceb5172e0b91f4acf09fe1a184a71b</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-JJN-3-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/5678f335-ccbd-4465-8ef1-26d25b24fd6b</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/5678f335-ccbd-4465-8ef1-26d25b24fd6b</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/5678f335-ccbd-4465-8ef1-26d25b24fd6b</analysis_data_uri>
+	</Result>
+	<Result id="20">
+		<analysis_id>57b60545-fa1c-4e61-9d33-813639ddff88</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:48:50Z</last_modified>
+		<upload_date>2013-04-17T15:03:28Z</upload_date>
+		<published_date>2013-04-30T17:38:33Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>fae2637f-40a8-4166-b845-0c1a1703ed2c</aliquot_id>
+		<files>
+			<file>
+				<filename>G26193.LP-1.2.bam</filename>
+				<filesize>15423309523</filesize>
+				<checksum type="md5">15724089281264029e2079fd428e0b35</checksum>
+			</file>
+			<file>
+				<filename>G26193.LP-1.2.bam.bai</filename>
+				<filesize>5919744</filesize>
+				<checksum type="md5">ccca3a2f9ed60f1f1a95ee4e6e33fdbd</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-LP-1-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/57b60545-fa1c-4e61-9d33-813639ddff88</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/57b60545-fa1c-4e61-9d33-813639ddff88</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/57b60545-fa1c-4e61-9d33-813639ddff88</analysis_data_uri>
+	</Result>
+	<Result id="21">
+		<analysis_id>6b973641-ef81-4981-8798-baf20f6d7924</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:50:03Z</last_modified>
+		<upload_date>2013-04-17T11:04:59Z</upload_date>
+		<published_date>2013-04-30T13:31:25Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>c64ec023-977d-4a38-99cd-41066d791c61</aliquot_id>
+		<files>
+			<file>
+				<filename>G27229.RPMI_8226.1.bam</filename>
+				<filesize>12069476754</filesize>
+				<checksum type="md5">3ee337366fa8b365a794177af9ca0e43</checksum>
+			</file>
+			<file>
+				<filename>G27229.RPMI_8226.1.bam.bai</filename>
+				<filesize>5941360</filesize>
+				<checksum type="md5">cabba24bb7656e827aa99c0a4ba6335d</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-RPMI 8226-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/6b973641-ef81-4981-8798-baf20f6d7924</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/6b973641-ef81-4981-8798-baf20f6d7924</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/6b973641-ef81-4981-8798-baf20f6d7924</analysis_data_uri>
+	</Result>
+	<Result id="22">
+		<analysis_id>6d2edff6-4e8e-49f3-abd1-ee2b1e50926f</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:50:10Z</last_modified>
+		<upload_date>2013-01-04T16:31:55Z</upload_date>
+		<published_date>2013-01-04T16:47:14Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>e819cc6a-da6f-4369-9327-ee6553739586</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.PCM6.2.bam</filename>
+				<filesize>9901636244</filesize>
+				<checksum type="MD5">8bda4cbf67b7e76801be8d68e854f817</checksum>
+			</file>
+			<file>
+				<filename>C836.PCM6.2.bam.bai</filename>
+				<filesize>5861824</filesize>
+				<checksum type="md5">911f7d4a37697614e1871331c9391d10</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-PCM6-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/6d2edff6-4e8e-49f3-abd1-ee2b1e50926f</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/6d2edff6-4e8e-49f3-abd1-ee2b1e50926f</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/6d2edff6-4e8e-49f3-abd1-ee2b1e50926f</analysis_data_uri>
+	</Result>
+	<Result id="23">
+		<analysis_id>792bf00d-22fa-4bcd-a539-1f63cf8dc7d3</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:50:49Z</last_modified>
+		<upload_date>2013-04-17T16:48:28Z</upload_date>
+		<published_date>2013-04-30T07:13:19Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>29da6532-c4bf-4fa5-b859-2bd18146342f</aliquot_id>
+		<files>
+			<file>
+				<filename>G25233.MM1-S.1.bam</filename>
+				<filesize>14121735675</filesize>
+				<checksum type="md5">c7acfba9c9926e34416f5c2dcebb75a2</checksum>
+			</file>
+			<file>
+				<filename>G25233.MM1-S.1.bam.bai</filename>
+				<filesize>5725016</filesize>
+				<checksum type="md5">0827d48f10c65c1b08c686ff368e81ab</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MM1-S-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/792bf00d-22fa-4bcd-a539-1f63cf8dc7d3</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/792bf00d-22fa-4bcd-a539-1f63cf8dc7d3</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/792bf00d-22fa-4bcd-a539-1f63cf8dc7d3</analysis_data_uri>
+	</Result>
+	<Result id="24">
+		<analysis_id>836c133f-dd9a-4994-81a8-bc6f9ef29605</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:51:26Z</last_modified>
+		<upload_date>2013-04-16T21:50:56Z</upload_date>
+		<published_date>2013-04-30T01:43:42Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>c0498cf8-2b0d-4efc-b038-45a505275449</aliquot_id>
+		<files>
+			<file>
+				<filename>G28024.KMS-28BM.1.bam</filename>
+				<filesize>12321067358</filesize>
+				<checksum type="md5">04d93af239810b95a86be62ecbaddf9a</checksum>
+			</file>
+			<file>
+				<filename>G28024.KMS-28BM.1.bam.bai</filename>
+				<filesize>5774648</filesize>
+				<checksum type="md5">b992c4bb039ea7b6dcf73256929ded79</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-28BM-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/836c133f-dd9a-4994-81a8-bc6f9ef29605</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/836c133f-dd9a-4994-81a8-bc6f9ef29605</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/836c133f-dd9a-4994-81a8-bc6f9ef29605</analysis_data_uri>
+	</Result>
+	<Result id="25">
+		<analysis_id>8d2bfa8d-238c-41c4-b50b-983b1025017c</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:52:00Z</last_modified>
+		<upload_date>2013-01-04T18:07:55Z</upload_date>
+		<published_date>2013-01-04T18:33:00Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>d7b774ab-5eea-4e64-8c1d-983b19173534</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.MM1-S.2.bam</filename>
+				<filesize>15965792320</filesize>
+				<checksum type="MD5">e216b3d1f9d326858e184520f9803950</checksum>
+			</file>
+			<file>
+				<filename>C836.MM1-S.2.bam.bai</filename>
+				<filesize>5785120</filesize>
+				<checksum type="md5">d0d740bfb9df47004b73c9e5fd0d425f</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MM1-S-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/8d2bfa8d-238c-41c4-b50b-983b1025017c</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/8d2bfa8d-238c-41c4-b50b-983b1025017c</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/8d2bfa8d-238c-41c4-b50b-983b1025017c</analysis_data_uri>
+	</Result>
+	<Result id="26">
+		<analysis_id>8e4307ff-80a0-4348-a74d-bb19b6e3b794</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:52:03Z</last_modified>
+		<upload_date>2013-01-05T16:28:47Z</upload_date>
+		<published_date>2013-01-05T16:47:07Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>ce8d3a60-bde4-4f20-99bd-32b812a5904e</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.AMO-1.1.bam</filename>
+				<filesize>9223211854</filesize>
+				<checksum type="MD5">67d440bb531be7c3dbe5408a8399e66e</checksum>
+			</file>
+			<file>
+				<filename>C836.AMO-1.1.bam.bai</filename>
+				<filesize>5359880</filesize>
+				<checksum type="md5">fb5559aa694380909a9c33e468399d1c</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-AMO-1-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/8e4307ff-80a0-4348-a74d-bb19b6e3b794</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/8e4307ff-80a0-4348-a74d-bb19b6e3b794</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/8e4307ff-80a0-4348-a74d-bb19b6e3b794</analysis_data_uri>
+	</Result>
+	<Result id="27">
+		<analysis_id>905fffad-e784-47b7-a617-6df5ec7e604c</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:52:10Z</last_modified>
+		<upload_date>2013-04-17T12:18:46Z</upload_date>
+		<published_date>2013-04-30T13:55:22Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>36e50fcd-df79-4db2-83af-8f806375dce8</aliquot_id>
+		<files>
+			<file>
+				<filename>G26253.KMS-34.2.bam</filename>
+				<filesize>15023807300</filesize>
+				<checksum type="md5">1fb2a54e47f9e11ccd9286f728c7811c</checksum>
+			</file>
+			<file>
+				<filename>G26253.KMS-34.2.bam.bai</filename>
+				<filesize>5823520</filesize>
+				<checksum type="md5">df63a39db145294ede197c4b99968174</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-34-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/905fffad-e784-47b7-a617-6df5ec7e604c</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/905fffad-e784-47b7-a617-6df5ec7e604c</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/905fffad-e784-47b7-a617-6df5ec7e604c</analysis_data_uri>
+	</Result>
+	<Result id="28">
+		<analysis_id>94c184be-94f0-4afd-aa2f-e3c7970ab82c</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:52:27Z</last_modified>
+		<upload_date>2013-01-05T17:44:43Z</upload_date>
+		<published_date>2013-01-05T18:12:38Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>e6974df1-061e-4404-b889-a6f63955189d</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.LP-1.2.bam</filename>
+				<filesize>18500531620</filesize>
+				<checksum type="MD5">46fb1097da5c99685a35103d614d595c</checksum>
+			</file>
+			<file>
+				<filename>C836.LP-1.2.bam.bai</filename>
+				<filesize>5854816</filesize>
+				<checksum type="md5">97a80e67e6e5e7b7a4619f84e3069324</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-LP-1-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/94c184be-94f0-4afd-aa2f-e3c7970ab82c</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/94c184be-94f0-4afd-aa2f-e3c7970ab82c</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/94c184be-94f0-4afd-aa2f-e3c7970ab82c</analysis_data_uri>
+	</Result>
+	<Result id="29">
+		<analysis_id>9f45a7d1-d775-417a-95a4-ee35fad9a3da</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:53:01Z</last_modified>
+		<upload_date>2013-04-17T09:47:38Z</upload_date>
+		<published_date>2013-04-30T11:52:50Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>b9ebf7d0-c975-47fd-a9ee-d59bcd8d2b4b</aliquot_id>
+		<files>
+			<file>
+				<filename>G27263.OPM-2.1.bam</filename>
+				<filesize>13035769571</filesize>
+				<checksum type="md5">9c6173470bf5f49b7455e8f5264baac6</checksum>
+			</file>
+			<file>
+				<filename>G27263.OPM-2.1.bam.bai</filename>
+				<filesize>6023512</filesize>
+				<checksum type="md5">6029feea55d39da884256a5244db786c</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-OPM-2-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/9f45a7d1-d775-417a-95a4-ee35fad9a3da</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/9f45a7d1-d775-417a-95a4-ee35fad9a3da</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/9f45a7d1-d775-417a-95a4-ee35fad9a3da</analysis_data_uri>
+	</Result>
+	<Result id="30">
+		<analysis_id>ae782da4-f15c-469f-9254-91d07d8f96bb</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:53:55Z</last_modified>
+		<upload_date>2013-01-05T18:28:07Z</upload_date>
+		<published_date></published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>09eeaa00-ecf3-4af0-b1a9-26d04609d6fa</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-26.2.bam</filename>
+				<filesize>13120892648</filesize>
+				<checksum type="md5">4999f8b3718dca79c438353d6f306464</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-26.2.bam.bai</filename>
+				<filesize>5785968</filesize>
+				<checksum type="md5">aa1b0ac2405e3456a1353a195d6fd0b5</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-26-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/ae782da4-f15c-469f-9254-91d07d8f96bb</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/ae782da4-f15c-469f-9254-91d07d8f96bb</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/ae782da4-f15c-469f-9254-91d07d8f96bb</analysis_data_uri>
+	</Result>
+	<Result id="31">
+		<analysis_id>b54c1c99-e94e-4c32-8056-04ae258b3257</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:54:19Z</last_modified>
+		<upload_date>2013-01-05T18:27:37Z</upload_date>
+		<published_date>2013-01-05T18:52:50Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>ae70838f-8649-4af4-ba30-652e9399e11a</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.MOLP-8.1.bam</filename>
+				<filesize>10594698856</filesize>
+				<checksum type="MD5">ea09225703c51efad06aeebc384e96af</checksum>
+			</file>
+			<file>
+				<filename>C836.MOLP-8.1.bam.bai</filename>
+				<filesize>5485320</filesize>
+				<checksum type="md5">0512f7e711dfa0e31cc71da59dbf04d7</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MOLP-8-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/b54c1c99-e94e-4c32-8056-04ae258b3257</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/b54c1c99-e94e-4c32-8056-04ae258b3257</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/b54c1c99-e94e-4c32-8056-04ae258b3257</analysis_data_uri>
+	</Result>
+	<Result id="32">
+		<analysis_id>c85a1920-c00c-472b-b609-3301c6632ded</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:55:35Z</last_modified>
+		<upload_date>2013-01-05T16:04:17Z</upload_date>
+		<published_date>2013-01-05T16:23:43Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>1af37013-caed-4fa9-900b-e459883525d8</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.MOLP-2.1.bam</filename>
+				<filesize>9104196237</filesize>
+				<checksum type="MD5">9d89d9ce9dbe0a6b8df691354cede394</checksum>
+			</file>
+			<file>
+				<filename>C836.MOLP-2.1.bam.bai</filename>
+				<filesize>5579064</filesize>
+				<checksum type="md5">b12097495a063060e118e167f8418977</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MOLP-2-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/c85a1920-c00c-472b-b609-3301c6632ded</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/c85a1920-c00c-472b-b609-3301c6632ded</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/c85a1920-c00c-472b-b609-3301c6632ded</analysis_data_uri>
+	</Result>
+	<Result id="33">
+		<analysis_id>cb088d92-ab90-4115-86fc-2fa4e3c705fb</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:55:44Z</last_modified>
+		<upload_date>2013-01-04T15:46:12Z</upload_date>
+		<published_date>2013-01-04T16:03:06Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>37177672-4efb-4587-b5ce-00db0c8a46df</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KHM-1B.1.bam</filename>
+				<filesize>10955540404</filesize>
+				<checksum type="MD5">f164d882fea012f9ec839e5436a67f2d</checksum>
+			</file>
+			<file>
+				<filename>C836.KHM-1B.1.bam.bai</filename>
+				<filesize>5520040</filesize>
+				<checksum type="md5">2f3dfcf60f393424c6216e546d118733</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KHM-1B-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/cb088d92-ab90-4115-86fc-2fa4e3c705fb</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/cb088d92-ab90-4115-86fc-2fa4e3c705fb</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/cb088d92-ab90-4115-86fc-2fa4e3c705fb</analysis_data_uri>
+	</Result>
+	<Result id="34">
+		<analysis_id>cd208446-6a9d-4381-ae8b-51c5bf028191</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:55:51Z</last_modified>
+		<upload_date>2013-04-17T22:49:03Z</upload_date>
+		<published_date>2013-04-30T02:09:11Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>98e1d154-2101-4833-848f-9944b635f2c3</aliquot_id>
+		<files>
+			<file>
+				<filename>G28093.KMS-21BM.1.bam</filename>
+				<filesize>12446290526</filesize>
+				<checksum type="md5">030bb2dca6922dbc16c86c66aef6312d</checksum>
+			</file>
+			<file>
+				<filename>G28093.KMS-21BM.1.bam.bai</filename>
+				<filesize>6128320</filesize>
+				<checksum type="md5">c4a2d6dbf76d653c73e8f4b90c3ea67a</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-21BM-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/cd208446-6a9d-4381-ae8b-51c5bf028191</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/cd208446-6a9d-4381-ae8b-51c5bf028191</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/cd208446-6a9d-4381-ae8b-51c5bf028191</analysis_data_uri>
+	</Result>
+	<Result id="35">
+		<analysis_id>d021ec77-27c6-4b84-be5d-5b35e9b35c3e</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:56:01Z</last_modified>
+		<upload_date>2013-01-04T15:20:15Z</upload_date>
+		<published_date>2013-01-04T15:41:51Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>65dc89ba-0120-4388-9ec2-cecb9966496c</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-20.1.bam</filename>
+				<filesize>13077463306</filesize>
+				<checksum type="MD5">09328708de95cfefa9949011e301f290</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-20.1.bam.bai</filename>
+				<filesize>5618640</filesize>
+				<checksum type="md5">6853c902022d3f4bbd26e9cc4e2c7fde</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-20-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/d021ec77-27c6-4b84-be5d-5b35e9b35c3e</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/d021ec77-27c6-4b84-be5d-5b35e9b35c3e</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/d021ec77-27c6-4b84-be5d-5b35e9b35c3e</analysis_data_uri>
+	</Result>
+	<Result id="36">
+		<analysis_id>d45da930-3e81-4509-993c-8f316a038033</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:56:20Z</last_modified>
+		<upload_date>2013-04-17T14:11:01Z</upload_date>
+		<published_date>2013-04-30T17:23:57Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>13a242f8-a3cb-4dc2-a195-4bc7aa2ab995</aliquot_id>
+		<files>
+			<file>
+				<filename>G26213.KMS-20.2.bam</filename>
+				<filesize>16785687427</filesize>
+				<checksum type="md5">dc6981f6dac4bf0b198a7d6afa995c3c</checksum>
+			</file>
+			<file>
+				<filename>G26213.KMS-20.2.bam.bai</filename>
+				<filesize>6268216</filesize>
+				<checksum type="md5">f84b3033e2e9e162af56bfc7c59c535b</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-20-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/d45da930-3e81-4509-993c-8f316a038033</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/d45da930-3e81-4509-993c-8f316a038033</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/d45da930-3e81-4509-993c-8f316a038033</analysis_data_uri>
+	</Result>
+	<Result id="37">
+		<analysis_id>d54514e6-1825-46cd-a394-53886430033d</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:56:23Z</last_modified>
+		<upload_date>2013-04-17T12:21:27Z</upload_date>
+		<published_date>2013-04-30T13:58:31Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>d837db05-5667-4475-91ef-4fda859f01af</aliquot_id>
+		<files>
+			<file>
+				<filename>G26249.KMS-26.2.bam</filename>
+				<filesize>15897880307</filesize>
+				<checksum type="md5">0c1e336793b7d0d809c6647b66a04dd2</checksum>
+			</file>
+			<file>
+				<filename>G26249.KMS-26.2.bam.bai</filename>
+				<filesize>5976232</filesize>
+				<checksum type="md5">03975391b7c22d9f3c7e6d61034c58c9</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-26-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/d54514e6-1825-46cd-a394-53886430033d</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/d54514e6-1825-46cd-a394-53886430033d</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/d54514e6-1825-46cd-a394-53886430033d</analysis_data_uri>
+	</Result>
+	<Result id="38">
+		<analysis_id>dac0ddb9-d456-4e75-8ab9-6256a36d8ffd</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:56:44Z</last_modified>
+		<upload_date>2013-01-04T19:43:44Z</upload_date>
+		<published_date>2013-01-04T08:09:52Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>23b65e32-6a52-4de8-87c3-872edd980e81</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMS-34.2.bam</filename>
+				<filesize>17691416510</filesize>
+				<checksum type="MD5">90585c4cc27ffa86731820c9c13a7877</checksum>
+			</file>
+			<file>
+				<filename>C836.KMS-34.2.bam.bai</filename>
+				<filesize>5877616</filesize>
+				<checksum type="md5">c3eb72cf3bcf1ce17098a877de1e181d</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMS-34-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/dac0ddb9-d456-4e75-8ab9-6256a36d8ffd</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/dac0ddb9-d456-4e75-8ab9-6256a36d8ffd</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/dac0ddb9-d456-4e75-8ab9-6256a36d8ffd</analysis_data_uri>
+	</Result>
+	<Result id="39">
+		<analysis_id>deaaaa4e-c426-4fd4-9825-554fd880f3aa</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:56:57Z</last_modified>
+		<upload_date>2013-01-04T19:32:09Z</upload_date>
+		<published_date>2013-01-04T19:47:56Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>58531fd7-1a81-4f09-bb76-6cffa5d2bc5b</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KARPAS-620.1.bam</filename>
+				<filesize>9665404633</filesize>
+				<checksum type="MD5">b2986e19d0864d3da497f84ee30adab6</checksum>
+			</file>
+			<file>
+				<filename>C836.KARPAS-620.1.bam.bai</filename>
+				<filesize>5457888</filesize>
+				<checksum type="md5">1d59cf706c10b257b250e08ef4944631</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KARPAS-620-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/deaaaa4e-c426-4fd4-9825-554fd880f3aa</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/deaaaa4e-c426-4fd4-9825-554fd880f3aa</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/deaaaa4e-c426-4fd4-9825-554fd880f3aa</analysis_data_uri>
+	</Result>
+	<Result id="40">
+		<analysis_id>e3fffd8f-8ba1-4e0a-8e90-55c55b1e762e</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:57:15Z</last_modified>
+		<upload_date>2013-01-05T17:51:25Z</upload_date>
+		<published_date>2013-01-05T18:10:13Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>71a50f31-ef93-4694-82d2-da77dd3eb453</aliquot_id>
+		<files>
+			<file>
+				<filename>C836.KMM-1.1.bam</filename>
+				<filesize>11606090404</filesize>
+				<checksum type="MD5">da575dcde2d83959064c0869c9d4c9ee</checksum>
+			</file>
+			<file>
+				<filename>C836.KMM-1.1.bam.bai</filename>
+				<filesize>5532552</filesize>
+				<checksum type="md5">af2e6d2a72b15a0a76fea8ce75e8e7ce</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-KMM-1-DNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>D</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>WXS</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/e3fffd8f-8ba1-4e0a-8e90-55c55b1e762e</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/e3fffd8f-8ba1-4e0a-8e90-55c55b1e762e</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/e3fffd8f-8ba1-4e0a-8e90-55c55b1e762e</analysis_data_uri>
+	</Result>
+	<Result id="41">
+		<analysis_id>ea36959d-c7f3-4efe-82a6-bd02012b90bc</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:57:38Z</last_modified>
+		<upload_date>2013-04-16T18:18:13Z</upload_date>
+		<published_date>2013-04-30T21:03:42Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>af4706df-3e0f-4604-a962-7c8f723e539e</aliquot_id>
+		<files>
+			<file>
+				<filename>G28550.MOLP-2.1.bam</filename>
+				<filesize>16273847557</filesize>
+				<checksum type="md5">a59318f5961dc6963a8c5a2600cf27a8</checksum>
+			</file>
+			<file>
+				<filename>G28550.MOLP-2.1.bam.bai</filename>
+				<filesize>6149216</filesize>
+				<checksum type="md5">09cfc90b8866a1a81b0a27fb23d7d210</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-MOLP-2-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/ea36959d-c7f3-4efe-82a6-bd02012b90bc</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/ea36959d-c7f3-4efe-82a6-bd02012b90bc</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/ea36959d-c7f3-4efe-82a6-bd02012b90bc</analysis_data_uri>
+	</Result>
+	<Result id="42">
+		<analysis_id>f4d03a6e-6b39-475c-b969-176c6aa7191f</analysis_id>
+		<state>live</state>
+		<reason></reason>
+		<last_modified>2013-05-16T20:58:18Z</last_modified>
+		<upload_date>2013-04-17T15:43:49Z</upload_date>
+		<published_date>2013-04-30T17:53:13Z</published_date>
+		<center_name>BI</center_name>
+		<study>Homo sapiens Other_Sequencing_Multiisolate</study>
+		<aliquot_id>c7e5279d-e277-4fba-93dc-13b9e6894c8f</aliquot_id>
+		<files>
+			<file>
+				<filename>G26178.EJM.2.bam</filename>
+				<filesize>14618506912</filesize>
+				<checksum type="md5">0009e455d8e0bae73b4d948c831b3956</checksum>
+			</file>
+			<file>
+				<filename>G26178.EJM.2.bam.bai</filename>
+				<filesize>6156616</filesize>
+				<checksum type="md5">2d5ccd34e9cba4eab4f82291ca4ac344</checksum>
+			</file>
+		</files>
+		<sample_accession></sample_accession>
+		<legacy_sample_id>CCLE-EJM-RNA-08</legacy_sample_id>
+		<disease_abbr>MM</disease_abbr>
+		<tss_id></tss_id>
+		<participant_id></participant_id>
+		<sample_id></sample_id>
+		<analyte_code>R</analyte_code>
+		<sample_type>50</sample_type>
+		<library_strategy>RNA-Seq</library_strategy>
+		<platform>ILLUMINA</platform>
+		<refassem_short_name>HG19_Broad_variant</refassem_short_name>
+		<analysis_submission_uri>https://cghub.ucsc.edu/cghub/metadata/analysisSubmission/f4d03a6e-6b39-475c-b969-176c6aa7191f</analysis_submission_uri>
+		<analysis_full_uri>https://cghub.ucsc.edu/cghub/metadata/analysisFull/f4d03a6e-6b39-475c-b969-176c6aa7191f</analysis_full_uri>
+		<analysis_data_uri>https://cghub.ucsc.edu/cghub/data/analysis/download/f4d03a6e-6b39-475c-b969-176c6aa7191f</analysis_data_uri>
+	</Result>
+	<ResultSummary>
+		<downloadable_file_count>84</downloadable_file_count>
+		<downloadable_file_size units="GB">515.94</downloadable_file_size>
+		<state_count>
+			<live>42</live>
+		</state_count>
+	</ResultSummary>
+</ResultSet>

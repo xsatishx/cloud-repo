@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Public Data Commons{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h1>{{dataset.name}}</h1>
+ 
+<div class="span12 data-lead">
+{{dataset.description|safe}}
+</div>
+</header>
+{% endblock %}
+
+{% load tz %}
+
+{% block main %}
+<div class="span12 data-label"><strong>Source: </strong>
+{% if dataset.source_url %}
+<a href="{{dataset.source_url}}">
+{{dataset.source_url}}
+</a>
+{% endif %}
+</div>
+
+<div class="span12 data-label"><strong>Categories: </strong>
+  {{ dataset.categories.all|join:", " }}
+</div>
+
+<div class="span12 data-label"><strong>Size: </strong> {{dataset.size}}</div>
+
+<div class="span12 data-label"><strong>Last Updated: </strong>{% timezone "UTC" %} {{dataset.last_update}} {% endtimezone %}UTC </div>
+
+
+<div class="span12 data-header"><h3>Download Instructions</h3></div>
+<div class="span12">
+<p>
+All public data sets are available on both commodity internet connections and high speed <a href="http://www.startap.net/starlight/">StarLight</a>/<a href="http://www.internet2.edu/">Internet2</a> connections. We recommend using <a href="http://rsync.samba.org/">rsync</a> to download data. 
+
+{% if dataset.commodity_location %}
+<p>
+<h4>List the contents of {{dataset.name}}:</h4>
+<ul>
+<li>
+Commodity internet connection: <code> rsync {{dataset.commodity_location}} </code>
+</li>
+<li>
+High speed connection:
+<code> rsync {{dataset.highspeed_location}} </code>
+</li>
+</ul>
+
+<h4>Download/synchronize {{dataset.name}}:</h4>
+<ul>
+<li>
+Commodity internet connection: <code> rsync {{dataset.commodity_location}} /path/to/local_copy</code>
+</li>
+<li>
+High speed connection:
+<code> rsync {{dataset.highspeed_location}} /path/to/local_copy</code>
+</li>
+</ul>
+
+<h4>Download an individual file from {{dataset.name}}:</h4>
+<ul>
+<li>
+Commodity internet connection: <code> rsync {{dataset.commodity_location}}/path/to/remotefile /path/to/local_copy</code>
+</li>
+<li>
+High speed connection:
+<code> rsync {{dataset.highspeed_location}}/path/to/remote/file /path/to/local_copy</code>
+</li>
+</ul>
+</p>
+{% else %}
+<p>
+Further download instructions for {{dataset.name}} will be posted here shortly.
+</p>
+{% endif %}
+</div>
+<div class="span12 data-header"><h3>OSDC Instructions</h3></div>
+
+<div class="span12 data-header"><h3>License/Attribution Requirements</h3></div>
+<div class="span12">
+{{ dataset.attribute|safe}}
+</div>
+
+{% endblock %}

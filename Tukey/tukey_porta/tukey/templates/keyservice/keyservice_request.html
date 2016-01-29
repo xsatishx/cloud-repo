@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block meta_title %}OSDC Dataset Application{% endblock %}
+{% block css %}
+<link href='{{ STATIC_URL }}dashboard/css/keyservice.css' type='text/css' rel='stylesheet' /> 
+{% endblock %}
+{% block content %}
+<div class='maincontent'>
+<header class="jumbotron subhead">
+  <h1>Apply to have data hosted in the OSDC Public Data Commons</h1>
+</header>
+
+<div class="span12">
+If you would like to contribute a dataset to be hosted on the OSDC Public Data Commons, please fill out the form below, and a member of the OSDC team will be in contact.
+<form action="/keyservice/request/" method="post" class='keyservice-form'>
+{% csrf_token %}
+{{ form }}
+<button type="submit" class="btn btn-warning">Submit Application </button>
+
+</div>
+{% endblock %}

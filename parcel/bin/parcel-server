@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+import parcel
+import argparse
+import logging
+
+
+logging.root.setLevel(logging.INFO)
+
+
+def main(args):
+    if args.verbose:
+        logging.root.setLevel(logging.DEBUG)
+
+    server = parcel.Server()
+    server.start(
+        proxy_host=args.host,
+        proxy_port=args.port,
+        remote_uri=args.server.pop(0),
+    )
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('server', metavar='server', type=str, nargs=1,
+                        help='The url path of the data server')
+    parser.add_argument('-p', '--port', default=9000, type=int,
+                        help='parcel server port')
+    parser.add_argument('-i', '--host', default='0.0.0.0', type=str,
+                        help='parcel server port')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='verbose logging')
+
+    args = parser.parse_args()
+    main(args)

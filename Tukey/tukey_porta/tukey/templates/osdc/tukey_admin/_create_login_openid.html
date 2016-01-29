@@ -1,0 +1,30 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_id %}new_file_form{% endblock %}
+{% block form_action %}{% url tukey_admin:create_login_openid %}{% endblock %}
+
+{% block modal-header %}{% trans "Add OpenID Info to Login" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+    <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+    </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description:" %}</h3>
+    <p>
+        {% trans "Enter the user's cloud username and their OpenID email address." %}
+    </p>
+    <p>
+        {% trans "If you have user demo and their OpenID they want to use has the email address demo@gmail.com then enter that email." %}
+    </p>
+</div>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add OpenID Info to Login" %}" />
+  <a href="{% url tukey_admin:login_openid %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
+

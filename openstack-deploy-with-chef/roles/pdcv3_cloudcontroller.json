@@ -1,0 +1,39 @@
+{
+  "name": "pdcv3_cloudcontroller",
+  "description": "Cloud controller for Openstack Icehouse",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+    "ntp": {
+      "servers": [
+        "owamp.chic.net.internet2.edu",
+        "owamp.newy.net.internet2.edu",
+        "owamp.salt.net.internet2.edu",
+        "owamp.kans.net.internet2.edu",
+        "owamp.losa.net.internet2.edu",
+        "owamp.atla.net.internet2.edu"
+      ]
+    }
+  },
+
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv3]",
+    "recipe[hosts]",
+    "recipe[slapd]",
+    "recipe[cpu]",
+    "recipe[dnsmasq]",
+    "recipe[mysql-server-5.5::pdcv3]",
+    "recipe[nova-keystone-pdc::pdcv3]",
+    "recipe[nova-glance-pdc::pdcv3]",
+    "recipe[nova-cloudcontroller-pdc::pdcv3]",
+    "recipe[nova-cinder-pdc::pdcv3-cloudcontroller]",
+    "recipe[nova-ceilometer-pdc::pdcv3-cloudcontroller]",
+    "recipe[ceph::pdcv3-glance]",
+    "recipe[squid]",
+    "recipe[lac-iptables::pdcv3]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "id": "nodes",
+  "kg15-7": {
+    "mac": "0c:c4:7a:1e:80:fa",
+    "form": "dev-half-u",
+    "rack": "kg15",
+    "ip": "10.32.0.21",
+    "dn": "10.8.0.21",
+    "router": "10.32.0.11",
+    "pxe_addr": "10.16.63.254",
+    "system": "trusty",
+    "bonds": [
+      "bond0"
+    ],
+    "bond0": {
+      "mode": "4",
+      "miimon": "100",
+      "lacprate": "1",
+      "xmitpolicy": "layer3+4",
+      "preup": [
+        "ip link set dev p3p1 mtu 9000 || /bin/true",
+        "ip link set dev p3p2 mtu 9000 || /bin/true"
+      ],
+      "slaves": [
+        "p3p1",
+        "p3p2"
+      ]
+    },
+    "bridges": [
+      "virbr1"
+    ],
+    "interfaces": [
+      "bond0.3523",
+      "bond0.71"
+    ],
+    "bond0.3523": {
+      "address": "192.170.228.90",
+      "netmask": "255.255.255.0",
+      "gateway": "192.170.228.1",
+      "broadcast": "192.170.228.255",
+      "network": "192.170.228.0"
+    },
+    "bond0.71": {
+      "address": "10.32.1.29",
+      "netmask": "255.255.255.0",
+      "broadcast": "10.32.1.255",
+      "network": "10.32.1.0"
+    },
+    "virbr1": {
+      "bridgeports": [
+        "bond0"
+      ],
+      "bridge_maxwait": "0",
+      "preup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "postup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true",
+        "/sbin/ip route add 10.0.0.0/8 via 10.32.0.1 || /bin/true",
+        "sysctl net.ipv4.ip_forward=1 || /bin/true"
+      ],
+      "address": "10.32.0.21",
+      "dns": "10.8.0.21",
+      "dnssearch": "osdc.io",
+      "netmask": "255.255.255.0",
+      "network": "10.32.0.0",
+      "broadcast": "10.32.0.255"
+    }
+  },
+  "kg15-8": {
+    "mac": "0c:c4:7a:1e:80:7e",
+    "form": "dev-half-u",
+    "rack": "kg15",
+    "ip": "10.32.0.22",
+    "dns": "10.8.0.21",
+    "router": "10.32.0.11",
+    "pxe_addr": "10.16.63.254",
+    "system": "trusty",
+    "bonds": [
+      "bond0"
+    ],
+    "bond0": {
+      "mode": "4",
+      "miimon": "100",
+      "lacprate": "1",
+      "xmitpolicy": "layer3+4",
+      "preup": [
+        "ip link set dev p3p1 mtu 9000 || /bin/true",
+        "ip link set dev p3p2 mtu 9000 || /bin/true"
+      ],
+      "slaves": [
+        "p3p1",
+        "p3p2"
+      ]
+    },
+    "bridges": [
+      "virbr1"
+    ],
+    "interfaces": [
+      "virbr1"
+    ],
+    "virbr1": {
+      "bridgeports": [
+        "bond0"
+      ],
+      "bridge_maxwait": "0",
+      "preup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "postup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "address": "10.32.0.22",
+      "gateway": "10.32.0.1",
+      "dns": "10.32.0.21",
+      "dnssearch": "osdc.io",
+      "netmask": "255.255.255.0",
+      "network": "10.32.0.0",
+      "broadcast": "10.32.0.255"
+    }
+  },
+  "kg15-9": {
+    "mac": "0c:c4:7a:1e:80:f4",
+    "form": "dev-half-u",
+    "rack": "kg15",
+    "ip": "10.32.0.23",
+    "dns": "10.8.0.21",
+    "router": "10.32.0.11",
+    "pxe_addr": "10.16.63.254",
+    "system": "trusty",
+    "bonds": [
+      "bond0"
+    ],
+    "bond0": {
+      "mode": "4",
+      "miimon": "100",
+      "lacprate": "1",
+      "xmitpolicy": "layer3+4",
+      "preup": [
+        "ip link set dev p3p1 mtu 9000 || /bin/true",
+        "ip link set dev p3p2 mtu 9000 || /bin/true"
+      ],
+      "slaves": [
+        "p3p1",
+        "p3p2"
+      ]
+    },
+    "bridges": [
+      "virbr1"
+    ],
+    "interfaces": [
+      "virbr1",
+      "bond0.3526"
+    ],
+    "bond0.3526": {
+      "address": "192.170.233.208",
+      "gateway": "192.170.232.1",
+      "broadcast": "192.170.233.255",
+      "netmask": "255.255.254.0",
+      "network": "192.170.232.0"
+    },
+    "virbr1": {
+      "bridgeports": [
+        "bond0"
+      ],
+      "bridge_maxwait": "0",
+      "preup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "postup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true",
+        "/sbin/ip route add 10.0.0.0/8 via 10.32.0.1 || /bin/true"
+      ],
+      "address": "10.32.0.23",
+      "dns": "10.32.0.21",
+      "dnssearch": "osdc.io",
+      "netmask": "255.255.255.0",
+      "network": "10.32.0.0",
+      "broadcast": "10.32.0.255"
+    }
+  },
+  "kg15-10": {
+    "mac": "0c:c4:7a:1e:80:f2",
+    "form": "dev-half-u",
+    "rack": "kg15",
+    "ip": "10.32.0.24",
+    "dns": "10.8.0.21",
+    "router": "10.32.0.11",
+    "pxe_addr": "10.16.63.254",
+    "system": "trusty",
+    "bonds": [
+      "bond0"
+    ],
+    "bond0": {
+      "mode": "4",
+      "miimon": "100",
+      "lacprate": "1",
+      "xmitpolicy": "layer3+4",
+      "preup": [
+        "ip link set dev p3p1 mtu 9000 || /bin/true",
+        "ip link set dev p3p2 mtu 9000 || /bin/true"
+      ],
+      "slaves": [
+        "p3p1",
+        "p3p2"
+      ]
+    },
+    "bridges": [
+      "virbr1"
+    ],
+    "interfaces": [
+      "virbr1"
+    ],
+    "virbr1": {
+      "bridgeports": [
+        "bond0"
+      ],
+      "bridge_maxwait": "0",
+      "preup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "postup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "address": "10.32.0.24",
+      "gateway": "10.32.0.1",
+      "dns": "10.32.0.21",
+      "dnssearch": "osdc.io",
+      "network": "10.32.0.0",
+      "netmask": "255.255.255.0",
+      "broadcast": "10.32.0.255"
+    }
+  },
+  "kg15-11": {
+    "mac": "0c:c4:7a:1e:80:ee",
+    "form": "dev-half-u",
+    "rack": "kg15",
+    "ip": "10.32.0.25",
+    "dns": "10.8.0.21",
+    "router": "10.32.0.11",
+    "pxe_addr": "10.16.63.254",
+    "system": "trusty",
+    "bonds": [
+      "bond0"
+    ],
+    "bond0": {
+      "mode": "4",
+      "miimon": "100",
+      "lacprate": "1",
+      "xmitpolicy": "layer3+4",
+      "preup": [
+        "ip link set dev p3p1 mtu 9000 || /bin/true",
+        "ip link set dev p3p2 mtu 9000 || /bin/true"
+      ],
+      "slaves": [
+        "p3p1",
+        "p3p2"
+      ]
+    },
+    "bridges": [
+      "virbr1"
+    ],
+    "interfaces": [
+      "virbr1"
+    ],
+    "virbr1": {
+      "bridgeports": [
+        "bond0"
+      ],
+      "bridge_maxwait": "0",
+      "preup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "postup": [
+        "iptables-restore  /etc/iptables.conf || /bin/true"
+      ],
+      "address": "10.32.0.25",
+      "gateway": "10.32.0.1",
+      "dns": "10.32.0.21",
+      "dnssearch": "osdc.io",
+      "netmask": "255.255.255.0",
+      "network": "10.32.0.0",
+      "broadcast": "10.32.0.255"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+export OS_TENANT_NAME=test_user
+export OS_USERNAME=test_user
+export OS_PASSWORD=test_password
+export OS_AUTH_URL="http://127.0.0.4:5000/v2.0/"
+
+#export EC2_URL=$(keystone catalog --service ec2 | awk '/ publicURL / { print $4 }')
+export EC2_URL="http://localhost:8773/services/Eucalyptus"
+#export CREDS=$(keystone ec2-credentials-create)
+export CREDS="+-----------+----------------------------------+
+|  Property |              Value               |
++-----------+----------------------------------+
+| access    | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa |
+| secret    | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa |
+| tenant_id | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa |
+| user_id   | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa |
++-----------+----------------------------------+"
+export EC2_ACCESS_KEY=$(echo "$CREDS" | awk '/ access / { print $4 }')
+export EC2_SECRET_KEY=$(echo "$CREDS" | awk '/ secret / { print $4 }')
+

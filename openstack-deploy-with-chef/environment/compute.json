@@ -1,0 +1,141 @@
+{
+
+  # use pwgen , openssl, uuid to generate keys.
+  # admin_token, metering_secret_hex_token = hex key
+  # rdb_secret = uuidgen
+  # add ssh keys to data_bags/users
+  
+  "name": "igsb-compute",
+  "description": "The IGSB Compute rack",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "pxeboot": "10.1.64.51",
+    "ssh_keys": {
+      "root": [
+        "rpowell",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ],
+      "lacadmin": [
+        "rpowell",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ]
+    }
+  },
+  "override_attributes": {
+    "ntp": {
+      "servers": [
+        "10.32.0.21"
+      ]
+    },
+    "dnsmasq": {
+      "nameservers": [
+        "10.8.0.21"
+      ]
+    },
+    "cloud": {
+      "hostname": "igsb",
+      "fqdn": "igsb.osdc.io",
+      "api_host": "api-igsb.osdc.io",
+      "chef_version": "pdcv3",
+      "cc_ipaddress": "10.32.0.21"
+    },
+    "ldap": {
+      "passwd": "",
+      "host": "ldap-igsb.osdc.io",
+      "dc": "dc=igsb,dc=osdc,dc=io",
+      "max_uid": "22999",
+      "min_uid": "22000",
+      "max_gid": "22999",
+      "min_gid": "22000",
+      "nofile": "102400",
+      "cloud_sid": ""
+    },
+    "mysql": {
+      "passwd": "",
+      "host": "mysql-igsb.osdc.io",
+      "keystone_passwd": "",
+      "glance_passwd": "",
+      "nova_passwd": "",
+      "cinder_passwd": "",
+      "neutron_passwd": "",
+      "nofile": "102400"
+    },
+    "rabbitmq": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "nofile": "102400"
+    },
+    "keystone": {
+      "admin_token": "",
+      "admin_passwd": "",
+      "host": "api-igsb.osdc.io",
+      "token_expiration": "86400"
+    },
+    "glance": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "num_workers": "3",
+      "nofile": "102400"
+    },
+    "nova": {
+      "version": "juno",
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "flat_interface": "bond0",
+      "public_interface": "bond0.3526",
+      "flat_network_bridge": "virbr1",
+      "metadata_proxy_shared_secret": "",
+      "nofile": "102400",
+      "rbd_secret_uuid": "",
+      "default_cores": "16",
+      "default_fixed_ips": "-1",
+      "default_floating_ips": "0",
+      "default_number_instances": "16",
+      "default_ram": "49152"
+    },
+    "cinder": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "nofile": "102400"
+    },
+    "swift": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "nofile": "102400"
+    },
+    "neutron": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "metadata_proxy_shared_secret": "",
+      "service_tenant_id": "e907070c36ea4b12a386deddf48b31ae",
+      "nofile": "1024"
+    },
+    "ceilometer": {
+      "host": "api-igsb.osdc.io",
+      "passwd": "",
+      "mongodb_passwd": "",
+      "metering_secret_hex_token": ""
+    },
+    "ceph": {
+      "raidos_host": "rados-igsb.osdc.io",
+      "glance_key": "",
+      "cinder_key": ""
+    },
+    "ssl": {
+      "ca_bundle": "",
+      "wildcard_cert": "",
+      "wildcard_key": ""
+    }
+  }
+}

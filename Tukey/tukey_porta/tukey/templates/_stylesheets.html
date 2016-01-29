@@ -1,0 +1,13 @@
+{% load compress %}
+
+
+<link rel="stylesheet/less" type="text/css" media="all" href="{{ STATIC_URL }}dashboard/less/osdc.less">
+<script src="{{ STATIC_URL }}dashboard/js/less-1.3.3.min.js"></script>
+
+{% comment %}
+{% compress css %}
+<link href='{{ STATIC_URL }}dashboard/less/osdc.less' type='text/less' media='screen' rel='stylesheet' />
+{% endcompress %}
+{% endcomment %}
+
+

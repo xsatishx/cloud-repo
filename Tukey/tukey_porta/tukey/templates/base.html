@@ -1,0 +1,132 @@
+{% load branding i18n nav_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% block title %}{% endblock %} - {% site_branding %}</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}dashboard/img/favicon.ico"/>
+    {% include "horizon/_conf.html" %}
+    {% include "horizon/client_side/_script_loader.html" %}
+    <link href='{{ STATIC_URL }}dashboard/css/osdc.css' type='text/css' rel='stylesheet' />  
+    <link href='{{ STATIC_URL }}dashboard/css/custom.css' type='text/css' rel='stylesheet' />  
+    <link rel="stylesheet" href="{{STATIC_URL}}/font-awesome/css/font-awesome.min.css">
+    {% block css %}
+    {% endblock %}
+    <script type="text/javascript" src="{{STATIC_URL}}dashboard/js/jquery-2.1.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}dashboard/js/jquery.ba-throttle-debounce.min.js" ></script>
+    <script type='text/javascript' src='{{STATIC_URL}}dashboard/js/jquery.mobile.custom.min.js' charset='utf-8'></script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34483848-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body id="{% block body_id %}{% endblock %}">
+    <div class="header-wrapper">
+    {% show_nav content.slug %}
+    {% include "osdc/_osdc_console_menu.html" %}
+    </div>
+    <div class="wrapper">
+      {% block content %}
+
+      <!-- THIS IS BASE HTML -->
+      <div class='container'>
+        <div class="row row-header">
+          <div class="span12">
+            {% block page_header %}{% endblock %}
+            {% block header %}{% endblock %}
+            {% block main %}{% endblock %}
+          </div>
+        </div>
+        <div class='row'>
+          <div class='span12'>
+            {% include "horizon/_messages.html" %}
+          </div>
+        </div>
+        <!-- PUSH was here -->
+      </div>
+      {% endblock %}
+
+      <div id="push">
+        <!-- Empty div to keep footer at bottom of viewport-->
+      </div>
+    </div>
+
+    {% block footer %}
+      <div id="main-footer">
+      <div class="modal-footer">
+        <div class="container">
+           {% include "footer.html" %}
+        </div>
+      </div>
+    {% endblock %}
+    </div>
+
+    {% block js %}
+    {% endblock %}
+    {% include "horizon/_scripts.html" %}
+    <script type="text/javascript">
+      $(document).ready(function() {
+          // Highlight "Console" if on one of its child pages.
+        var url = window.location.href;
+        var regEx = /project\//;
+        var contains = regEx.test(url);
+        if (contains == true) {
+          $("#nav-console").addClass("active");
+        }
+        // click event of nav triggers openning of subnav
+        $(".first-level").click(function(){
+            var ul=$(this).find("ul");
+            if (ul.length>0){
+                if (ul.css("display")=='none'){
+                    ul.css("display","block");
+                }
+                else {ul.removeAttr("style");}
+            }
+        });
+        if ($(".nav-bars").css("display")=="block"){
+            $(".first-level").off("hover");
+            var ul = $('.navs'); // reverse the order of navs
+            ul.children().each(function(i,li){ul.prepend(li)})
+            $(".first-level").click(function(){
+                var ul=$(this).find("ul");
+                if (ul.length>0){
+                    if (ul.hasClass("hide")){
+                        ul.removeClass("hide");
+                    }
+                    else {ul.addClass("hide")}
+                }
+        });
+
+        }
+        $(".nav-bars").click(function(){
+            var ul=$(".navs");
+            if (ul.length>0){
+                if (ul.css("display")=='none'){
+                    ul.css("display","block");
+                }
+                else {
+                ul.css('display',"none");
+                }
+            }
+        });
+
+      });
+    </script>
+    <script src="{{STATIC_URL}}dashboard/js/d3.min.js" charset="utf-8"></script>
+    <script src="{{STATIC_URL}}dashboard/js/angular.min.js" charset="utf-8"></script>
+    <script src="{{STATIC_URL}}dashboard/js/chart.js" charset="utf-8"></script>
+
+    {% block additionalJs %}
+    {% endblock %}
+   <div id="modal_wrapper"></div>
+  </body>
+</html>

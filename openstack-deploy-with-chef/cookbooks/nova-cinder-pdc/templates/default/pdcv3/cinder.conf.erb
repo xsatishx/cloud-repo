@@ -1,0 +1,62 @@
+[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+#volume_group = cinder-volumes
+verbose = True
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+
+
+
+#Keep Connections under controll
+#https://bugs.launchpad.net/nova/+bug/1225655
+rpc_conn_pool_size=100
+rpc_response_timeout=200
+rabbit_retry_interval=5
+rabbit_retry_backoff=5
+
+
+
+
+##ceph backend
+volume_driver=cinder.volume.drivers.rbd.RBDDriver
+rbd_pool=volumes
+rbd_ceph_conf=/etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot=false
+rbd_max_clone_depth=5
+glance_api_version=2
+rbd_user=cinder
+rbd_secret_uuid=<%= node['nova']['rbd_secret_uuid'] %>
+glance_api_version=2
+
+#Ceilometer
+control_exchange = cinder
+notification_driver = cinder.openstack.common.notifier.rpc_notifier
+
+#Rabbit
+rpc_backend = cinder.openstack.common.rpc.impl_kombu
+rabbit_host = <%= node['rabbitmq']['host'] %>
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = <%= node['rabbitmq']['passwd'] %>
+
+[database]
+connection = mysql://cinder:<%= node['mysql']['cinder_passwd'] %>@<%= node['mysql']['host'] %>/cinder
+max_pool_size=30
+max_retries=20
+retry_interval=15
+connection_debug=20
+
+
+[keystone_authtoken]
+auth_uri = http://<%= node['keystone']['host'] %>:5000
+auth_host = <%= node['keystone']['host'] %>
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = cinder
+admin_password = <%= node['cinder']['passwd'] %>

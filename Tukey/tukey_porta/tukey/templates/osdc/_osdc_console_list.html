@@ -1,0 +1,15 @@
+{% load horizon %}
+
+      <ul class="nav nav-pills">
+{% for heading, panels in components.iteritems %}
+  {% with panels|has_permissions_on_list:user as filtered_panels %}
+    {% if filtered_panels %}
+        {% for panel in filtered_panels %}
+          <li {% if current == panel.slug %}class="active"{% endif %}>
+            <a href="{{ panel.get_absolute_url }}">{{ panel.name }}</a>
+          </li>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
+{% endfor %}
+      </ul>

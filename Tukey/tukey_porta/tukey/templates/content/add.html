@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block meta_title %}
+Add Page
+{% endblock %}
+
+{% block header %}
+<header class="jumbotron">
+<h2>Add New Page</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<form action="/content-admin/add/" method="post">{% csrf_token %}
+    <fieldset>
+    {% for field in form %}
+        <div class="control-group {% if form.name.errors %}error{% endif %}">
+            {{ field.label_tag }}
+            <div class="controls">
+            {{ field }}
+            <span class="help-inline">{{ field.errors }}</span>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-maincontent">Save Page</button>
+      </div>
+    </div>
+    </fieldset>
+</form>
+{% endblock %}

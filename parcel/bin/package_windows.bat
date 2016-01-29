@@ -1,0 +1,1 @@
+c:\Python27\Scripts\pyinstaller.exe --clean --noconfirm --onefile -i ../resources\parcel.ico -c parcel

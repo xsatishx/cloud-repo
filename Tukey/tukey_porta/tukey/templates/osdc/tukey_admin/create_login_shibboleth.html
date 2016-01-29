@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Add Shibboleth Info to Login" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Add Shibboleth Info to Login") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include 'osdc/tukey_admin/_create_login_shibboleth.html' %}
+{% endblock %}

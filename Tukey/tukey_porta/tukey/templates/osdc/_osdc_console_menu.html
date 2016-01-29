@@ -1,0 +1,16 @@
+{% load horizon osdc i18n %}
+{% if request.user.username %}
+<div class='subnav subnav-fixed'>
+<div class='container'>
+  <div class="userinfo">
+  {% trans "Logged in as" %}: {{ request.user.username }}
+  <a href="{% url horizon:settings:user:index %}">{% trans "Settings" %}</a>
+  {% comment %}<a href="{% url logout %}?next=/Shibboleth.sso/Logout%3Freturn%3Dhttp%3A%2F%2Fconsole.opensciencedatacloud.org{% url login%}%3Fshib%3Dtrue">{% trans "Sign Out" %}</a>{% endcomment %}
+  <a href="{% url logout %}{{ LOGOUT_URL }}">{% trans "Sign Out" %}</a>
+  </div>
+
+{% osdc_console_nav %}
+
+</div>
+</div>
+{% endif %}

@@ -1,0 +1,236 @@
+<section>
+  <h1 class="underline">What is the Open Science Data Cloud (OSDC)?</h1>
+<div class='article'>
+  <div class="span12">
+  <p>
+  The Open Science Data Cloud provides the scientific community with resources for storing, sharing, and analyzing terabyte and petabyte-scale scientific datasets. The OSDC is a data science ecosystem in which researchers can house and share their own scientific data, access complementary public datasets, build and share customized virtual machines with whatever tools necessary to analyze their data, and perform the analysis to answer their research questions. It is a one-stop shop for making scientific research faster and easier. 
+
+The OSDC is operated through the Center for Data Intensive Science (CDIS) at University of Chicago in collaboration with the Open Commons Consortium, which is a 501(c)(3) not-for-profit corporation.
+  </p>
+  </div>
+
+</div>
+<div class='article'>
+  <h2>Why is there a need?</h2>
+  <div class='span12'>
+  <p>With datasets growing larger and larger, researchers are finding that the bottleneck to discovery is no longer a lack of data but an inability to manage, analyze, and share their large datasets. Individual researchers can no longer download and analyze the important datasets in their scientific fields on their own computers. Cross-disciplinary analysis is even more difficult. The goal of the Open Science Data Cloud is to remove the bottleneck to discovery by providing researchers with access to a variety of key datasets across scientific disciplines and the computing infrastructure to allow scientists to easily manage and share their data and analysis.
+  </p>
+  </div>
+</div>
+<div class='article'>
+  <h2>How is this transformational?</h2>
+  <div class='span12'>
+  <p>By housing the entire scientific research pipeline, from the raw data and the entire computing environment to the analysis tools and results, the OSDC makes scientific research open, transparent, and reproducible. OSDC is also built on open source technology as a model for the scientific community to extend and grow. </p>
+  <p>Open science is the driving foundation of the OSDC. OSDC researchers can essentially “publish” the entirety of their research process through the OSDC alongside publishing their scientific results. Using the OSDC, the next researcher can then build directly upon previous work, making the possibility of scientific discovery and progress faster. Currently, researchers read scientific papers in their fields and may or may not be able to access the data analyzed and tools used to reconstruct, validate, and build upon published results. In the future, a researcher will read a scientific paper, sit down at her computer, and log onto the exact virtual machine needed to reproduce the entire scientific research pipeline that produced the results presented in the paper.</p>
+  </div>
+</div>
+</section>
+<header class='article' id='availableResources'>
+  <h1 class="underline">What resources are available in the OSDC ecosystem?</h4>
+  <div>
+    <p>The OSDC ecosystem has different resources to serve the diverse needs of the research community.   One fundamental way to think about the resources offered in the OSDC is to group them by purpose.</p>
+    <ul>
+    <li>
+   <b> Public Data Commons</b> - The OSDC has 1PB of <a href="https://www.opensciencedatacloud.org/publicdata/" target="_blank" >public data</a> in a wide variety of disciplines.   These datasets are freely available and can be downloaded over the internet or high performance networks for analysis locally.   All grantees of OSDC resource allocations can also compute directly over the data in the Public Data Commons directly, without having to download them locally.</li>
+    <li>
+<b>General Compute Resources</b> - The OSDC currently offers two general purpose compute clouds: Sullivan and Griffin.   These are for researchers without datasets that need to be analyzed in a protected environment (like human medical data or patient records).    Researchers granted allocations on Sullivan and Griffin have access to their own private directory for storage and compute cores for analysis.   Projects and labs awarded multiple allocations can request shared directories to facilitate group work.  The OSDC also offers a limited number of Floating IPs available on request to researchers on our public clouds.</li>
+    <li>
+<b>Protected Compute Resources</b> - The OSDC currently offers two protected cloud computing resources for analyzing sensitive datasets (like human medical data or patient records), Atwood and the Bionimbus PDC, operated at a <a href="http://en.wikipedia.org/wiki/Federal_Information_Security_Management_Act_of_2002" target="_blank">FISMA</a> moderate security level.  There are additional legal forms required for access to these resources. The Bionimbus PDC is for researchers that have been granted access to the TCGA dataset and is currently used primarily for analysis of that data.   Because it relies on eRA Commons for identification, it has a <a href="https://bionimbus-pdc.opensciencedatacloud.org/" target="_blank">separate application process</a>. The Bionimbus PDC uses Ceph and Cinder storage and relies on group tenants instead of individual core and storage quotas.  </li>
+    <li>
+<b>Hadoop Resources</b> -  The OSDC offers two Hadoop resources for <a target="_blank" href="http://occ-data.org/members/">OCC members</a> and selected projects:  OCC-Y and Skidmore.   Unlike our Public and Protected resources which utilize the <a target="_blank" href="https://www.opensciencedatacloud.org/support/console.html">Tukey Webconsole</a>,  users granted allocations on Hadoop resources can only interact at the command line. </li> 
+
+
+  </div>
+
+</header>
+
+  <p class="lead"><b>Descriptions of Available OSDC Systems and Resources</b></p>
+
+<div class='table-wrapper'>
+<div class="systems" border=0 cellpadding=0 cellspacing=0 style="border-collapse:
+ collapse;">
+ <col class=xl68 widp=140 style='mso-widp-source:userset;mso-widp-alt:5674;
+ widp:105pt'>
+ <col class=xl75 widp=180 style='mso-widp-source:userset;mso-widp-alt:7680;
+ widp:140pt'>
+ <col class=xl68 widp=178 style='mso-widp-source:userset;mso-widp-alt:7594;
+ widp:125pt'>
+ <col class=xl68 widp=60 style='mso-widp-source:userset;mso-widp-alt:2560;
+ widp:60pt'>
+ <col class=xl68 widp=57 style='mso-widp-source:userset;mso-widp-alt:2432;
+ widp:57pt'>
+<col class=xl75 widp=56 style='mso-widp-source:userset;mso-widp-alt:2389;
+ widp:56pt'>
+ <col class=xl75 widp=56 style='mso-widp-source:userset;mso-widp-alt:2389;
+ widp:56pt'>
+ <col class=xl75 widp=52 style='mso-widp-source:userset;mso-widp-alt:2218;
+ widp:52pt'>
+ <col class=xl68 widp=65 style='widp:65pt'>
+ <col class=xl68 widp=65 style='widp:65pt'>
+ <col class=xl68 widp=65 style='widp:65pt'>
+ <col class=xl68 widp=65 span=3 style='widp:65pt'>
+ <div class=xl77  style='mso-height-source:userset;'>
+  <p class=xl78>name / description</p>
+  <p class=xl79>use</p>
+  <p class=xl78>cloud software</p>
+  <p class=xl78>compute nodes</p>
+  <p class=xl78>Compute Cores</p>
+  <p class=xl79>Compute RAM (GiB)</p>
+  <p class=xl79>RAW Storage (TiB)</p>
+  <p class=xl79>Usable Storage (TiB)</p>
+ </div>
+ <div >
+  <p  class=xl65 >Sullivan</p>
+  <p class=xl66 widp=180>Compute
+  - General Projects + Selected Groups</p>
+  <p class=xl65 >OpenStack w/ GlusterFS</p>
+  <p class=xl65 >60</p>
+  <p class=xl65 >1056</p>
+  <p class=xl67 >4736</p>
+  <p class=xl67 >1096</p>
+  <p class=xl66 >435</p>
+ </div>
+ <div >
+  <p  class=xl65 >Griffin</p>
+  <p class=xl66 widp=180>Compute
+  - General Projects + Selected Groups</p>
+  <p class=xl65 >OpenStack w/ Ceph Object Storage and Ephemeral Storage in VMs</p>
+  <p class=xl65 >60</p>
+  <p class=xl65 >1024</p>
+  <p class=xl67 >4096</p>
+  <p class=xl67 >896 (Ephemeral)</p>
+  <p class=xl66 >NA</p>
+ </div>
+ <div >
+  <p  class=xl65 >Atwood</p>
+  <p class=xl66 widp=180 >Protected Compute Cloud</p>
+  <p class=xl65 >OpenStack w/ GlusterFS and access to PDC Object store</p>
+  <p class=xl65 >23</p>
+  <p class=xl65 >312</p>
+  <p class=xl65 >736</p>
+  <p class=xl65 >585</p>
+  <p class=xl66 >282</p>
+ </div>
+ <div height=30 style='height:30.0pt'>
+  <p height=30 class=xl69 style='height:30.0pt;border-top:none'>Bionimbus-PDC</p>
+  <p class=xl70 widp=180 style='border-top:none;border-left:none;widp:180pt'>Protected Compute Cloud</p>
+  <p class=xl69 style='border-top:none;border-left:none'>OpenStack w/ Ceph and Swift</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>100</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>2856</p>
+  <p class=xl71 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>9856</p>
+  <p class=xl71 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>1400</p>
+  <p class=xl70 align=right widp=52 style='border-top:none;border-left:none;
+  widp:52pt'>226</p>
+ </div>
+
+ <div height=15 style='height:15.0pt'>
+  <p height=15 class=xl65 style='height:15.0pt;border-top:none'>Skidmore</p>
+  <p class=xl66 widp=180 style='border-top:none;border-left:none;widp:180pt'>Compute, Selected Projects</p>
+  <p class=xl65 style='border-top:none;border-left:none'>Hadoop</p>
+  <p class=xl65 align=right style='border-top:none;border-left:none'>25</p>
+  <p class=xl65 align=right style='border-top:none;border-left:none'>704</p>
+  <p class=xl67 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>3200</p>
+  <p class=xl67 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>756</p>
+  <p class=xl73 align=right widp=52 style='border-top:none;border-left:none;
+  widp:52pt'>295</p>
+ </div>
+ <div height=15 style='height:15.0pt'>
+  <p height=15 class=xl69 style='height:15.0pt;border-top:none'>OCC-Y</p>
+  <p class=xl69 widp=180 style='border-top:none;border-left:none;widp:180pt'>Compute, Selected Projects</p>
+  <p class=xl69 style='border-top:none;border-left:none'>Hadoop</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>61</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>928</p>
+  <p class=xl69 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>3184</p>
+  <p class=xl69 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>1464</p>
+  <p class=xl69 align=right widp=52 style='border-top:none;border-left:none;
+  widp:52pt'>1101</p>
+ </div>
+ <div height=15 style='height:15.0pt'>
+  <p height=15 class=xl69 >Public Data <br>Commons</p>
+  <p class=xl69 widp=180 style='border-top:none;border-left:none;widp:180pt'>Public
+  Data</p>
+  <p class=xl69 style='border-top:none;border-left:none'>GlusterFS</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>0</p>
+  <p class=xl69 align=right style='border-top:none;border-left:none'>0</p>
+  <p class=xl69 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>0</p>
+  <p class=xl69 align=right widp=56 style='border-top:none;border-left:none;
+  widp:56pt'>1440</p>
+  <p class=xl69 align=right widp=52 style='border-top:none;border-left:none;
+  widp:52pt'>967</p>
+ </div>
+</div>
+</div>
+<br><br>
+
+  <p class="lead"><b>OSDC Resource Availability and Allocation</b></p>
+ For more information, read about the <a target="_blank" href="https://www.opensciencedatacloud.org/support/intro.html#osdc-resource-allocations" target="_blank">OSDC Resource Availability and the Allocation Process</a> or see the <a target="_blank" href="https://www.opensciencedatacloud.org/pre_apply/?next=/apply/" target="_blank">application for general OSDC resources</a>. &nbsp; For researchers applying to use the Bionimbus PDC, we have a separate <a target="_blank" href="https://bionimbus-pdc.opensciencedatacloud.org/pre_apply/?next=/apply/" target="_blank">Bionimbus PDC application</a>.
+<br><br>
+ 
+<div class='table-wrapper'>
+<div class="systems" border=0 cellpadding=0 cellspacing=0 widp=625 style='border-collapse:
+ collapse;table-layout:fixed;widp:625pt'>
+ <col widp=119 style='mso-widp-source:userset;mso-widp-alt:5077;widp:119pt'>
+ <col widp=168 style='mso-widp-source:userset;mso-widp-alt:7168;widp:168pt'>
+ <col widp=345 style='mso-widp-source:userset;mso-widp-alt:14421;widp:345pt'>
+ <div >
+  <p  class=row1 widp=119 >Name /
+  Description</p>
+  <p class=row1 widp=168 >General
+  Quota</p>
+  <p class=row2 widp=345 >Requirements</p>
+ </div>
+ <div >
+  <p  class=row1 >Sullivan</p>
+  <p class=row1 >16 Cores / 1 TB</p>
+  <p class=row2 >General access to selected
+  projects</p>
+ </div>
+ <div >
+ <div >
+  <p  class=row1 >Griffin</p>
+  <p class=row1 >16 Cores / 1 TB</p>
+  <p class=row2 >General access to selected
+  projects</p>
+ </div>
+  <p  class=row1 >Atwood</p>
+  <p class=row1 widp=168 style='border-top:none;border-left:none;widp:168pt'>16
+  Cores / 1 TB</p>
+  <p class=row2 style='border-top:none;border-left:none'>Restricted Access</p>
+ </div>
+<div >
+  <p  class=row1 >Bionimbus-PDC</p>
+  <p class=row1 widp=168 style='border-top:none;border-left:none;widp:168pt'>Allocations for labs and groups on a case by case basis</p>
+  <p class=row2 widp=345 style='border-left:none;widp:345pt'>Applicant needs an <a target="_blank" href="https://commons.era.nih.gov/">eRA Commons</a> account <br> and <a target="_blank" href="http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000178.v8.p7">dbGaP access to TCGA</a></p>
+ </div> 
+ <div >
+  <p class=row1 >Skidmore</p>
+  <p class=row1 widp=168 style='border-top:none;border-left:none;widp:168pt'>Unlimited
+  Compute/Storage</p>
+  <p class=row2 style='border-top:none;border-left:none'>Restricted Access</p>
+ </div>
+ <div >
+  <p  class=row1 >OCC-Y</p>
+  <p class=row1 widp=168 style='border-top:none;border-left:none;widp:168pt'>Unlimited
+  Compute/Storage</p>
+  <div class=row2 style='border-top:none;border-left:none'>
+OCC-Y Applicants must<br>
+<ul><li>1) Be part of an institution that is an OCC Member</li>
+<li>2) complete all special OCC-Y instructions on application page</li>
+<li>3) pass ITAR screening</li></ul>
+
+ </div>
+ </div>
+</div>
+</div>
+<br>
+
+
+<br>
+<br>

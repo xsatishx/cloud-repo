@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block meta_title %}PDC Application{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Apply for a PDC Account</h2>
+  <p>
+    Please fill out this form to apply for access to the Bionimbus Protected Data Cloud.
+To access the PDC you will need an <a href="https://commons.era.nih.gov/">eRA Commons</a> account and <a href="http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000178.v8.p7">dgGaP access to TCGA</a>.
+A member from the PDC team will be in touch with you within 48 business hours.  If you have any questions about the application process, please contact us at <SCRIPT TYPE="text/javascript"> document.write('accounts' + '@' + 'opencloudconsortium.org') </SCRIPT>. Thank you.
+  </p>
+</header>
+{% endblock %}
+
+{% block main %}
+<form action="/apply/pdc/" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+  <fieldset>
+    <div class="control-group {% if form.eracommons.errors %}error{% endif %}">
+      <label class="control-label" for="id_eracommans">eRA Commons Username*</label>
+      <div class="controls">
+	{{ form.eracommons }}
+	<span class="help-inline">{{form.eracommons.errors}}</span>
+      </div>
+    </div>
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+      <label class="control-label" for="id_name">Name*</label>
+      <div class="controls">
+	{{ form.name }}
+	<span class="help-inline">{{form.name.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.email.errors %}error{% endif %}">
+      <label class="control-label" for="id_email">E-mail Address*</label>
+      <div class="controls">
+	{{ form.email}}
+        <span class="help-inline">{{form.email.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.organization.errors %}error{% endif %}">
+      <label class="control-label" for="id_organization">Organization/University*</label>
+      <div class="controls">
+	{{ form.organization }}
+	<span class="help-inline">{{form.organization.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.webpage.errors %}error{% endif %}">
+      <label class="control-label" for="id_webpage">Web Page</label>
+      <div class="controls">
+        {{ form.webpage }}
+        <span class="help-inline">{{form.webpage.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.phonenumber.errors %}error{% endif %}">
+      <label class="control-label" for="id_phonenumber">Phone Number</label>
+      <div class="controls">
+        {{ form.phonenumber }}
+        <span class="help-inline">{{form.phonenumber.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.address.errors %}error{% endif %}">
+      <label class="control-label" for="id_address">Address</label>
+      <div class="controls">
+        {{ form.address }}
+        <span class="help-inline">{{form.address.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectdescr.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectdescr">Brief Project Description*</label>
+      <div class="controls">
+        {{ form.projectdescr }}
+        <span class="help-inline">{{form.projectdescr.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.resources.errors %}error{% endif %}">
+      <label class="control-label" for="id_resources">Estimate of resources required (for example, how many CPUs and storage space)*
+</label>
+      <div class="controls">
+        {{ form.resources }}
+        <span class="help-inline">{{form.resources.errors}}</span>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <div class="controls">
+	<button type="submit" class="btn btn-warning">Submit Application</button>
+      </div>
+    </div>
+
+    
+
+  </fieldset>
+
+</form>
+{% endblock %}
+ 
+{% block js %}
+
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+  $(document).ready(function() {
+  $("#nav-apply").attr('class', 'active')
+  });
+</script>
+{% endblock %}

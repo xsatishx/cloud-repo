@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Incorrect NAAN{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Incorrect NAAN</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="span12">
+<p>
+We are not the NAAN for the ARK key you entered. 
+</p>
+<p>
+The ARK provided has a NAAN of {{ naan }}, the NAAN for the Open Cloud Consortium is 31807. 
+</p>
+<p>
+Please see the California Digital Library's list of <a href="http://www.cdlib.org/uc3/naan_table.html">registered NAANs</a>. <a href="/keyservice">Try another ARK</a>
+</p>
+</div>
+{% endblock %}

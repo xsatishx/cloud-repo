@@ -1,0 +1,5 @@
+export EC2_URL="http://127.0.0.3:8773/services/Eucalyptus"
+export EC2_ACCESS_KEY="test"
+export EC2_SECRET_KEY="test"
+# just here for no reason
+export EC2_USER_ID='8676152089906830494'

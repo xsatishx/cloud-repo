@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Instance Overview{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Overview") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include "horizon/common/_quota_summary.html" %}
+  {% include "horizon/common/_usage_summary.html" %}
+  <p><a href="?month={{ form.cleaned_data.month }}&year={{ form.cleaned_data.year }}&format=csv" id="tenant_usage__action_csv_summary" class="btn btn-small btn-download">Download CSV Summary</a></p>
+  <!-- {{ table.render }} shows empty table plus "download CSV" button. TODO: get just the button to show. -->
+{% endblock %}

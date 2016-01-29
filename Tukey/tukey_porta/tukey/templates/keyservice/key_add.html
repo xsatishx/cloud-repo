@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Key Service{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h1>Add Key</h1>
+</header>
+{% endblock %}
+
+{% block main %}
+{% if success %}
+<div class="span12">
+	<p>{{ success }}
+</div>
+{% endif %}
+<div class="span12">
+<form action="." method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</div>
+
+{% endblock %}

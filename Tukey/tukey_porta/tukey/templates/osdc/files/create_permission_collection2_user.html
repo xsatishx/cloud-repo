@@ -1,0 +1,11 @@
+{% extends 'osdc/files/file_base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Share a Collection of Collections With a User" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Share a Collection of Collections With a User") %}
+{% endblock page_header %}
+
+{% block main %}
+  {% include 'osdc/files/_create_permission_collection2_user.html' %}
+{% endblock %}

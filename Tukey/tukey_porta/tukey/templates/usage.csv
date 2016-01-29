@@ -1,0 +1,16 @@
+Usage Report For Period:,{{ usage.start|date:"b. d Y" }},{{ usage.end|date:"b. d Y" }} 
+
+{% comment %}
+Total Active VCPUs:,{{ usage.summary.instances }}
+CPU-HRs Used:,{{ usage.summary.vcpu_hours }}
+Total Active Ram (MB):,{{ usage.summary.memory_mb }}
+Total Disk Size:,{{ usage.summary.local_gb }}
+Total Disk Usage:,{{ usage.summary.disk_gb_hours }}
+
+Username:, {{ usage.user }}
+{% endcomment %}
+Tenant ID:,{{ usage.tenant_id }}
+
+{% for key,value in usage.summary.items %}{% if value != -1 and key != 'memory_mb' and key != 'instances' and key != 'local_gb' and key != 'disk_gb_hours' and key != 'vcpus' and key != 'vcpu_hours' and key != 'cloud_cores' and key != 'cloud_du' and key != 'hadoop_hdfsdu' and key != 'hadoop_jobs'%}{{ key }},{{ value }} 
+{% endif %}{% endfor %}
+

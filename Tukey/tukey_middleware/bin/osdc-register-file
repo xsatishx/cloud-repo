@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+
+#  Copyright 2013 Open Cloud Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+
+''' Register files or collections of IDs with the ID service and get an ID
+back.'''
+
+import argparse
+import json
+import os
+import socket
+import sys
+
+from tukey_middleware.tools_utils import add_openstack_env, TokenFileClient
+
+def main():
+    ''' register a file on the local filesystem or in Swift with the id
+    service '''
+    parser = argparse.ArgumentParser(
+            description="puts filepath into id system and returns id")
+    parser.add_argument("filepath", nargs="*")
+    parser.add_argument("-d", dest="id_service",
+            default="http://%s:8774" % socket.gethostbyname(
+            socket.gethostname()), type=str)
+    parser.add_argument("-i", dest="interface", type=str)
+    parser.add_argument("-p", dest="protocol", type=str)
+    parser.add_argument("-c", "--collection", action="store_true")
+    parser.add_argument("--public", action="store_true")
+    parser.add_argument("--make-collection", action="store_true")
+
+    add_openstack_env(parser)
+    args = parser.parse_args()
+
+    acl = {
+        "acl": [{
+            "grantee": {
+                "type": "tenant_name",
+                "id": "AllUsers"
+            },
+            "permission": "read"
+        }]} if args.public else {}
+
+    filepaths = []
+    sizes = []
+    if not args.collection and args.protocol != "swift":
+        for raw_path in args.filepath:
+            if not os.path.exists(args.filepath):
+                print >> sys.stderr, "File %s does not exits" % raw_path
+                exit(127)
+        filepaths.append(os.path.abspath(raw_path))
+        sizes.append(os.path.getsize(filepaths[-1]))
+    else:
+        for raw_path in args.filepath:
+            filepaths.append(raw_path)
+            sizes.append(0)
+
+    ids = []
+    with TokenFileClient(args, path='~/.id_service_auth_token') as client:
+        if args.collection:
+            print client.register_collection(args.filepath[0], extra=acl)
+        else:
+            for filepath, size in zip(filepaths, sizes):
+                extra = {"size": size}
+                extra.update(acl)
+                ids.append(client.register(filepath, args.protocol,
+                        extra=extra))
+     
+    if args.make_collection:
+        print client.register_collection(json.dumps(ids), extra=acl)
+    else:
+        for uuid in ids:
+            print uuid
+          
+ 
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,17 @@
+{% extends 'osdc/files/file_base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Files" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Files") %}
+{% endblock page_header %}
+
+{% block main %}
+  <div class="files">
+    {{ files_table.render }}
+  </div>
+  <div class="collection_files">
+    {{ collection_files_table.render }}
+  </div>
+{% endblock %}

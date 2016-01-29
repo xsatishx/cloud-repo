@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block meta_title %}OSDC Invited Application{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Apply for an Invited OSDC Account</h2>
+  <p>
+    Please fill out this form to apply for invited access to the Open Science Data Cloud. A member from the OSDC team will be in touch with you within 48 business hours. If you have any questions about the application process, please contact us at <SCRIPT TYPE="text/javascript"> document.write('accounts' + '@' + 'opencloudconsortium.org') </SCRIPT>. Thank you.
+  </p>
+</header>
+{% endblock %}
+
+{% block main %}
+
+<form action="/apply/invited/" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+  <fieldset>
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+      <label class="control-label" for="id_name">Name*</label>
+      <div class="controls">
+	{{ form.name }}
+	<span class="help-inline">{{form.name.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.email.errors %}error{% endif %}">
+      <label class="control-label" for="id_email">E-mail Address*</label>
+      <div class="controls">
+	{{ form.email}}
+        <span class="help-inline">{{form.email.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.organization.errors %}error{% endif %}">
+      <label class="control-label" for="id_organization">Organization/University*</label>
+      <div class="controls">
+	{{ form.organization }}
+	<span class="help-inline">{{form.organization.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.webpage.errors %}error{% endif %}">
+      <label class="control-label" for="id_webpage">Web Page</label>
+      <div class="controls">
+        {{ form.webpage }}
+        <span class="help-inline">{{form.webpage.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.phonenumber.errors %}error{% endif %}">
+      <label class="control-label" for="id_phonenumber">Phone Number</label>
+      <div class="controls">
+        {{ form.phonenumber }}
+        <span class="help-inline">{{form.phonenumber.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.address.errors %}error{% endif %}">
+      <label class="control-label" for="id_address">Address</label>
+      <div class="controls">
+        {{ form.address }}
+        <span class="help-inline">{{form.address.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group control-group-min {% if form.systems.errors %}error{% endif %}">
+      <label class="control-label" for="id_system">Access Requested*</label>
+      <div class="controls">
+        {{ form.systems }}
+        <span class="help-inline">{{form.system.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="id_system">Extra Forms for OCC-Y</label>
+      <div class="controls">
+        <span class="text-block">
+	  The OCC-Y Cluster is owned and operated by the OCC, and the equipment is donated by Yahoo! Inc. If you are applying for an account on the OCC-Y Cluster, please complete the following three application forms and email them to <SCRIPT TYPE="text/javascript"> document.write('accounts' + '@' + 'opencloudconsortium.org') </SCRIPT>:
+	  <ul>
+	    <li><a href="http://opencloudconsortium.org/files/2011/09/account-request.pdf">Account Request</a></li>
+	    <li><a href="http://opencloudconsortium.org/files/2011/09/research-project-description.pdf">Research Project Description</a></li>
+	    <li><a href="http://opencloudconsortium.org/files/2011/09/occ-y-cluster-terms-of-use.pdf">Terms of Use</a></li>
+	    </ul>
+
+        </span>
+      </div>
+    </div>
+
+
+    <div class="control-group {% if form.projectname.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectname">Project Name*</label>
+      <div class="controls">
+        {{ form.projectname }}
+        <span class="help-inline">{{form.projectname.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectlead.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectlead">Project Lead*</label>
+      <div class="controls">
+        {{ form.projectlead }}
+        <span class="help-inline">{{form.projectlead.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectlead_email.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectlead_email">Project Lead E-mail*</label>
+      <div class="controls">
+        {{ form.projectlead_email }}
+        <span class="help-inline">{{form.projectlead_email.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.projectdescr.errors %}error{% endif %}">
+      <label class="control-label" for="id_projectdescr">Brief Project Description*</label>
+      <div class="controls">
+        {{ form.projectdescr }}
+        <span class="help-inline">{{form.projectdescr.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group {% if form.resources.errors %}error{% endif %}">
+      <label class="control-label" for="id_resources">Estimate of resources required (for example, how many CPUs and storage space)*
+</label>
+      <div class="controls">
+        {{ form.resources }}
+        <span class="help-inline">{{form.resources.errors}}</span>
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.pubkey.errors %}error{% endif %}">
+      <label class="control-label" for="id_pubkey">SSH public key*</label>
+      <div class="controls">
+        {{ form.pubkey }}
+        <span class="help-inline">{{form.pubkey.errors}}</span>
+	<span class="help-block">The OSDC uses ssh keys for authentication. If you do not know how to generate a key pair, please see <a href="http://www.bionimbus.org/tutorials/#tutorial-ssh">this tutorial</a>.</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+	<button type="submit" class="btn btn-warning">Submit Application</button>
+      </div>
+    </div>
+
+    
+
+  </fieldset>
+
+</form>
+{% endblock %}

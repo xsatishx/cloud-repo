@@ -1,0 +1,19 @@
+{
+  "name": "pdcv3_computenode",
+  "description": "Compute Node",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv3]",
+    "recipe[nova-client-pdc::pdcv3]",
+    "recipe[lac-iptables::pdcv3]",
+    "recipe[ceph::pdcv3-computenode]"
+  ],
+  "env_run_lists": {
+  }
+}
+

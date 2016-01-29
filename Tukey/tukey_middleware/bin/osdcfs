@@ -1,0 +1,398 @@
+#!/usr/bin/env python
+
+#  Copyright 2013 Open Cloud Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+''' Python Fuse ID Service file system.
+    This is experimental but you can use it to read local files with no
+    performance overhead.
+'''
+
+from fuse import Fuse
+from time import time
+from tukey_middleware.modules.ids.object_info import LocalFile, SwiftObject
+from tukey_middleware.tools_utils import add_openstack_env, TokenFileClient
+
+import argparse
+import errno
+import fuse
+import logging
+import logging.handlers
+import stat
+import sys
+
+
+fuse.fuse_python_api = (0, 2)
+
+
+def get_logger(level=logging.DEBUG, file_name="/tmp/osdcfs.log"):
+    '''Return a python logger formatted according to local settings or args '''
+
+    logger = logging.getLogger('osdcfs')
+
+    if (not logger.handlers) or logger.handlers[0].baseFilename != file_name:
+        logger.setLevel(level)
+
+        log_file = logging.handlers.WatchedFileHandler(file_name)
+
+        logger.addHandler(log_file)
+
+    return logger
+
+
+def id_from_path(path):
+    ''' Given a file system path return just the id portion. '''
+    return path.split('/')[-1]
+
+
+class DefaultStat(fuse.Stat):
+    ''' Default directory attributes. '''
+
+    def __init__(self):
+        self.st_mode = stat.S_IFDIR | 0444
+        self.st_ino = 0
+        self.st_dev = 0
+        self.st_nlink = 2
+        self.st_uid = 0
+        self.st_gid = 0
+        self.st_size = 4096
+        self.st_atime = 0
+        self.st_mtime = 0
+        self.st_ctime = 0
+
+
+class FileInfoCache(object):
+    ''' Simple file_info caching mechanism.  Need to expire the cache.'''
+
+    def __init__(self, client, log, flatten=False, display_attr="id"):
+        self.cache = {}
+        self.client = client
+        self.log = log
+        self.flatten = flatten
+        self.display_attr = display_attr
+
+    def get(self, path):
+        ''' look up the file_info object in the dictionary'''
+        uuid = id_from_path(path)
+        if uuid not in self.cache:
+            self.client.log = self.log
+            try:
+                id_info = self.client.get_id_info(uuid,
+                        as_ids=(not self.flatten))
+                uuid = getattr(id_info, self.display_attr, uuid)
+                self.cache[uuid] = id_info
+
+                if type(self.cache[uuid]) is list:
+                    for i in self.cache[uuid]:
+                        if type(i) is list:
+                            for j in i:
+                                self.cache[getattr(j, self.display_attr)] = j
+                        else:
+                            self.cache[getattr(i, self.display_attr)] = i
+
+            # FUSE swallows exceptions. Catch all so we can see what happened
+            except Exception, e:
+                self.log.info(e)
+            self.log.debug(self.cache[uuid])
+            if not type(self.cache[uuid]) is list:
+                self.cache[uuid].logger = get_logger()
+        self.log.debug("returning the info for uuid %s", uuid)
+        return self.cache[uuid]
+
+    def values(self):
+        ''' List all the cached entries '''
+        return self.cache.values()
+
+    def remove(self, path):
+        ''' close the file_info object and remove entry from the cache '''
+        uuid = id_from_path(path)
+        self.cache[uuid].close()
+        del self.cache[uuid]
+
+
+class IdFS(Fuse):
+    ''' ID fs poc '''
+
+    def __init__(self, *args, **kw):
+
+        #zany arg handling
+        self.client = kw.pop("client")
+        self.log = kw.pop("log")
+        self.flatten = kw.pop("flatten")
+        self.cloudfuse = kw.pop("cloudfuse")
+
+        self.display_attr = "name" if kw.pop("names") else "id"
+
+        Fuse.__init__(self, *args, **kw)
+
+        self.dirs = ['.', '..']
+
+        self.log.debug("Init complete")
+
+        self.cache = FileInfoCache(self.client, self.log, flatten=self.flatten,
+                display_attr=self.display_attr)
+
+    def _is_link(self, file_info):
+        ''' Determine if this file should be treated as a symbolic link for
+        performance optimization '''
+        return type(file_info) is LocalFile or\
+                type(file_info) is SwiftObject and self.cloudfuse
+
+    def getattr(self, path):
+        file_stat = DefaultStat()
+        file_stat.st_atime = int(time())
+        file_stat.st_mtime = file_stat.st_atime
+        file_stat.st_ctime = file_stat.st_atime
+
+        self.log.debug("getattr %s", path)
+
+        if path[1:] in self.dirs or path == "/":
+            return file_stat
+
+        self.log.debug("the id is %s", id_from_path(path))
+        try:
+            file_info = self.cache.get(path)
+            self.log.debug(file_info)
+
+            if type(file_info) is list:
+                return file_stat
+
+            self.log.debug("protocol %s", file_info.protocol)
+
+        except Exception, e:
+            self.log.debug("Problem getting ID from %s Exceptions: %s %s",
+                    path, e.message)
+            return -errno.ENOENT
+
+        if self._is_link(file_info):
+            file_stat.st_mode = stat.S_IFLNK | 0755
+            file_stat.st_size = 1
+        else:
+            file_stat.st_mode = stat.S_IFREG | 0755
+            file_stat.st_size = int(file_info.size)
+            self.log.debug("size %s", file_info.size)
+        file_stat.st_nlink = 1
+
+        return file_stat
+
+    def node_entry(self, id_info):
+        ''' check cache and return fuse.Direntry based on display name of
+        id_info object '''
+        self.log.debug("dir entry for %s", getattr(id_info, self.display_attr))
+        #self.cache.get(id_info.id)
+        return fuse.Direntry(str(getattr(id_info, self.display_attr)))
+
+    def _recursive_dentries(self, collection):
+        ''' flatten collections of collections '''
+        if type(collection) is list:
+            for i in collection:
+                for j in self._recursive_dentries(i):
+                    yield j
+        else:
+            yield self.node_entry(collection)
+
+    def _dentries(self, collection):
+        ''' flatten collections of collections '''
+        if type(collection) is list:
+            for i in collection:
+                try:
+                    yield self.node_entry(i)
+                except AttributeError:
+                    yield fuse.Direntry(str(i))
+            #for i in collection:
+            #    yield fuse.Direntry(str(path))
+        else:
+            yield self.node_entry(collection)
+
+    def readdir(self, path, offset):
+        ''' read directory for like ls '''
+        try:
+            self.log.debug("called readdir %s", path)
+
+            if path == "/":
+                file_info = [i for i in self.cache.values()
+                        if not type(i) is list]
+            else:
+                file_info = self.cache.get(path)
+
+            for i in self.dirs:
+                yield fuse.Direntry(i)
+            if self.flatten:
+                for i in self._recursive_dentries(file_info):
+                    yield i
+            else:
+                for i in self._dentries(file_info):
+                    yield i
+        except:
+            for r in self.dirs:
+                yield fuse.Direntry(r)
+
+    def getdir(self, path):
+        ''' return file '''
+        self.log.debug('getdir %s', path)
+        return -errno.ENOSYS
+
+    def mythread(self):
+        self.log.debug('*** mythread')
+        return -errno.ENOSYS
+
+    def chmod(self, path, mode):
+        self.log.debug('*** chmod %s %s', path, oct(mode))
+        return -errno.ENOSYS
+
+    def chown(self, path, uid, gid):
+        self.log.debug('*** chown %s %s %s', path, uid, gid)
+        return -errno.ENOSYS
+
+    def fsync(self, path, isFsyncFile):
+        self.log.debug('*** fsync %s %s', path, isFsyncFile)
+        return -errno.ENOSYS
+
+    def link(self, targetPath, linkPath):
+        self.log.debug('*** link %s %s', targetPath, linkPath)
+        return -errno.ENOSYS
+
+    def mkdir(self, path, mode):
+        self.log.debug('*** mkdir %s %s', path, oct(mode))
+        return -errno.ENOSYS
+
+    def mknod(self, path, mode, dev):
+        ''' Allow the user to cp files into the fs with the understanding that
+        they will be uploaded to swift??? and then the cp destination arg will
+        now be a file containing the id!?!'''
+
+        self.log.debug('*** mknod %s %s %s', path, oct(mode), dev)
+
+        return -errno.ENOSYS
+
+    def open(self, path, flags):
+        self.log.debug('*** open %s %s', path, flags)
+        try:
+            file_info = self.cache.get(path)
+        except AttributeError:
+            self.log.info('could not open %s %s', path, flags)
+            return -1
+        self.log.debug('successfully opened %s %s', path, flags)
+        return 0
+
+    def read(self, path, length, offset):
+        ''' Read length bytes at offset of object. Note read can be called
+        from multiple threads and needs to be thread safe'''
+        self.log.debug('*** read %s %s %s', path, length, offset)
+        file_info = self.cache.get(path)
+        return file_info.read(read_bytes=length, offset=offset)
+
+    def readlink(self, path):
+        ''' When the file_info pointed to by the ID is a local file it is
+        presented as a symbolic link.  In this and other cases we assume
+        that if the file is being served as a link its pointer has a path
+        attribute'''
+        self.log.debug('*** readlink %s', path)
+        file_info = self.cache.get(path)
+        if type(file_info) is LocalFile:
+            self.log.debug(file_info.path)
+            return str(file_info.path)
+        if type(file_info) is SwiftObject:
+            link = str("%s/%s/%s" % (self.cloudfuse,
+                    file_info.swift_info["container"],
+                    file_info.swift_info["object"]))
+            self.log.debug(link)
+            return link
+
+    def release(self, path, flags):
+        self.log.debug('*** release %s %s', path, flags)
+        self.cache.remove(path)
+        return -errno.ENOSYS
+
+    def rename(self, oldPath, newPath):
+        self.log.debug('*** rename %s', oldPath, newPath)
+        return -errno.ENOSYS
+
+    def rmdir(self, path):
+        self.log.debug('*** rmdir %s', path)
+        return -errno.ENOSYS
+
+    def statfs(self):
+        self.log.debug('*** statfs')
+        return -errno.ENOSYS
+
+    def symlink(self, targetPath, linkPath):
+        self.log.debug('*** symlink %s %s', targetPath, linkPath)
+        return -errno.ENOSYS
+
+    def truncate(self, path, size):
+        self.log.debug('*** truncate %s %s', path, size)
+        return -errno.ENOSYS
+
+    def unlink(self, path):
+        self.log.debug('*** unlink %s %s', path)
+        return -errno.ENOSYS
+
+    def utime(self, path, times):
+        self.log.debug('*** utime %s %s', path, times)
+        return -errno.ENOSYS
+
+    def write(self, path, buf, offset):
+        self.log.debug('write %s %s %s', path, buf, offset)
+        file_info = self.cache.get(path)
+        outlen = int(file_info.write(write_buffer=buf, offset=offset))
+        self.log.debug('*** wrote %s', outlen)
+        return outlen
+
+
+def main():
+    ''' start fuse file system client over id service '''
+
+    parser = argparse.ArgumentParser(
+            description="mount id service file system")
+    parser.add_argument("-l", dest="login_name", type=str)
+    parser.add_argument("-i", dest="interface", type=str)
+    parser.add_argument("--cloudfuse", type=str)
+    parser.add_argument("-d", dest="id_service",
+            default="http://127.0.0.1:8774", type=str)
+    parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--flatten", action="store_true")
+    parser.add_argument("-f", action="store_true")
+    parser.add_argument("--no_token", action="store_true")
+    parser.add_argument("--names", action="store_true")
+
+    add_openstack_env(parser)
+
+    args = parser.parse_args()
+    old_argv = sys.argv
+
+    log = get_logger(level=logging.DEBUG if args.debug else logging.INFO)
+
+    #TODO need to handle two sets of arugments: this app and fuse
+    sys.argv = [sys.argv[0]]
+    if args.f:
+        sys.argv.append("-f")
+    sys.argv.append(old_argv[-1])
+
+    path = None if args.no_token else '~/.id_service_auth_token'
+
+    with TokenFileClient(args, path=path) as client:
+        log.debug("User %s", client.username)
+        log.debug("tenant %s" , client.tenant_name)
+        log.debug("password %s", client.password)
+        file_system = IdFS(client=client, log=log, cloudfuse=args.cloudfuse,
+                flatten=args.flatten, names=args.names,
+                version="%prog " + fuse.__version__, usage="whatever")
+
+        file_system.parse(values=file_system, errex=1)
+        file_system.main()
+
+
+if __name__ == "__main__":
+    main()

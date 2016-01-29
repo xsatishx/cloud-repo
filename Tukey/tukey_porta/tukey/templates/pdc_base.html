@@ -1,0 +1,62 @@
+{% load branding i18n nav_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <title>{% block title %}{% endblock %} - {% site_branding %}</title>
+    {% include "horizon/_conf.html" %}
+    {% block css %}
+    {% include "_stylesheets.html" %}
+    {% endblock %}
+    {% include "horizon/client_side/_script_loader.html" %}
+     <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34483848-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body id="{% block body_id %}{% endblock %}">
+    {% show_nav 'console' %}
+    {% block content %}
+    {% include "osdc/_osdc_console_menu.html" %}
+    <div class='container'>
+      <div class='row row-header'>
+      <div class='span12'>
+          {% block page_header %}{% endblock %}
+        </div>
+      </div>
+      <div class='row'>
+      <div class='span12'>
+        {% include "horizon/_messages.html" %}
+        {% block main %}{% endblock %}
+      </div>
+      </div>
+    </div>
+    {% endblock %}
+
+    <div id="main-footer">
+      <div class="modal-footer">
+      <div class="container">
+         <span><a href="http://www.uchicago.edu/"><img style="vertical-align:middle" src="/static/dashboard/img/uchicago.png" alt="the University of Chicago"></a></span>
+<img style="vertical-align:middle" src="/static/dashboard/img/divider.png" alt="divider">
+    <a href="http://opencloudconsortium.org/"><img style="vertical-align:middle" src="/static/occ_logo_sm.png" alt="Open Cloud Consortium"></a> <span>and made possible by our <a href="https://www.opensciencedatacloud.org/sponsors/"> sponsors.</a></span>
+      </div>
+      </div>
+      {% block footer %}{% endblock %}
+    </div>
+
+    {% block js %}
+    {% include "horizon/_scripts.html" %}
+    <script type="text/javascript">
+    $("#nav-console").attr('class', 'active')
+    </script>
+    {% endblock %}
+    <div id="modal_wrapper"></div>
+  </body>
+</html>

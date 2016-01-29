@@ -1,0 +1,2 @@
+ftp.sra.ebi.ac.uk/vol1/fastq/ERR188/ERR188021/ERR188021_1.fastq.gz:ftp.sra.ebi.ac.uk/vol1/fastq/ERR188/ERR188021/ERR188021_2.fastq.gz
+ftp.sra.ebi.ac.uk/vol1/fastq/ERR188/ERR188022/ERR188022_1.fastq.gz:ftp.sra.ebi.ac.uk/vol1/fastq/ERR188/ERR188022/ERR188022_2.fastq.gz

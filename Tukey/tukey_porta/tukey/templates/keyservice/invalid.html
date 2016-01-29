@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Invalid ARK{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Invalid ARK</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="span12">
+The ARK you provided "{{ key }}" is invalid. <a href="https://wiki.ucop.edu/display/Curation/ARK">Learn more about ARKs and their syntax.</a> <a href="/keyservice">Try another ARK.</a>
+</div>
+{% endblock %}

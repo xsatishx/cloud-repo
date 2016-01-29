@@ -1,0 +1,271 @@
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    clockSkew="180">
+
+    <!--
+    By default, in-memory StorageService, ReplayCache, ArtifactMap, and SessionCache
+    are used. See example-shibboleth2.xml for samples of explicitly configuring them.
+    -->
+
+    <!--
+    To customize behavior for specific resources on Apache, and to link vhosts or
+    resources to ApplicationOverride settings below, use web server options/commands.
+    See https://spaces.internet2.edu/display/SHIB2/NativeSPConfigurationElements for help.
+
+    For examples with the RequestMap XML syntax instead, see the example-shibboleth2.xml
+    file, and the https://spaces.internet2.edu/display/SHIB2/NativeSPRequestMapHowTo topic.
+    -->
+
+    <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
+    <ApplicationDefaults entityID="https://www.opensciencedatacloud.org/shibboleth"
+                         REMOTE_USER="eppn persistent-id targeted-id">
+
+        <!--
+        Controls session lifetimes, address checks, cookie handling, and the protocol handlers.
+        You MUST supply an effectively unique handlerURL value for each of your applications.
+        The value defaults to /Shibboleth.sso, and should be a relative path, with the SP computing
+        a relative value based on the virtual host. Using handlerSSL="true", the default, will force
+        the protocol to be https. You should also add a cookieProps setting of "; path=/; secure"
+        in that case. Note that while we default checkAddress to "false", this has a negative
+        impact on the security of the SP. Stealing cookies/sessions is much easier with this disabled.
+        -->
+        <Sessions lifetime="28800" timeout="3600" checkAddress="false"
+            handlerURL="/Shibboleth.sso" handlerSSL="true" relayState="ss:mem"
+            exportLocation="http://localhost/Shibboleth.sso/GetAssertion" exportACL="127.0.0.1"
+            idpHistory="false" idpHistoryDays="7">
+
+            <!--
+            Configures SSO for a default IdP. To allow for >1 IdP, remove
+            entityID property and adjust discoveryURL to point to discovery service.
+            (Set discoveryProtocol to "WAYF" for legacy Shibboleth WAYF support.)
+            You can also override entityID on /Login query string, or in RequestMap/htaccess.
+            -->
+
+            <!-- The old way we were doing it
+            <SSO discoveryProtocol="WAYF" discoveryURL="https://wayf.incommonfederation.org/DS/WAYF">
+                SAML2 SAML1
+            </SSO>
+
+            <Logout>SAML2 Local</Logout>
+                -->
+
+
+            <!-- Default directs to a specific IdP (favoring SAML 2 over Shib 1). -->
+            <SessionInitiator type="Chaining" Location="/Login" isDefault="true" id="Login" >
+
+
+                <SessionInitiator type="SAML2" ECP="true" template="bindingTemplate.html"/>
+                <SessionInitiator type="Shib1"/>
+                <!--
+                To allow for >1 IdP, remove entityID property from Chaining element and add
+                *either* of the SAMLDS or WAYF handlers below:
+                -->
+
+                <SessionInitiator type="SAMLDS" URL="https://wayf.incommonfederation.org/DS/WAYF"/>
+
+                <!--
+                <SessionInitiator type="WAYF" URL="https://wayf.incommonfederation.org/DS/WAYF"/>
+                -->
+            </SessionInitiator>
+
+            <!--
+            md:AssertionConsumerService locations handle specific SSO protocol bindings,
+            such as SAML 2.0 POST or SAML 1.1 Artifact. The isDefault and index attributes
+            are used when sessions are initiated to determine how to tell the IdP where and
+            how to return the response.
+            -->
+            <md:AssertionConsumerService Location="/SAML2/POST" index="1"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"/>
+            <md:AssertionConsumerService Location="/SAML2/POST-SimpleSign" index="2"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"/>
+            <md:AssertionConsumerService Location="/SAML2/Artifact" index="3"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"/>
+            <md:AssertionConsumerService Location="/SAML2/ECP" index="4"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS"/>
+            <md:AssertionConsumerService Location="/SAML/POST" index="5"
+                Binding="urn:oasis:names:tc:SAML:1.0:profiles:browser-post"/>
+            <md:AssertionConsumerService Location="/SAML/Artifact" index="6"
+                Binding="urn:oasis:names:tc:SAML:1.0:profiles:artifact-01"/>
+
+
+           <!-- LogoutInitiators enable SP-initiated local or global/single logout of sessions. -->
+            <LogoutInitiator type="Chaining" Location="/Logout">
+                <LogoutInitiator type="SAML2" template="bindingTemplate.html"/>
+                <LogoutInitiator type="Local"/>
+            </LogoutInitiator>
+
+            <!-- md:SingleLogoutService locations handle single logout (SLO) protocol messages. -->
+            <md:SingleLogoutService Location="/SLO/SOAP"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"/>
+            <md:SingleLogoutService Location="/SLO/Redirect" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"/>
+            <md:SingleLogoutService Location="/SLO/POST" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"/>
+            <md:SingleLogoutService Location="/SLO/Artifact" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"/>
+
+            <!-- md:ManageNameIDService locations handle NameID management (NIM) protocol messages. -->
+            <md:ManageNameIDService Location="/NIM/SOAP"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"/>
+            <md:ManageNameIDService Location="/NIM/Redirect" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"/>
+            <md:ManageNameIDService Location="/NIM/POST" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"/>
+            <md:ManageNameIDService Location="/NIM/Artifact" conf:template="bindingTemplate.html"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact"/>
+
+            <!--
+            md:ArtifactResolutionService locations resolve artifacts issued when using the
+            SAML 2.0 HTTP-Artifact binding on outgoing messages, generally uses SOAP.
+            -->
+            <md:ArtifactResolutionService Location="/Artifact/SOAP" index="1"
+                Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"/>
+
+            <!-- Extension service that generates "approximate" metadata based on SP configuration. -->
+            <!-- <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/> -->
+            <Handler type="MetadataGenerator" Location="/Metadata" signing="false">
+                <DiscoveryResponse xmlns="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol" Location="https://www.opensciencedatacloud.org/Shibboleth.sso/DS" index="1"/>
+                <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+                    <mdui:DisplayName xml:lang="en">Open Science Data Cloud Console</mdui:DisplayName>
+                </mdui:UIInfo>
+                <md:AttributeConsumingService index="1"  xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+                    <md:ServiceName xml:lang="it">Open Science Data Cloud Console</md:ServiceName>
+                    <md:RequestedAttribute FriendlyName="eduPersonPrincipalName" Name="urn:mace:dir:attribute-def:eduPersonPrincipalName" NameFormat="urn:mace:shibboleth:1.0:attributeNamespace:uri"/>
+                    <md:RequestedAttribute FriendlyName="eduPersonPrincipalName" Name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"/>
+                </md:AttributeConsumingService>
+                <md:Organization>
+                    <md:OrganizationName xml:lang="en">Open Cloud Consortium (OCC)</md:OrganizationName>
+                    <md:OrganizationDisplayName xml:lang="en">Open Cloud Consortium (OCC)</md:OrganizationDisplayName>
+                    <md:OrganizationURL xml:lang="en">http://www.opencloudconsortium.org/</md:OrganizationURL>
+                </md:Organization>
+                <md:ContactPerson contactType="technical">
+                    <md:GivenName>Raymond Powell</md:GivenName>
+                    <md:EmailAddress>support@opensciencedatacloud.org</md:EmailAddress>
+                </md:ContactPerson>
+                <md:ContactPerson contactType="administrative">
+                    <md:GivenName>Walt Wells</md:GivenName>
+                    <md:EmailAddress>support@opensciencedatacloud.org</md:EmailAddress>
+                </md:ContactPerson>
+            </Handler>
+
+            <!-- Status reporting service. -->
+            <Handler type="Status" Location="/Status" acl="127.0.0.1"/>
+
+            <!-- Session diagnostic service. -->
+            <Handler type="Session" Location="/Session" showAttributeValues="false"/>
+
+            <!-- JSON feed of discovery information. -->
+            <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
+        </Sessions>
+
+        <!--
+        Allows overriding of error template information/filenames. You can
+        also add attributes with values that can be plugged into the templates.
+        -->
+       <Errors supportContact="support@opensciencedatacloud.org"
+            logoLocation="/misc/logo_sm.png"
+            styleSheet="/shibboleth-sp/main.css"/>
+
+        <!-- Example of remotely supplied batch of signed metadata. -->
+        <!--
+        <MetadataProvider type="XML" uri="http://federation.org/federation-metadata.xml"
+              backingFilePath="federation-metadata.xml" reloadInterval="7200">
+            <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+            <MetadataFilter type="Signature" certificate="fedsigner.pem"/>
+        </MetadataProvider>
+        -->
+
+        <!-- Example of locally maintained metadata. -->
+        <!--
+        <MetadataProvider type="XML" file="partner-metadata.xml"/>
+        -->
+        <MetadataProvider type="Chaining" >
+            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/etc/shibboleth/InCommon-metadata.xml" reloadInterval="7200" legacyOrgNames="true">
+
+		        <MetadataFilter type="Whitelist" matcher="EntityAttributes">
+                    <saml:Attribute Name="http://macedir.org/entity-category-support" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+                        <saml:AttributeValue>http://id.incommon.org/category/research-and-scholarship</saml:AttributeValue>
+                    </saml:Attribute>
+		        </MetadataFilter>
+
+                <SignatureMetadataFilter certificate="/etc/shibboleth/inc-md-cert.pem"/>
+<!--                <TransportOption provider="CURL" option="10004">http://128.135.159.52:3128</TransportOption> -->
+            </MetadataProvider>
+
+            <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/etc/shibboleth/InCommon-metadata.xml" reloadInterval="7200" legacyOrgNames="true">
+
+                <MetadataFilter type="Whitelist">
+                    <Include>urn:mace:incommon:duke.edu</Include>
+                    <Include>urn:mace:incommon:ucla.edu</Include>
+                    <Include>https://login.emory.edu/idp/shibboleth</Include>
+                </MetadataFilter>
+
+                <SignatureMetadataFilter certificate="/etc/shibboleth/inc-md-cert.pem"/>
+            </MetadataProvider>
+
+
+            <MetadataProvider type="XML" uri="http://metadata.ukfederation.org.uk/ukfederation-metadata.xml" backingFilePath="/etc/shibboleth/ukfederation-metadata.xml" reloadInterval="14400" legacyOrgNames="true">
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="2592000"/>
+                <!-- UK Federation has too much junk listed. Add idps here then restart shibboleth. -->
+                <!-- Of course this is bad because there will be no shib service while this is 
+                     restarting. Need to scale -->
+                <MetadataFilter type="Whitelist">
+                    <Include>https://registry.shibboleth.ox.ac.uk/idp</Include>
+                    <Include>https://athensla.uwe.ac.uk/oala/metadata</Include>
+		    <Include>https://shib-idp.ucl.ac.uk/shibboleth</Include>
+                </MetadataFilter>
+                <!-- suggested by the federation -->
+                <!--<MetadataFilter type="Signature" certificate="ukfederation.pem"/> -->
+                <SignatureMetadataFilter certificate="/etc/shibboleth/ukfederation.pem"/>
+            </MetadataProvider>
+
+            <MetadataProvider type="XML" uri="https://caf-shib2ops.ca/CoreServices/caf_metadata_signed.xml" backingFilePath="/etc/shibboleth/caf_metadata_signed.xml" reloadInterval="14400" legacyOrgNames="true">
+                <!-- show nothing in discofeed -->
+                    <!-- <MetadataFilter type="Whitelist"></MetadataFilter> -->
+                <!-- suggested by the federation -->
+                <MetadataFilter type="RequireValidUntil" maxValidityInterval="6048000"/>
+                <!-- suggested by the federation -->
+                <!--<MetadataFilter type="Signature" certificate="ukfederation.pem"/> -->
+                <MetadataFilter type="Signature" verifyName="false" certificate="caf.pem"/>
+                <SignatureMetadataFilter certificate="/etc/shibboleth/caf.pem"/>
+            </MetadataProvider>
+
+        </MetadataProvider>
+
+        <!-- Map to extract attributes from SAML assertions. -->
+        <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
+
+            <!-- Use a SAML query if no attributes are supplied during SSO. -->
+            <AttributeResolver type="Query" subjectMatch="true"/>
+
+            <!-- Default filtering policy for recognized attributes, lets other data pass. -->
+            <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+
+            <!-- Simple file-based resolver for using a single keypair. -->
+            <!-- <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/> -->
+            <CredentialResolver type="File" key="/etc/ssl/private/incommon-www.opensciencedatacloud.org.key" certificate="/etc/ssl/certs/incommon-www.opensciencedatacloud.org.crt"/>
+
+            <!--
+            The default settings can be overridden by creating ApplicationOverride elements (see
+            the https://spaces.internet2.edu/display/SHIB2/NativeSPApplicationOverride topic).
+            Resource requests are mapped by web server commands, or the RequestMapper, to an
+            applicationId setting.
+
+            Example of a second application (for a second vhost) that has a different entityID.
+            Resources on the vhost would map to an applicationId of "admin":
+            -->
+            <!--
+            <ApplicationOverride id="admin" entityID="https://admin.example.org/shibboleth"/>
+        -->
+    </ApplicationDefaults>
+
+    <!-- Policies that determine how to process and authenticate runtime messages. -->
+    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+
+    <!-- Low-level configuration about protocols and bindings available for use. -->
+    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+</SPConfig>
+

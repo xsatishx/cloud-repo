@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+{% block meta_title %}Thank You{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Thank you for submitting your registration.</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="span12">
+	<p>
+    Thanks for registering for the next scheduled OSDC Webconference Demo.  You will soon receive a calendar invite from <a href="mailto:{{ email }}">{{ email }}</a> with a link and details for this webconference.  
+Prior to the scheduled conference, feel free to apply for an <a href="/apply">account on the OSDC</a>
+	</p>
+</div>
+
+{% endblock %}

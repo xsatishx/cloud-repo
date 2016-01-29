@@ -1,0 +1,61 @@
+{% load branding i18n nav_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <title>{% block meta_title %}{% endblock %} - {% site_branding %}</title>
+    {% include "horizon/_conf.html" %}
+    {% block css %}
+    {% include "_stylesheets.html" %}
+    {% endblock %}
+    {% include "horizon/client_side/_script_loader.html" %}
+     <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34483848-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    {% show_nav content.slug %}
+    {% block content %}
+    <!-- THIS IS BASE WEB -->
+    <div class='container'>
+      {% block header %}{% endblock %}
+      {% include "horizon/_messages.html" %}
+      {% block main %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block modal-body %}
+    {% endblock %}
+
+    <div id="footer">
+      {% block footer %}
+      <div class="modal-footer osdc-footer">
+        <div class="container">
+          {% include "footer.html" %}
+        </div>
+      </div>
+      {% endblock %}
+    </div>
+
+    {% block js %}
+    {% include "horizon/_scripts.html" %}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.carousel').carousel({
+            interval: 8000,
+            cycle: true
+        });
+    });
+    </script>
+    {% endblock %}
+  </body>
+</html>
+

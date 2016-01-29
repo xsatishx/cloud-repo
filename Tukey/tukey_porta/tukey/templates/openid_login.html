@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block header %}
+<title>Sign in with your OpenID</title>
+<style type="text/css">
+input.openid {
+    background: url({% url openid:openid-logo %}) no-repeat;
+    background-position: 0 50%;
+    padding-left: 16px;
+}
+</style>
+    {% include "_stylesheets.html" %}
+{% endblock %}
+
+
+{% block main %}
+<script type="text/javascript">
+$("#nav-overview").attr('class', 'active')
+</script>
+
+
+  {% if form.errors %}
+  <p class="text-error">{% trans "Please correct errors:" %}
+      {% if form.openid_identifier.errors %}
+      <span class="error">{{ form.openid_identifier.errors|join:", " }}</span>
+      {% endif %}
+      {% if form.next.errors %}
+      <span class="error">{{ form.next.errors|join:", " }}</span>
+      {% endif %}
+  </p>
+  {% endif %}
+
+<div class="row">
+    <div class="span5 hero-unit">
+        <h3>Sign in using your OpenID provider</h3>
+
+   Choose a provider to sign in with an existing account. 
+   <a href="http://openid.net/get-an-openid/what-is-openid/">Learn more</a>
+   
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span5">
+        <form name="fopenid" action="{{ action }}" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <input name="openid_identifier" type="hidden" value="https://www.google.com/accounts/o8/id" />
+                <input name="bsignin" type="image" src="../../static/dashboard/img/googleopenid.png" value="{% trans "Sign in" %}">
+         {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+         {% endif %}
+            </fieldset>
+        </form>
+      </div>
+    
+    
+      <div class="span2">
+        <form name="fopenid" action="{{ action }}" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <input name="openid_identifier" type="hidden" value="https://yahoo.com" />
+                <input name="bsignin" type="image" src="../../static/dashboard/img/yahoo.png" value="{% trans "Sign in" %}">
+         {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+         {% endif %}
+            </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="span4 hero-unit">
+        <h3>{% trans "Sign in using your OpenID URL" %}</h3>
+
+
+  <form name="fopenid" action="{{ action }}" method="post" class="form-inline">
+      {% csrf_token %}
+      <fieldset>
+          <a href="http://openid.net/get-an-openid/start-using-your-openid/">
+            What is an OpenID URL?
+          </a>
+          <div class="form-row">
+              <label for="id_openid_identifier">{% trans "OpenID URL:" %}</label> {{ form.openid_identifier }}
+	  </div>
+          <div class="submit-row ">
+              <input name="bsignin" type="submit" value="{% trans "Sign in" %}"  class="btn btn-block btn-primary">
+          </div>
+   {% if next %}
+          <input type="hidden" name="next" value="{{ next }}" />
+   {% endif %}
+      </fieldset>
+  </form>
+ 
+  </div>
+{% endblock %}
+

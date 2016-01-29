@@ -1,0 +1,30 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_id %}new_collection2_collection_form{% endblock %}
+{% block form_action %}{% url files:create_collection2_collection %}{% endblock %}
+
+{% block modal-header %}{% trans "Add a Collection of Files to a Collection of Collections" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+    <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+    </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description:" %}</h3>
+    <p>
+        {% trans "Choose a collection and a collection or collections." %}
+    </p>
+    <p>
+        {% trans "To add a collection to a collection of collections select the collection and second level collection." %}
+    </p>
+</div>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add Collection" %}" />
+  <a href="{% url files:collection %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
+

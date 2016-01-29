@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>OSDC Query Builder</h1>
+{% endblock %}
+
+
+{% block main %}
+    <h1>OSDC Query Builder</h1>
+
+ 
+<!-- Modal -->
+<div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Choose Field</h3>
+  </div>
+  <div class="modal-body">
+
+
+    <p>
+    <select>
+    {% for field in query_fields %}
+        <option>{{field.label}}</option> {% comment %} </div>{{field.help_text}} </p> {% endcomment %}
+    {% endfor %}
+    </select>
+    {% comment %}{{ form.as_p }}{% endcomment %}
+    </p>
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn btn-primary">Add Field</button>
+  </div>
+</div>
+{% endblock %}
+
+

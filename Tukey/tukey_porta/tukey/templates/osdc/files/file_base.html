@@ -1,0 +1,42 @@
+{% load branding i18n %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <title>{% block title %}{% endblock %} - {% site_branding %}</title>
+    {% include "horizon/_conf.html" %}
+    {% block css %}
+    {% include "_stylesheets.html" %}
+    {% endblock %}
+    {% include "horizon/client_side/_script_loader.html" %}
+  </head>
+  <body id="{% block body_id %}{% endblock %}">
+    {% include "osdc/_osdc_nav.html" %}
+    {% block content %}
+    <!-- THIS IS FILE_BASE -->
+    {% include "osdc/files/_file_osdc_console_menu.html" %}
+    <div class='container'>
+      <div class='row row-header'>
+      </div>
+      <div class='row'>
+      <div class='span12'>
+        {% include "horizon/_messages.html" %}
+        {% block main %}{% endblock %}
+      </div>
+      </div>
+    </div>
+    {% endblock %}
+    
+    <div id="footer">
+      {% block footer %}{% endblock %}
+    </div>
+
+    {% block js %}
+    {% include "horizon/_scripts.html" %}
+    <script type="text/javascript">
+    $("#nav-files").attr('class', 'active')
+    </script>
+    {% endblock %}
+    <div id="modal_wrapper"></div>
+  </body>
+</html>

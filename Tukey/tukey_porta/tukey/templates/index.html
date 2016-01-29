@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block meta_title %}{% trans "Overview" %}{% endblock %}
+
+{% block header %}
+<header class="jumbotron">
+  <h1>Open Science Data Cloud</h1>
+  <p class="lead">Cloud services for the scientific community</p>
+</header>
+{% endblock %}
+
+{% block main %}
+<script type="text/javascript">
+$("#nav-overview").attr('class', 'active')
+</script>
+ 
+<div class="row main-content">
+  <div class="span4">
+    <h3 class="sub-topic">What is the OSDC?</h3>
+    <p>
+We provide and support cloud computing and storage services for the scientific research community. The OSDC is run by the <a href="http://opencloudconsortium.org/">Open Cloud Consortium</a>, a non-profit organization whose primary goal is to support scientific advances by working with researchers in a variety of disciplines. 
+    </p>
+  </div>
+
+  <div class="span4">
+    <h3 class="sub-topic">Why use the OSDC?</h3> 
+    <p>
+Our cloud services are based on the principles of openness and interoperability. The OSDC infrastructure is tailored towards the high performance storage and compute resources often required for scientific discovery. We view the OSDC as complementary to commercial cloud services available.
+    </p>
+  </div>
+
+  <div class="span4">
+    <h3 class="sub-topic">How do I get started?</h3> 
+    <p>
+First, apply for an account. Once you have an account, you can take a look at the OSDC instructions, login to the console and get started.
+    </p>
+<a href="/dev/apply" class="btn btn-large btn-block btn-warning">Apply Now</a>
+<a href="/dev/nova" class="btn btn-large btn-block btn-primary">Login to the OSDC Console</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-overview").attr('class', 'active')
+</script>
+{% endblock %}

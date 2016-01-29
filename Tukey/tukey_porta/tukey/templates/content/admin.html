@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block meta_title %}
+Content Admin
+{% endblock %}
+
+{% block header %}
+<header class="jumbotron">
+<h2>Content Admin</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <tr>
+        <th>
+            Content Page Title
+        </th>
+        <th>
+            Content Page Slug
+        </th>
+        <th colspan=3>
+            Actions
+        </th>
+    </tr>
+    {% for page in content_pages %}
+    <tr>
+        <td>
+           {{ page.title }}
+        </td>
+        <td>
+            {{ page.slug }}
+        </td>
+        <td>
+            <a href="/{{ page.slug }}">View</a>
+        </td>
+        <td>
+            <a href="edit/{{ page.slug }}">Edit</a>
+        </td>
+        <td>
+            <a href="delete/{{ page.slug }}">Delete</a>
+        </td>
+    </tr> 
+    {% endfor %} 
+    <tr>
+        <th>
+            Non Content Page Title
+        </th>
+        <th>
+            Non Content Page Slug
+        </th>
+        <th colspan=3>
+            Actions
+        </th>
+    </tr>
+    {% for page in non_content_pages %}
+    <tr>
+        <td>
+            {{ page.title }}
+        </td>
+        <td>
+            {{ page.slug }}
+        </td>
+        <td>
+            <a href="/{{ page.slug }}">View</a>
+        </td>
+        <td>
+            <a href="edit/{{ page.slug }}">Edit</a>
+        </td>
+        <td>
+            <a href="delete/{{ page.slug }}">Delete</a>
+        </td>
+    </tr> 
+    {% endfor %}
+</table>
+
+<a href="add">Add a New Page</a>
+{% endblock %}

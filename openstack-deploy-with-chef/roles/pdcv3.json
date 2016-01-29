@@ -1,0 +1,22 @@
+{
+  "name": "pdcv3",
+  "description": "Base packages for  Openstack Icehouse in PDCv3",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[base]",
+    "recipe[yates::modprobe-blacklist]",
+    "recipe[nscd]",
+    "recipe[ntp]",
+    "recipe[fail2ban]",
+    "recipe[motd]",
+    "recipe[nrpe]",
+    "recipe[bash]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+cat << EOF > /etc/sysctl.d/99.fasternet.conf
+net.core.rmem_max = 1073741824
+net.core.wmem_max = 1073741824
+net.ipv4.tcp_rmem = 4096 87380 1073741824
+net.ipv4.tcp_wmem = 4096 65536 1073741824
+net.core.netdev_max_backlog = 250000
+net.ipv4.tcp_congestion_control = cubic
+net.ipv4.tcp_mtu_probing = 1
+EOF
+
+sysctl -p /etc/sysctl.d/99.fasternet.conf
+
+ip link set dev eth0 mtu 9000
+ip link set dev eth0 qlen 10000
+ip link set dev lo mtu 9000
+ip link set dev lo qlen 10000

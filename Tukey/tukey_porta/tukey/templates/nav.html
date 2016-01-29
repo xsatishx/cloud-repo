@@ -1,0 +1,75 @@
+{% load static %}
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class='first-level' id = "nav-">
+            <a href="/" id ="nav-overview-a"><img src="{% get_static_prefix %}logo_sm.png"></a>
+          </li>
+            <i class="nav-bars fa fa-bars fa-2x"></i>
+          <div class='navs'>
+          <li class='first-level' id = "nav-help">
+            <a href="#" id="help">help</a>
+            <ul class='hide'> 
+              <li id="nav-support">
+                <a href="/support" target='_blank'>documentation</a>
+              </li>
+              <li id="nav-ticket">
+                <a href="https://support.opensciencedatacloud.org/" target='_blank'>ticketing system</a>
+              </li>
+            </ul>
+          </li>
+          <li class='first-level' id = "nav-pire">
+            <a href="/pire" id="pire">pire</a>
+          </li>
+          <li  class='first-level'id = "nav-publicdata">
+            <a href='#' id='publicdata'>public data</a>
+            <ul class='hide'>
+              <li id='nav-browse'>
+                <a href="/publicdata" id="browse">browse</a>
+              </li>
+              <li id='nav-keyservice'>
+                <a href='/keyservice' id='keyservice'>keyservice</a>
+              </li>
+            </ul>
+        
+          </li>
+          <li class='first-level' id = "nav-clouds">
+            <a href="#" id="clouds">clouds</a>
+            <ul class='hide'>
+              <li id ="nav-resources">
+                <a href="/systems">resources</a>
+              </li>
+              <li id="nav-status">
+                <a href="/status">Real-time Status</a>
+              </li>
+            </ul>
+          </li>
+          <li class='first-level' id = "nav-research">
+            <a href="#" id="research">research</a>
+            <ul class='hide'>
+            <li id="nav-projects">
+              <a href="/projects" id ="projects">large projects</a>
+            </li>
+            <li id ="nav-publications">
+              <a href="/publications" id="publications">publications</a>
+            </li>
+            
+            </ul>
+          </li>
+          <li class='first-level' id = "nav-apply">
+            <a href="/apply" id="apply">apply</a>
+          </li>
+
+          <li class='first-level' id = "nav-console">
+            <a href="/console" id="console">login</a>
+          </li>
+          </div>
+
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

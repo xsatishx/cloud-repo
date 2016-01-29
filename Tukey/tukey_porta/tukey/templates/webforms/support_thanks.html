@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Thank You{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h3>Thank you for contacting the OSDC support team.</h3>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="span12"
+<p>
+
+</p>
+<p>
+You will first receive an automated email reply to let you know we received your message. This will be followed up by a member of our team to assist you.
+</p>
+</div>
+
+{% endblock %}
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-support").attr('class', 'active')
+</script>
+{% endblock %}

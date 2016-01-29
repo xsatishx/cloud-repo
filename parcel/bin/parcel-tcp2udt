@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+from parcel.cparcel import lib, BUFFER_SIZE
+from parcel.log import get_logger
+import logging
+import argparse
+import urlparse
+import time
+
+logging.root.setLevel(logging.INFO)
+log = get_logger('client')
+
+
+def main(args):
+    if args.verbose:
+        logging.root.setLevel(logging.DEBUG)
+
+    # Parse host
+    server = args.server.pop(0)
+    p = urlparse.urlparse('//' + ''.join(urlparse.urlparse(server)[1:]))
+    port = p.port or {'https': '443', 'http': '80'}.get(p.scheme, '80')
+
+    # Start proxy
+    log.info('Binding TCP<->UDT server {}:{} -> {}:{}'.format(
+        args.host, args.port, p.hostname, port))
+    proxy = lib.tcp2udt_start_configurable(
+        str(args.host),
+        str(args.port),
+        str(p.hostname),
+        str(port),
+        int(args.mss),
+        int(args.udt_buffer_size),
+        int(args.udp_buffer_size),
+    )
+    assert proxy == 0, 'Proxy failed to start'
+    while True:
+        time.sleep(99999999)  # Block because tcp2udt_start is non-blocking
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('server', metavar='server', type=str, nargs=1,
+                        help='The url path of the data server')
+    parser.add_argument('-p', '--port', default=9000, type=int,
+                        help='parcel server port')
+    parser.add_argument('-i', '--host', default='0.0.0.0', type=str,
+                        help='parcel server port')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='verbose logging')
+    parser.add_argument('--mss', default=8400, type=int,
+                        help='maximum segment size')
+    parser.add_argument('--udt_buffer_size', default=BUFFER_SIZE*2, type=int,
+                        help='UDT buffer size in bytes')
+    parser.add_argument('--udp_buffer_size', default=BUFFER_SIZE, type=int,
+                        help='UDP buffer size in bytes')
+
+    args = parser.parse_args()
+    main(args)

@@ -1,0 +1,110 @@
+#  Copyright 2013 Open Cloud Consortium
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+
+import logging
+
+USAGE_DB_PASSWORD = 'password'
+USAGE_DB_USERNAME = 'console_ro'
+USAGE_DB_NAME = 'dashboard'
+USAGE_DB_HOST = 'localhost'
+USAGE_DB_PORT = 5432
+
+GPG_HOME = '/var/www/tukey/config/.gnupg'
+GPG_FINGERPRINT = ''
+GPG_PASSPHRASE = 'password'
+GPG_PUBKEY_DIR = "/var/www/tukey/config/middleware/keys"
+
+EUCARC_BASE = "/var/www/tukey"
+LOCAL_PORT = 8774
+
+#Account creation credentials
+AUTH_DB_NAME = 'federated_auth'
+AUTH_DB_USERNAME = 'cloudgui'
+AUTH_DB_PASSWORD = 'password'
+AUTH_DB_HOST = 'localhost'
+
+LOG_LEVEL = logging.INFO
+LOG_DIR = '/var/log/tukey'
+
+# settings for VM management "clouds"
+settings = {
+    "adler": {
+        "driver": "tukey_middleware.cloud_driver.osdc_euca.OsdcEucaDriver",
+        "name": "Adler",
+        "auth_driver_parameters": {
+            "memcache_client":  {
+                "class": "memcache.Client",
+                "params": [["localhost:11211"], 1]
+            },
+            "eucarc_path":  "/var/lib/cloudgui/users/%s/%s/.euca/eucarc"
+        }
+    },
+    "sullivan": {
+        #"driver": "tukey_middleware.cloud_driver.openstack.OpenStackDriver",
+        "driver": "tukey_middleware.cloud_driver.no_auth_openstack.NoAuthOpenStack",
+        "name": "Sullivan",
+        "auth_driver_parameters": {
+            "memcache_client":  {
+                "class": "memcache.Client",
+                "params": [["localhost:11211"], 1]
+            }
+        }
+    },
+    "atwood": {
+        "driver": "tukey_middleware.cloud_driver.openstack.OpenStackDriver",
+        "name": "Atwood",
+        "auth_driver_parameters": {
+            "memcache_client":  {
+                "class": "memcache.Client",
+                "params": [["localhost:11211"], 1]
+            }
+        }
+    }
+}
+
+ids = {
+    # name of the couch db to connect to
+    "db_name": "files"
+}
+
+metadata = {
+    "id_service": "http://localhost:8774",
+    "id_services": ["http://localhost:8774", "http://172.16.1.76:8774"]
+}
+
+# settings for pipeline automation module
+pipelines = {
+    "image": "",
+    "size": "5"
+}
+
+vm_ip_auth = {
+    "auth_db_str": "postgresql://cloudgui:password@localhost:5432/federated_auth",
+    "shared_password": "password",
+    "tukey_keystone_url": "http://localhost:5000",
+    "tukey_admin_user": "admin",
+    "tukey_admin_pass": "password",
+    "port": 5000,
+    "host": "localhost",
+    "default": "sullivan",
+    "sullivan": {
+        "keystone_admin_url": "http://localhost:35357",
+        "os_admin_user": "admin",
+        "os_admin_pass": "password",
+        "os_admin_tenant": "admin",
+        "os_admin_tenant_id": ""
+    }
+}
+

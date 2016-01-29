@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Shibboleth Info" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Shibboleth Info") %}
+{% endblock page_header %}
+
+{% block main %}
+  {{ table.render }}
+{% endblock %}

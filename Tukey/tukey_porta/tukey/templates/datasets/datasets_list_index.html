@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Public Data Commons{% endblock %}
+
+{% load util_tags %}
+
+{% block content %}
+<div class="maincontent">
+<header class="jumbotron subhead">
+  <h1>Public Data Commons</h1>
+  <div class="lead">
+    Repository for public data sets of scientific interest, hosted on the OSDC.
+    </div>
+<div class="data-lead">
+<div>
+  The OSDC has 1PB of <a href="https://www.opensciencedatacloud.org/publicdata/">public data</a>
+   in a wide variety of disciplines.&nbsp;&nbsp; These data sets are freely 
+   available and can be downloaded over the internet or high performance 
+   networks for analysis locally.&nbsp;&nbsp; Information on how to download can be found at the links below for each individual dataset.&nbsp;&nbsp; All recipients of OSDC resource 
+   allocations can also compute directly over the data in the Public Data 
+   Commons, without having to download them locally.&nbsp; Datasets hosted in the OSDC Public Data Commons are reviewed periodically as part of our <a href="https://www.opensciencedatacloud.org/support/intro.html#osdc-resource-allocations" target='_blank' >resource allocation process</a>.&nbsp;&nbsp; If you 
+   have suggestions about data that should be included, please let us know 
+   at <a href="mailto:info@occ-data.org" target="_blank">info@occ-data.org</a>.&nbsp;<wbr>&nbsp;
+</div>
+</header>
+
+{% load tz %}
+
+
+{% if keyword_filter %}
+<h3>Viewing data sets in keyword: {{ keyword_filter }} (<a href="{% url datasets:datasets_list_index %}" >View All</a>)</h3>
+{% endif %}
+
+{% if datasets %}
+    {% for dataset in datasets %}
+      <div class="span12 data-header"><h3><a href="{% url datasets:datasets_list_index %}{{ dataset.slug }}" >{{ dataset.title }}</a></h3></div>
+      <div class="span12 data-entry">{{ dataset.short_description }}</div>
+      <div class="span12 data-entry">Total Size: {{ dataset.size }}</div>
+      <div class='span12 data-entry'>Identifiers:
+        <ul>
+        {% for key,value in dataset.identifiers.iteritems %}
+        <li>{{key}}:{{value}}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="span12 data-entry">Keywords: 
+	   {% for keyword in dataset.keyword %}
+        <a href="{% url datasets:datasets_keyword keyword %}" >{{ keyword }}</a>{% if forloop.last %}{% else %}, {% endif %}
+	   {% endfor %}
+      </div>
+      <div class="span12 data-faint">Last Modified: {% timezone "UTC" %} {{ dataset.date_updated }} {% endtimezone %}UTC </div>
+    {% endfor %}
+{% else %}
+    <p>No datasets are available.</p>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-publicdata").addClass('active')
+</script> 
+</div>
+{% endblock %}

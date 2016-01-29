@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block meta_title %}
+News
+{% endblock %}
+
+{% block content %}
+
+<div class="maincontent">
+<header class="jumbotron subhead">
+    <h1>OSDC News</h1>
+</header>
+
+{% load wordpress_rss %}
+{% wordpress_rss rss_category 10 as rss_results %}
+<div class="container">
+{% for item in rss_results %}
+<div class="span12 news-story">
+    <h2 style="text-decoration: underline">
+      <a href={{ item.href }}>
+	{{ item.title }}
+      </a>
+    </h2> 
+    <!-- <div class="news-byline">Posted on {{ item.published }} by {{ item.author }}</div> -->
+    <div class="news-byline">Posted on {{ item.published }}</div><br>
+    <p>{{ item.content }}</p>
+</div>
+{% endfor %}
+</div>
+
+<!-- <h2><a href="http://news.opensciencedatacloud.org">News Archive</a></h2> -->
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$(document).ready(function() {
+$("#nav-news").attr('class', 'active')
+});
+</script>
+{% endblock %}

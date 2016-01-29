@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block meta_title %}
+Delete Page
+{% endblock %}
+
+{% block header %}
+<header class="jumbotron">
+<h2>Are you sure you want to delete the page: {{ page.slug }} | {{ page.title }}</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<a href="{{ request.get_full_path }}/YES" class="btn btn-large btn-danger" type="button">YES</a>
+<a href="/content-admin" class="btn btn-large" type="button">NO</a>
+{% endblock %}

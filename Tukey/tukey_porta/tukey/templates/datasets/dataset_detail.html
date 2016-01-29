@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Public Data Sets{% endblock %}
+
+{% block content %}
+<div class='maincontent'>
+<header class="jumbotron subhead">
+  <h1>{{dataset.title}}</h1>
+ 
+<div class="span12 data-lead">
+{{dataset.description|safe}}
+</div>
+</header>
+
+{% load tz %}
+
+
+{% if dataset.source %}
+<div class="span12 data-label"><strong>Source: </strong>
+<a href="{{ dataset.source_url }}">
+{{ dataset.source }}
+</a>
+</div>
+{% elif dataset.source_url %}
+<div class="span12 data-label"><strong>Source: </strong>
+<a href="{{ dataset.source_url }}">
+{{ dataset.source_url }}
+</a>
+</div>
+{% endif %}
+
+<div class="span12 data-label"><strong>Keywords: </strong>
+  {% for keyword in dataset.keyword %}
+  <a href="/publicdata/keyword/{{ keyword }}">{{ keyword }}</a>{% if forloop.last %}{% else %}, {% endif %}
+  {% endfor %}
+</div>
+
+<div class="span12 data-label"><strong>Size: </strong> {{dataset.size}}</div>
+<div class='span12 data-label'><strong>Identifiers:</strong>
+<ul>
+{% for key,value in dataset.identifiers.iteritems %}
+<li>{{key}}:{{value}}</li>
+{% endfor %}
+</ul>
+</div>
+
+
+<div class="span12 data-label"><strong>Last Updated: </strong>{% timezone "UTC" %} {{dataset.date_updated}} {% endtimezone %}UTC </div>
+
+
+<div class="span12 data-header"><h3>Download Instructions</h3></div>
+<div class="span12">
+<p>
+All public data sets are available on both commodity internet connections and high speed <a href="http://www.startap.net/starlight/">StarLight</a>/<a href="http://www.internet2.edu/">Internet2</a> connections. We recommend using <a href="http://rsync.samba.org/">rsync</a> or <a href="http://github.com/LabAdvComp/UDR">UDR</a> to download the data.
+
+<!--The username/password for the download account is guest/guest. -->
+
+<h4>Downloading with <a href="http://github.com/LabAdvComp/UDR">UDR</a> (UDT enabled rsync)</h4>
+<p>
+UDR is a wrapper around rsync that enables rsync to use the high performance <a href="http://udt.sourceforge.net/">UDT</a> network protocol, which can greatly improve download speeds, especially over high speed networks. Once installed, the only change is placing the udr command before the same rsync command you typically use to download the data. UDR is open source and under active development, the most recent version is available on <a href="https://github.com/LabAdvComp/UDR">github</a>. <b>At the moment, UDR is not enabled on the transfer node. The functionality should return shortly. Use rsync in the meantime.</b>
+</p>
+
+<p>
+<h4>List the contents of {{dataset.title}}:</h4>
+<ul>
+<li>Using rsync: <code>rsync publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/ </code></li>
+<li>Using udr: <code>udr rsync publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/ </code></li>
+</ul>
+
+<h4>Download/synchronize {{dataset.title}}:</h4>
+<ul>
+<li>Using rsync: <code>rsync -avzuP publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/ /path/to/local_copy</code></li>
+<li>Using udr: <code>udr rsync -avzuP publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/ /path/to/local_copy</code></li>
+</ul>
+
+<h4>Download an individual file from {{dataset.title}}:</h4>
+<ul>
+<li>Using rsync: <code>rsync -avzuP publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/remotefile /path/to/local_copy</code></li>
+<li>Using udr: <code>udr rsync -avzuP publicdata.opensciencedatacloud.org::ark:{{dataset.identifiers.ark}}/remotefile /path/to/local_copy</code></li>
+</ul>
+</p>
+</div>
+<div class="span12 data-header"><h3>OSDC Instructions</h3></div>
+<div class="span12">
+<p>
+Virtual machines on the OSDC have direct access to all of the public data sets. If you do not have a OSDC account, you can apply for one <a href="http://www.opensciencedatacloud.org/apply/">here</a>. 
+<p>
+<h4>Sullivan:</h4>
+</p>
+<p>
+The public data is located in /glusterfs/osdc_public_data.
+</p>
+<p>
+<h4>OCC-Y: </h4>
+</p>
+<p>
+The public data sets are mounted on the starlight node under <code>/mnt/pubdata</code>.
+</p>
+</div>
+<div class="span12 data-header"><h3>License/Attribution Requirements</h3></div>
+{% if dataset.license %}
+<div class="span12">
+{{dataset.license|safe}}
+</div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-publicdata").addClass('active')
+</script> 
+{% endblock %}

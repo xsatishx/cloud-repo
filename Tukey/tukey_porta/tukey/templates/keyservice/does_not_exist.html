@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block meta_title %}ARK Does Not Exist{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>ARK does not exist</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="span12">
+The ARK you entered: {{ key }} does not exist. <a href="/dev/keyservice">Try another ARK</a>
+</div>
+{% endblock %}

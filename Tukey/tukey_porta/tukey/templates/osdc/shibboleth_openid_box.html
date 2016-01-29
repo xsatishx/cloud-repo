@@ -1,0 +1,16 @@
+
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block modal-header %}
+  {% trans "Select your Organization or Institution:" %}
+{% endblock %}
+
+{% block modal_class %}
+  login
+  {% if hide %}modal hide{% endif %}
+{% endblock %}
+
+{% block modal-body %}
+  {% include 'osdc/shibboleth_openid.html' %}
+{% endblock %}

@@ -1,0 +1,4 @@
+#!/bin/sh
+cd /var/www/tukey/tukey-portal
+. .venv/bin/activate
+python tukey/import_metadata.py "$@"

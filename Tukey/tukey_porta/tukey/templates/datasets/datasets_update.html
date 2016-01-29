@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block meta_title %}Data Sets Admin{% endblock %}
+
+{% block header %}
+<header class="jumbotron subhead">
+  <h2>Editing: {{ title }} ( {{ ark_key }} )</h2>
+</header>
+{% endblock %}
+
+{% block main %}
+<form action="." method="post" class="form-horizontal">{% csrf_token %}
+{% for field in form.visible_fields %}
+<div class="control-group {% if field.errors %}error{% endif %}">
+<label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+<div class="controls">
+{{ field }}
+<span class="help-inline">{{ field.errors }}</span>
+</div>
+</div>
+{% endfor %} 
+<div class="control-group">
+<div class="controls">
+<button type="submit" class="btn">Update</button>
+<a href="{% url datasets:datasets_admin_delete ark_key %}" class="btn btn-danger">Delete Dataset</a>
+</div>
+</div>
+</form>
+{% endblock %}
+
+{% block js %}
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+$("#nav-publicdata").attr('class', 'active')
+</script> 
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_id %}new_user_group_form{% endblock %}
+{% block form_action %}{% url files:create_group_user %}{% endblock %}
+
+{% block modal-header %}{% trans "Add a User to a Group" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+    <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+    </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description:" %}</h3>
+    <p>
+        {% trans "Add a user to a group." %}
+    </p>
+    <p>
+        {% trans "Select a group to share files in the selected group with the selected user." %}
+    </p>
+</div>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Add User to Group" %}" />
+  <a href="{% url files:group %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block header %}
+<h2>Blah!</h2>
+{% endblock %}
+
+{% block main %}
+<form action="/contact/" method="post">{% csrf_token %}
+<fieldset>
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+      <label class="control-label" for="id_name">Name*</label>
+      <div class="controls">
+        {{ form.name }}
+        <span class="help-inline">{{form.name.errors}}</span>
+      </div>
+    </div>
+
+    <div class="control-group ">
+      <label class="control-label" for="id_name">Captcha*</label>
+      <div class="controls">
+        {{ form.captcha }}
+      </div>
+    </div>
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}

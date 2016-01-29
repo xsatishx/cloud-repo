@@ -1,0 +1,20 @@
+diff --git a/openstack_dashboard/dashboards/project/instances/urls.py b/openstack_dashboard/dashboards/project/instances/urls.py
+index 8ea1609..d2b3393 100644
+--- a/openstack_dashboard/dashboards/project/instances/urls.py
++++ b/openstack_dashboard/dashboards/project/instances/urls.py
+@@ -21,6 +21,7 @@
+ from django.conf.urls.defaults import patterns, url
+
+ from .views import IndexView, UpdateView, DetailView, LaunchInstanceView
++from tukey.dashboards.project.instances.views import LaunchClusterView
+
+
+ INSTANCES = r'^(?P<instance_id>[^/]+)/%s$'
+@@ -30,6 +31,7 @@ VIEW_MOD = 'openstack_dashboard.dashboards.project.instances.views'
+ urlpatterns = patterns(VIEW_MOD,
+     url(r'^$', IndexView.as_view(), name='index'),
+     url(r'^launch$', LaunchInstanceView.as_view(), name='launch'),
++    url(r'^launch_cluster$', LaunchClusterView.as_view(), name='launch_cluster'),
+     url(r'^(?P<instance_id>[^/]+)/$', DetailView.as_view(), name='detail'),
+     url(INSTANCES % 'update', UpdateView.as_view(), name='update'),
+     url(INSTANCES % 'console', 'console', name='console'),

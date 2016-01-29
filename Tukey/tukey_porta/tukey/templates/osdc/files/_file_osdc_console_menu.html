@@ -1,0 +1,25 @@
+{% load horizon osdc i18n %}
+<div class='subnav subnav-fixed'>
+<div class='container'>
+  <div class="userinfo">
+  {% trans "Logged in as" %}: {{ request.user.username }}
+  <a href="{% url horizon:settings:user:index %}">{% trans "Settings" %}</a>
+  <a href="http://console.opensciencedatacloud.org/auth/logout/?next=http%3A//console.opensciencedatacloud.org/Shibboleth.sso/Logout%3Freturn%3Dhttp%3A%2F%2Fconsole.opensciencedatacloud.org%2Fauth%2Flogin%2F%3Fshib%3Dtrue">{% trans "Sign Out" %}</a>
+  </div>
+   <ul class="nav nav-pills">
+      <li>
+        <a href="{% url files:group %}">Groups</a>
+      </li>
+      <li>
+       <a href="{% url files:collection %}">Collections</a>
+      </li>
+      <li>
+       <a href="{% url files:file %}">Files</a>
+      </li>
+      <li>
+        <a href="{% url files:permission %}">Permissions</a>
+      </li>
+   </ul>
+</div>
+</div>
+

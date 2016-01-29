@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>OSDC Query Builder</h1>
+{% endblock %}
+
+{% block main %}
+    <div class="hidden">
+        <div class="row-fluid selection" id="fieldSelect">
+	       <select class="attrSelect">
+            {% for field in query_fields %}
+                <option title="{{field.help_text}}" value="{{field.name}}">{{field.label}}</option>
+            {% comment %}
+            {% for field_name field in query_fields %}
+                <option title="{{field.help_text}}" value="{{field.name}}">{{field.label}}</option>
+	    {% endcomment %}
+            {% endfor %}
+            </select>
+            <input class="queryValue" type="text" data-provide="typeahead"/>
+        </div>
+        <a class="btn btn-danger btn-mini removeParent" id="removeParent">&times;</a>
+    </div>
+
+    <div class="container-fluid">
+        <form action="" method="post" class="form-horizontal"> {% csrf_token %}
+        <div class="modal-header"> <h3> Query Builder </h3></div>
+        <div class="modal-body clearfix">
+	<p>Build a query over the TCGA data then launch an instance with links to matching files.</p>
+
+	<p>
+              <label for="query_top_dir">Link Directory</label>
+	      {% if form.query_top_dir.errors %}
+                    <div class="control-group error">
+                        {{ form.query_top_dir }}
+                        <span class="help-inline">
+                            {% for error in form.query_top_dir.errors %}
+                            {{ error|escape }}
+                            {% endfor %}
+                            </span>
+                    </div>
+                    <span class="help-inline">
+                      Name of directory on the VM that will
+                        contain generated links.
+                    </span>
+
+                {% else %}
+                    {{ form.query_top_dir }}
+                    <span class="help-inline">
+                        Name of directory on the VM that will
+                        contain generated links.
+                    </span>
+                {% endif %}
+            </p>
+
+            <p>
+                <label for="query_name">Query Name</label>
+                {% if form.query_name.errors %}
+                    <div class="control-group error">
+                        {{ form.query_name }}
+                        <span class="help-inline">
+                            {% for error in form.query_name.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <span class="help-inline">
+                        Name of directory under the above Link Directory that will 
+                        contain generated links.
+                    </span>
+
+                {% else %}
+                    {{ form.query_name }}
+                    <span class="help-inline">
+                        Name of directory under the above Link Directory that will 
+                        contain generated links.
+                    </span>
+                {% endif %}
+
+            </p>
+            <p><div>
+                <div class="container-fluid terms" id="include">
+                    <h3> Include: </h3>
+                </div>
+                <div class="row-fluid">
+                    <a class="btn btn-small include addTerm">Add Term</a>
+                </div>
+            </div></p>
+            <p><div>
+                <div class="container-fluid terms" id="exclude">
+                    <h3>Exclude:</h3>
+                </div>
+                <div class="row-fluid">
+                    <a class="btn btn-small exclude addTerm">Add Term</a>
+                </div>
+            </div></p>
+            <p>
+                <label for="generated_query">Generated Query</label>
+                {% if form.generated_query.errors %}
+                    <div class="control-group error">
+                        {{ form.generated_query}}
+                        <span class="help-inline">
+                            {% for error in form.generated_query.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </span>
+                    </div>
+                {% else %}
+                    {{ form.generated_query }}
+                {% endif %}
+
+            </p>
+            <p>
+                <label for="cloud">Cloud</label>
+                {% if form.cloud.errors %}
+                    <div class="control-group error">
+                        {{ form.cloud}}
+                        <span class="help-inline">
+                            {% for error in form.cloud.errors %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </span>
+                    </div>
+                {% else %}
+                    {{ form.cloud }}
+                {% endif %}
+            </p>
+
+            <div class="modal-footer">    
+                <input class="btn btn-primary" type="submit" value="Preview Results" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    {% include "horizon/_scripts.html" %}
+{% comment %}	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script> {% comment %}
+
+{% comment %} <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> {% endcomment %}
+
+      <script>
+      $(document).ready(function() {
+
+        $("#nav-osdcquery").attr('class', 'active');
+
+        var GLOBAL_DATA_SOURCE = { {% for k,v in choices_dict.items %}'{{ k }}': [{% for value in v %}'{{ value }}', {% endfor %}], {% endfor %}};
+        {% comment %}
+        {% comment %}
+        var GLOBAL_DATA_SOURCE = { {% for field in query_fields %}'{{ field.name }}': [{% for value, text in field.values %}'{{ value }}', {% endfor %}], {% endfor %}};
+        {% endcomment %}
+
+	   {% include "osdcquery/query_builder.js" %}
+
+        });
+
+    </script>
+{% endblock %}

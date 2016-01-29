@@ -1,0 +1,111 @@
+
+{% load i18n %}
+{% comment %}
+{% extends "horizon/common/_modal_footer.html" %}
+{% load i18n %}
+
+{% block modal-header %} {% trans "Select your Organization or Institution:" %} {% endblock %}
+{% block modal_class %}login {% if hide %}modal hide{% endif %}{% endblock %}
+
+{% block modal-body %}    
+{% endcomment %}
+
+<div class="container-fluid">
+    <form method="post" class="form-inline">
+        <fieldset>
+    
+    	<div class="row-fluid">
+            <div class="form-horizontal">
+    	    {{ form.entityid }}
+                <input id="bsignin" name="bsignin" type="submit" value="{% trans "Sign in" %}" class="btn btn-primary"> 
+    	    </div>
+    	</div>
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            {% else %}
+                <input type="hidden" name="next" value="/project" />
+            {% endif %}
+         </fieldset>
+    </form>
+    <p></p>
+    <p>
+        {% trans "or sign in using " %}
+        {% if next %}
+        <a href="/oauth?next={{next}}">Google </a>
+        {% else %}
+        <a href="/oauth?next=/project">Google </a>
+        {% endif %}
+        {% trans "or" %}
+        <span id="yahoo-link"></span>
+    </p>
+
+   {% if request.GET.shib %}
+
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+           {% trans "You are still signed in to your ID provider.  To sign out of your ID provider close all browser windows." %}
+    </div>
+   {% endif %}
+
+
+
+    <form id="google-form" name="fopenid" action="{{ action }}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <input name="openid_identifier" type="hidden" value="https://www.google.com/accounts/o8/id" />
+            <input class="openid-submit" name="bsignin" type="submit" value="Google">
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            {% else %}
+                <input type="hidden" name="next" value="/project" />
+            {% endif %}
+        </fieldset>
+    </form>
+    
+    <form id="yahoo-form" name="fopenid" action="{{ action }}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <input name="openid_identifier" type="hidden" value="https://yahoo.com" />
+            <input class="openid-submit" name="bsignin" type="submit" value="Yahoo!">
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}" />
+            {% else %}
+                <input type="hidden" name="next" value="/project" />
+            {% endif %}
+        </fieldset>
+    </form>
+</div>
+
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ <script type="text/javascript">
+     $(".openid-submit").hide();
+     $("#yahoo-link").html('<a href="javascript:void(0)">Yahoo!</a>');
+     $("#google-link").html('<a href="javascript:void(0)">Google</a>');
+     $(document).ready(function() {
+         $(".openid-submit").hide();
+         $("#yahoo-link").html('<a href="javascript:void(0)">Yahoo!</a>');
+         //$("#google-link").html('<a href="javascript:void(0)">Google</a>');
+         //$("#google-link").live("click", function(){$("#google-form").submit();});
+         $("#yahoo-link").live("click", function(){$("#yahoo-form").submit();});        
+        
+         function disableDefault() {
+           var institution = $("#id_entityid").val();
+           if (institution == " ") {
+             $("#bsignin").attr("disabled", "disabled");
+           } else {
+             $("#bsignin").removeAttr("disabled");
+           }
+         }
+       
+         disableDefault();    
+         $("#id_entityid").change(disableDefault);
+     });
+</script>
+
+{% comment %}   
+{% endblock %}
+
+{% block modal-footer %}
+{% endblock %}
+
+{% endcomment %}

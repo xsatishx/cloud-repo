@@ -1,0 +1,27 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+
+{% block form_id %}new_file_form{% endblock %}
+{% block form_action %}{% url files:create_collection2 %}{% endblock %}
+
+{% block modal-header %}{% trans "Create A New Collection of Collections" %}{% endblock %}
+
+{% block modal-body %}
+<div class="left">
+    <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+    </fieldset>
+</div>
+<div class="right">
+    <h3>{% trans "Description:" %}</h3>
+    <p>
+        {% trans "Choose a uniqe name for a new collection of collections." %}
+    </p>
+</div>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary pull-right" type="submit" value="{% trans "Create Collection of Collections" %}" />
+  <a href="{% url files:collection %}" class="btn secondary cancel close">{% trans "Cancel" %}</a>
+{% endblock %}
+

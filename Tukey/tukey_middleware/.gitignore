@@ -1,0 +1,11 @@
+*.pyc
+local_settings.py
+*.swp
+*/local_settings.py
+.venv
+.tox
+build
+dist
+AUTHORS
+ChangeLog
+tags

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}OSDC Application{% endblock %}
+
+{% block content %}
+<div class="maincontent">
+<section>
+<header class="subhead">
+  <h1> OSDC Resource Availability and Allocation</h1>
+</header>
+<div>
+  <p>The Open Science Data Cloud has a very active community of BETA users and demand for OSDC services are growing. To help keep up with the demand for computing resources, we review active resource allocations on a quarterly basis and make sure that allocations are adequately distributed among projects based on scientific merit and/or established partnership status with the OSDC. This is done through a process of surveys to active recipients of OSDC resource allocations. </p>
+  <p>Resource allocation periods are generally for 3 months at a time and begin on January 1, April 1, July 1, October 1. All incoming applications for resources will be reviewed near one of these terms and are due on the 15th of the month prior (e.g., December 15th for the allocation period starting January 1st). During the survey process, a resource allocation extension can be requested if your research is not yet complete. </p>
+  <p>OSDC resource allocation grantees are expected to
+    <ul>
+      <li>Make appropriate use of OSDC resources and use good social behavior (ie - terminating VMs when not in use).</li>
+      <li>Do not share ssh keys or login information - One user per resource allocation.</li>
+      <li>
+        <a href="https://www.opensciencedatacloud.org/support/citation.html">Cite</a> the OSDC in any papers and publications. </li>
+      <li>Regularly respond to quarterly OSDC allocation surveys.</li>
+      <li>Submit tickets to the <a href="https://support.opensciencedatacloud.org">OSDC support ticketing system</a> when encountering technical issues not covered by the <a href="https://www.opensciencedatacloud.org/support/">OSDC support documentation</a>.</li>
+    </ul>
+    If you are interested in having the OSDC host your data as part of the Public Data Commons, please apply separately <a href="/keyservice/request/">here</a>.
+
+</div>
+</section>
+<section style='margin-top:2em;'>
+<header class="jumbotron subhead">
+  <h1>Log In to an Identity Provider</h1>
+</header>
+
+<div>
+<p>
+  The OSDC console uses federated login for authentication.
+  If you are at an academic institution that supports
+  <a href="https://incommon.org/participants/">InCommon</a>,
+  <a href="http://www.canarie.ca/en/caf/participants">CANARIE</a>,
+  or 
+  the <a href="http://www.ukfederation.org.uk/content/Documents/MemberList">UK Federation</a>
+  we recommend using those credentials.
+  If your institution is a member of one of those federations, but not in the dropdown menu below, contact us at
+  <a href="mailto:accounts@occ-data.org">accounts@occ-data.org</a>
+  and we'll work with you to get your organization to release the appropriate attributes.
+</p>
+<p>
+  We also support Gmail and Yahoo logins, but only for approved projects and only when all other authentication options have been exhausted.
+</p>
+  <div class="modal-header">
+    <h3>{% trans "Select your Organization or Institution:" %}</h3>
+  </div>
+  <div class="modal-body clearfix">
+    {% include 'osdc/shibboleth_openid.html' %}
+  </div>
+</div>
+</section>
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% include "horizon/_scripts.html" %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#nav-apply").addClass('active');
+});
+</script>
+{% endblock %}
