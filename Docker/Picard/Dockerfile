@@ -20,10 +20,12 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
     apt-get clean autoclean && \
     apt-get autoremove -y && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer  && \
+
+
 # Install packages required by python , gcc, make , wget etc
     apt-get install ant python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev python-dateutil python-docutils python-feedparser python-gdata python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid python-psycopg2 python-psutil python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi -y 
 
-# Download the tools - All wget should go here
+# Download Picard
 RUN wget https://s3.amazonaws.com/data-upload-satish/picard.tar.gz && \
     
 # make a dnasoft directory to move all the downloaded files
@@ -44,14 +46,17 @@ RUN wget https://s3.amazonaws.com/data-upload-satish/picard.tar.gz && \
         rm -rf htsjdk && \
         rm -rf src && \
         rm -rf lib && \
-        rm build.xml && \
- 
- 
+        rm build.xml
+  
 # Clean Up
 
-RUN rm -rf /dnasoft/picard.tar.gz && \
+RUN rm -rf /dnasoft/picard.tar.gz 
     
 # Set PATH
 ENV PATH /dnasoft/broadinstitute-picard-3a81eb1:$PATH
+
+# Permissions
+RUN chmod a+x /dnasoft/broadinstitute-picard-3a81eb1/picard.jar
+
 # Finally, set the workdir to /dnasoft so that the docker image runs from this path.
 WORKDIR /dnasoft
