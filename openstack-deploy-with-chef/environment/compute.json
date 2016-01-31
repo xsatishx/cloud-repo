@@ -15,20 +15,10 @@
     "pxeboot": "10.1.64.51",
     "ssh_keys": {
       "root": [
-        "rpowell",
-        "jspring",
-        "rarya",
-        "ssullivan",
-        "kschmitt",
-        "jmazzone"
+        "satish"
       ],
       "lacadmin": [
-        "rpowell",
-        "jspring",
-        "rarya",
-        "ssullivan",
-        "kschmitt",
-        "jmazzone"
+        "satish"
       ]
     }
   },
