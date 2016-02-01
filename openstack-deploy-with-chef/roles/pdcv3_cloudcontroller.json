@@ -1,6 +1,6 @@
 {
   "name": "pdcv3_cloudcontroller",
-  "description": "Cloud controller for Openstack Icehouse",
+  "description": "Cloud controller for Openstack",
   "json_class": "Chef::Role",
   "default_attributes": {
   },
