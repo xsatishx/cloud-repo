@@ -1,13 +1,6 @@
- 2030  wget https://github.com/alexdobin/STAR/archive/2.5.1b.tar.gz
- 2031  ls
- 2032  mv 2.5.1b.tar.gz  star.tar.gz
- 2033  tar -xvf star.tar.gz
- 2034 
- 
- 
 # Dockerfile for STAR
 
-FROM debian:jessie
+FROM ubuntu:12.04
 
 #Maintainer
 MAINTAINER      Satish <satish@healthseq.com>
@@ -28,7 +21,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
     apt-get autoremove -y && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer  && \
 # Install packages required by python , gcc, make , wget etc
-    apt-get install ant python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev python-dateutil python-docutils python-feedparser python-gdata python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid python-psycopg2 python-psutil python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi -y 
+    apt-get install ant libncurses-dev build-essential make wget zlib1g-dev git g++ gcc -y 
 
 	
 # Download the software in /dnasoft
