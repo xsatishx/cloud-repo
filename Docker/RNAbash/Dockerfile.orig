@@ -1,8 +1,8 @@
-FROM ubuntu
+FROM debian:jessie
 MAINTAINER      Satish <satish@healthseq.com>
 
 RUN     apt-get update
-RUN     apt-get install -y curl wget git g++ make python libboost-dev libboost-thread-dev libboost-system-dev zlib1g-dev ncurses-dev unzip gzip bzip2 libxml2-dev libxslt-dev python-dev python-pip --fix-missing
+RUN     apt-get install -y curl wget g++ make python libboost-dev libboost-thread-dev libboost-system-dev zlib1g-dev ncurses-dev unzip gzip bzip2 libxml2-dev libxslt-dev python-dev python-pip git
 WORKDIR /opt
 
 RUN		mkdir /opt/bin
@@ -39,10 +39,9 @@ RUN mkdir /opt/git && \
     cd /opt/git && \
 	git clone https://github.com/DrOppenheimer/CDIS_GEUVADIS_analysis.git && \
 	git clone https://github.com/DrOppenheimer/Kevin_shell_scripts.git && \
-        mkdir /mnt/SCRATCH && \
-	ln -s /mnt/SCRATCH /root/SCRATCH && \
-	cd ~/SCRATCH 
+	mkdir /mnt/SCRATCH && \
+	ln -s /mnt/SCRATCH / && \
+	cd ~/SCRATCH && \
+    cp ~/git/CDIS_GEUVADIS_analysis/err_list_1_of_4.11-18-15.txt.test ./
 
-
-ENV		PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin
-
+ENV		PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/opt/git/Kevin_shell_scripts:/opt/git/CDIS_GEUVADIS_analysis/
