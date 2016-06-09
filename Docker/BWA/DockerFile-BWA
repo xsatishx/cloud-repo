@@ -1,7 +1,6 @@
-
 FROM ubuntu:14.04
 MAINTAINER      Satish <satish@healthseq.com>
-# Use this to use BWA. 
+# Use this to use BWA.
 
 RUN apt-get update && \
     apt-get -y install gcc mono-mcs zlib1g-dev make wget git -y -f && \
@@ -13,16 +12,11 @@ mv /bwa-0.7.12.tar.bz2 /dnasoft/bwa-0.7.12.tar.bz2 && \
 cd /dnasoft && \
 tar -xvf /dnasoft/bwa-0.7.12.tar.bz2 && \
 cd /dnasoft/bwa-0.7.12 && \
-make && \
+make
 
-cd /dnasoft && \
-
-# Download your sequence below
-wget https://s3.amazonaws.com/data-upload-satish/human_g1k_v37_trimmed.fasta.gz && \
-gunzip human_g1k_v37_trimmed.fasta.gz && \
+ENV PATH /dnasoft/bwa-0.7.12:$PATH
 
 
-cd /dnasoft/bwa-0.7.12 && \
 
 #Run BWA commands
-./bwa index /dnasoft/human_g1k_v37_trimmed.fasta
+#./bwa index /dnasoft/human_g1k_v37_trimmed.fasta
