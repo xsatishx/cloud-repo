@@ -14,7 +14,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
     echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections && \
     apt-get update && apt-get --no-install-recommends install -y --force-yes\
     oracle-java${JAVA_VERSION}-installer && \
-    apt-get install --no-install-recommends unzip python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev  -y --fix-missing && \
+    apt-get install --no-install-recommends unzip ca-certificates python-dev libncurses-dev build-essential make wget libc6 libc-dev git cpp gcc mono-mcs zlib1g-dev libxml2-dev libxslt-dev libxslt1-dev  -y --fix-missing && \
 
 # Clean up
     rm -rf /var/lib/{apt,dpkg,cache,log}/ /var/cache/oracle-jdk${JAVA_VERSION}-installer  && \

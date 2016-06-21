@@ -14,10 +14,8 @@ RUN wget https://github.com/statgen/bamUtil/archive/master.tar.gz && \
     cd /dnasoft/bamUtil-master/ && \
         make cloneLib && \
         make  && \
-        make install INSTALLDIR=/dnapipeline && \
+        make install INSTALLDIR=/dnapipeline 
 
-# Clean Up
-RUN rm -rf /dnasoft/bamutils.tar.gz &&\
 
 # Set PATH
 ENV PATH /dnasoft/bamUtil-master/bin:$PATH
@@ -26,6 +24,6 @@ ENV PATH /dnasoft/bamUtil-master/bin:$PATH
 WORKDIR /dnasoft/bamUtil-master
 
 #Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* 
-RUN apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
-
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    rm -rf /dnasoft/bamutils.tar.gz

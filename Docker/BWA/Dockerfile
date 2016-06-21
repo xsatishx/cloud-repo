@@ -5,7 +5,7 @@ FROM healthseq/base
 MAINTAINER      Satish <satish@healthseq.com>
 
 # Installation
-RUN wget http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.12.tar.bz2 && \
+RUN wget https://sourceforge.net/projects/bio-bwa/files/latest/download/bwa-0.7.12.tar.bz2 && \
     mv /bwa-0.7.12.tar.bz2 /dnasoft/bwa-0.7.12.tar.bz2 && \
     cd /dnasoft && \
     tar -xvf /dnasoft/bwa-0.7.12.tar.bz2 && \
@@ -19,5 +19,5 @@ ENV PATH /dnasoft/bwa-0.7.12:$PATH
 WORKDIR /dnasoft/bwa-0.7.12
 
 #Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* 
-RUN apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/

@@ -18,6 +18,6 @@ ENV BT2_HOME=/dnasoft/bowtie2-2.2.7
 WORKDIR /dnasoft/bowtie2-2.2.7
 
 #Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* 
-RUN apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*  && \
+    apt-get autoclean && apt-get autoremove -y && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
