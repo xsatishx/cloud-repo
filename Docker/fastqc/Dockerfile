@@ -1,23 +1,10 @@
-# FASTQC TOOL: Dockerfile
-
-FROM debian:jessie
+# FASTQC TOOL
+FROM healthseq/base
 
 # Maintainer 
 MAINTAINER Satish Balakrishnan <satish@healthseq.com>
 
-# Set correct environment variables.
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-
-# Update
-RUN apt-get update -y && apt-get upgrade -y && apt-get install wget unzip perl bioperl build-essential -y
-RUN apt-get install -y openjdk-7-jdk openjdk-7-doc openjdk-7-jre-lib
-
-#set java
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
-RUN sed -i 'aPATH=$PATH:/usr/lib/jvm/java-7-openjdk-amd64/jre/bin' /root/.bashrc
-RUN mkdir /dnasoft \
-    && wget -O /dnasoft/fastqc_v0.11.2.zip http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip \
+RUN wget -O /dnasoft/fastqc_v0.11.2.zip http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip \
     && unzip /dnasoft/fastqc_v0.11.2.zip -d /dnasoft/ \
     && chmod -R 766 /dnasoft/ \
     && ln -s /dnasoft/FastQC/fastqc /usr/local/bin/fastqc
@@ -31,11 +18,8 @@ RUN chmod -R 777 /dnasoft
 #Cleanup the temp dir
 RUN rm -rf /dnasoft/fastqc_v0.11.2.zip
 
-#open ports private only
-EXPOSE 8080
-
-# set cmd
-CMD ["/bin/bash"]
+# Set the workdir to /dnasoft so that the docker image runs from this path.
+WORKDIR /dnasoft/FastQC
 
 #Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* 
