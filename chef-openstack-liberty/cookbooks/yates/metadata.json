@@ -1,0 +1,30 @@
+{
+  "conflicting": {
+  },
+  "platforms": {
+  },
+  "description": "Installs/Configures Yates Server",
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "license": "Apache 2.0",
+  "dependencies": {
+    "tftp"
+  },
+  "recipes": {
+  },
+  "replacing": {
+  },
+  "suggestions": {
+  },
+  "long_description": "yates cookbook",
+  "providing": {
+  },
+  "recommendations": {
+  },
+  "maintainer_email": "rsuarez@uchicago.edu",
+  "name": "yates",
+  "version": "0.2.0",
+  "maintainer": "rafael"
+}

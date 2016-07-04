@@ -1,0 +1,24 @@
+#!/bin/bash
+
+    #Init mysql db
+    keystone-manage db_sync
+
+    #Load up the auth info
+    export OS_SERVICE_ENDPOINT=http://<%= node['keystone']['host'] %>:35357/v2.0
+    export OS_SERVICE_TOKEN=<%= node['keystone']['admin_token'] %>
+    keystone user-create --name=admin --pass=<%= node['keystone']['admin_passwd'] %> --email=admin@opensciencedatacloud.org
+    keystone role-create --name=admin
+    keystone role-create --name=_member_
+    keystone tenant-create --name=admin
+    keystone user-role-add --user=admin --tenant=admin --role=admin
+    keystone user-role-add --user=admin --tenant=admin --role=_member_
+    keystone tenant-create --name=service --description="Service Tenant"
+    keystone service-create --name=keystone --type=identity --description="OpenStack Identity Service"
+    keystone endpoint-create --service-id=$(keystone service-list | awk '/ identity / {print $2}') --publicurl=http://<%= node['keystone']['host'] %>:5000/v2.0 --internalurl=http://<%= node['keystone']['host'] %>:5000/v2.0 --adminurl=http://<%= node['keystone']['host'] %>:35357/v2.0
+    #Create the source file
+    echo "
+        export OS_USERNAME=admin
+        export OS_PASSWORD=<%= node['keystone']['admin_passwd'] %>
+        export OS_TENANT_NAME=admin
+        export OS_AUTH_URL=http://<%= node['keystone']['host'] %>:35357/v2.0
+        " >> /root/admin_auth

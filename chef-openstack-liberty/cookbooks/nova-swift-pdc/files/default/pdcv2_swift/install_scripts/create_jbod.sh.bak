@@ -1,0 +1,77 @@
+#!/bin/bash
+
+delete_raid5() {
+   cd /root/install_scripts
+  ./MegaCli64 -CfgLdDel -L1 -a0
+  ./MegaCli64 -CfgLdDel -L2 -a0
+}
+
+enable_JBOD() {
+   cd /root/install_scripts
+  ./MegaCli64 -AdpSetProp EnableJBOD 1 -a0
+}
+
+
+reset_disk_enum(){
+        cd /dev
+        for x in $(ls sd*[^0-9])
+        do
+                if [ "$x" == "sda" ]
+                then
+                        continue
+                fi
+
+    echo 1 > /sys/block/$x/device/delete
+        done
+
+  udevadm control --reload-rules
+  udevadm trigger
+
+  for x in {0..7}
+  do
+    echo '- - -' >  /sys/class/scsi_host/host${x}/scan
+  done
+
+
+
+
+}
+
+luks_disks() {
+
+  cd /dev
+
+  root_disk=$(mount | perl -n -e 'm|/dev/(\S+)\d+\s+on\s+/boot| && print "$1\n"')
+
+  for x in $(ls sd*[^0-9])
+  do
+    if [ "$x" == "$root_disk" ]
+    then
+      continue
+    fi
+    smartctl --all $x | grep "Device Model" &>/dev/null  | grep SSD
+    if [ "$?" != "0" ]
+    then
+      mkdir -p  /srv/node/${x}1
+      parted /dev/${x} mklabel gpt || exit 1
+      parted /dev/${x} mkpart xfs xfs 64M 100% || exit 1
+      yes | cryptsetup --cipher aes-xts-plain64 --hash sha512 --iter-time 5000 --use-random --verify-passphrase luksFormat --key-file /etc/luks/keyfile /dev/${x}1 || exit 1
+      cryptsetup --key-file /etc/luks/keyfile luksOpen /dev/${x}1 luks_${x}1 || exit 1
+      echo "luks_${x}1 /dev/${x}1 /etc/luks/keyfile luks,cipher=aes-xts-plain64,hash=sha512" >> /etc/crypttab.bak
+      #mkfs.xfs -f  /dev/${x}1 &
+      #echo "/dev/${x}1    /srv/node/${x}1    xfs    noatime,nodiratime,nobarrier,logbufs=8     0 0" >> /etc/fstab
+
+    fi
+  done
+}
+
+xfs_disks() {
+  echo MOO
+
+}
+
+delete_raid5
+enable_JBOD
+reset_disk_enum
+luks_disks
+xfs_disks

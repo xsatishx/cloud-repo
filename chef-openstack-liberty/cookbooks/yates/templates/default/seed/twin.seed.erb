@@ -1,0 +1,90 @@
+## This file managed by Chef, all changes will be overwritten ##
+d-i netcfg/choose_interface select <%= @interface %>
+
+# Firmware
+d-i hw-detect/load_firmware boolean true
+
+# Clock
+d-i clock-setup/utc boolean false
+d-i time/zone string US/Central
+d-i clock-setup/ntp boolean true
+
+# Storage
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+d-i partman-auto/expert_recipe string root :: \
+5000 10000 1000000 ext3 \
+$primary{ } \
+$bootable{ } \
+method{ format } \
+format{ } \
+use_filesystem{ } \
+filesystem{ ext3 } \
+mountpoint{ / } . \
+64 512 300% linux-swap \
+method{ swap } \
+format{ } .
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+mdadm-udeb mdadm/boot_degraded boolean true
+d-i partman-md/confirm_nooverwrite boolean true
+
+# Users
+d-i passwd/root-password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i passwd/make-user boolean true
+d-i passwd/user-fullname string LAC Administration-verifythisiswhatwereusing
+d-i passwd/username string lacadmin
+d-i passwd/user-password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i user-setup/allow-password-weak boolean true
+d-i user-setup/encrypt-home boolean false
+
+# APT Settings
+# You can choose to install restricted and universe software, or to install
+# software from the backports repository.
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+d-i apt-setup/backports boolean true
+# Uncomment this if you don't want to use a network mirror.
+d-i apt-setup/use_mirror boolean false
+# By default the installer requires that repositories be authenticated
+# using a known gpg key. This setting can be used to disable that
+# authentication. Warning: Insecure, not recommended.
+d-i debian-installer/allow_unauthenticated boolean true
+
+# Packages
+# Always install the server kernel.
+d-i	base-installer/kernel/override-image	string linux-server
+tasksel	tasksel/force-tasks	string server
+d-i 	tasksel/first   multiselect
+tasksel tasksel/first	multiselect
+tasksel tasksel/tasks	multiselect
+#tasksel tasksel/first multiselect standard
+# Individual additional packages to install
+d-i pkgsel/include string openssh-server build-essential less bzip2 vim-nox nano openipmi ipmitool curl ethtool vlan bridge-utils chef haveged cryptsetup cryptsetup-bin
+popularity-contest popularity-contest/participate boolean false
+
+# Only install basic language packs.
+d-i	pkgsel/language-pack-patterns	string
+
+# No language support packages.
+d-i	pkgsel/install-language-support	boolean false
+
+# Verbose output and no boot splash screen.
+d-i	debian-installer/quiet	boolean false
+d-i	debian-installer/splash	boolean false
+
+# GRUB
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean false
+d-i grub-installer/password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i grub-installer/bootdev string (hd0,0)
+d-i grub-installer/timeout string 5
+
+# Finish
+d-i preseed/late_command string wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/scripts/<%= @hardware %>.sh -O /target/root/gotime.sh; in-target /bin/bash -x chmod 755 /root/gotime.sh; in-target /bin/bash /root/gotime.sh 1;
+d-i finish-install/reboot_in_progress note
+# d-i debian-installer/exit/poweroff boolean true

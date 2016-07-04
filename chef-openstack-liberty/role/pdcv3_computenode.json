@@ -1,0 +1,29 @@
+{
+  "name": "pdcv3_computenode",
+  "description": "Compute Node",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "postfix": {
+      "mail_type": "client",
+      "main": {
+        "relayhost": "cloud-controller",
+        "sender_canonical_maps": [
+          "hash:/etc/postfix/canonical"
+        ]
+      }
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv3]",
+    "recipe[postfix]",
+    "recipe[nova-client-pdc::pdcv3]",
+    "recipe[lac-iptables::pdcv3]",
+    "recipe[ceph::pdcv3-computenode]",
+    "recipe[nova-migration]"
+  ],
+  "env_run_lists": {
+  }
+}

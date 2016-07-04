@@ -1,0 +1,7 @@
+;Created by Chef, do not edit
+<% @hosts.keys.sort.each do |hostname| %>
+<% line="#{hostname}\t\tA\t#{@hosts[hostname]}" %>
+<%=line%>
+<%end%>
+
+;# vi:syntax=bindzone

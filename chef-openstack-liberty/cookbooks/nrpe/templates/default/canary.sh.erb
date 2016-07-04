@@ -1,0 +1,12 @@
+#!/bin/bash
+if iptables-save -c|grep -q -E "^:<%= node['canary'].upcase unless node['canary'].nil? %> -"
+then
+    echo "OK - canary chain found"
+    exit 0
+else
+    echo "ERROR: canary chain not found"
+    exit 2
+fi
+
+echo "We should never get here, what happened?"
+exit 0

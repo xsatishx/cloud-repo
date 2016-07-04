@@ -1,0 +1,798 @@
+[global]
+fsid = 9e0a4a8e-91fa-4643-887a-c7464aa3fd14
+mon_initial_members = kg37-5, kg37-12, kg37-28, kg37-23, kg37-17
+mon_host = 10.16.0.117,10.16.0.124,10.16.0.140,10.16.0.135,10.16.0.129,
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+filestore_xattr_use_omap = true
+osd pool default pg num = 1024
+osd pool default pgp num = 1024
+public network = 10.16.0.0/16
+
+[osd]
+osd mkfs type = xfs
+osd mkfs options xfs = -f -i size=2048
+osd mount options xfs = "rw,noatime,inode64,logbufs=8,logbsize=256k"
+osd max attr size = 104857600
+osd scrub load threshold = 5.0
+osd map cache size = 2000
+osd map cache bl size = 200
+
+[client]
+rbd cache = true
+rbd cache size = 128 MiB
+rbd cache max dirty = 24 MiB
+rbd cache target dirty = 16 MiB
+rbd cache max dirty age = 1.0
+rbd cache writethrough until flush = true
+
+
+[client.radosgw.gw00]
+host = kg37-5
+rgw dns name = kg37-5
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw socket path = /var/run/ceph/client.radosgw.gw00.fastcgi.sock
+log file = /var/log/ceph/radosgw.log
+#rgw keystone url = http://api.bionimbus-pdcv2.opensciencedatacloud.org:35357
+#rgw keystone admin token = 5175338ea48e674987ef
+#rgw keystone accepted roles = _member_, memberRole, admin
+#rgw keystone token cache size = 100
+#rgw keystone revocation interval = 600
+#rgw s3 auth use keystone = true
+#nss db path = /var/ceph/nss
+rgw keystone url = http://api-bionimbus-pdc.opensciencedatacloud.org:5000
+rgw keystone admin token = 4f62f0da77985c932d00
+rgw keystone accepted roles =  _member_,admin,swiftoperator,uploader
+rgw keystone token cache size = 200
+rgw keystone revocation interval = 60
+nss db path = /var/ceph/nss
+
+
+[client.radosgw.gw01]
+host = kg37-12
+rgw dns name = kg37-12
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw socket path = /var/run/ceph/client.radosgw.gw01.fastcgi.sock
+log file = /var/log/ceph/radosgw.log
+#rgw keystone url = http://api.bionimbus-pdcv2.opensciencedatacloud.org:35357
+#rgw keystone admin token = 5175338ea48e674987ef
+#rgw keystone accepted roles = _member_, memberRole, admin
+#rgw keystone token cache size = 100
+#rgw keystone revocation interval = 600
+#rgw s3 auth use keystone = true
+#nss db path = /var/ceph/nss
+rgw keystone url = http://api-bionimbus-pdc.opensciencedatacloud.org:5000
+rgw keystone admin token = 4f62f0da77985c932d00
+rgw keystone accepted roles =  _member_,admin,swiftoperator,uploader
+rgw keystone token cache size = 200
+rgw keystone revocation interval = 60
+nss db path = /var/ceph/nss
+
+
+[client.radosgw.gw02]
+host = kg37-28
+rgw dns name = kg37-28
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw socket path = /var/run/ceph/client.radosgw.gw02.fastcgi.sock
+log file = /var/log/ceph/radosgw.log
+#rgw keystone url = http://api.bionimbus-pdcv2.opensciencedatacloud.org:35357
+#rgw keystone admin token = 5175338ea48e674987ef
+#rgw keystone accepted roles = _member_, memberRole, admin
+#rgw keystone token cache size = 100
+#rgw keystone revocation interval = 600
+#rgw s3 auth use keystone = true
+#nss db path = /var/ceph/nss
+rgw keystone url = http://api-bionimbus-pdc.opensciencedatacloud.org:5000
+rgw keystone admin token = 4f62f0da77985c932d00
+rgw keystone accepted roles =  _member_,admin,swiftoperator,uploader
+rgw keystone token cache size = 200
+rgw keystone revocation interval = 60
+nss db path = /var/ceph/nss
+
+
+## don't touch. This is a list of all of our osds so that the ceph tool can control them. Unless you want to mess with a single osd do not touch. 
+############################ KG37 ############################ 
+########## kg37-5 ##########
+[osd.0]
+hostname = kg37-5
+[osd.1]
+hostname = kg37-5
+[osd.2]
+hostname = kg37-5
+[osd.3]
+hostname = kg37-5
+[osd.4]
+hostname = kg37-5
+########## kg37-6 ##########
+[osd.5]
+hostname = kg37-6
+[osd.6]
+hostname = kg37-6
+[osd.7]
+hostname = kg37-6
+[osd.8]
+hostname = kg37-6
+[osd.9]
+hostname = kg37-6
+########## kg37-7 ##########
+[osd.10]
+hostname = kg37-7
+[osd.11]
+hostname = kg37-7
+[osd.12]
+hostname = kg37-7
+[osd.13]
+hostname = kg37-7
+[osd.14]
+hostname = kg37-7
+########## kg37-8 ##########
+[osd.15]
+hostname = kg37-8
+[osd.16]
+hostname = kg37-8
+[osd.17]
+hostname = kg37-8
+[osd.18]
+hostname = kg37-8
+[osd.19]
+hostname = kg37-8
+########## kg37-9 ##########
+[osd.20]
+hostname = kg37-9
+[osd.21]
+hostname = kg37-9
+[osd.22]
+hostname = kg37-9
+[osd.23]
+hostname = kg37-9
+[osd.24]
+hostname = kg37-9
+########## kg37-11 ##########
+[osd.25]
+hostname = kg37-11
+[osd.26]
+hostname = kg37-11
+[osd.27]
+hostname = kg37-11
+[osd.28]
+hostname = kg37-11
+[osd.29]
+hostname = kg37-11
+########## kg37-12 ##########
+[osd.30]
+hostname = kg37-12
+[osd.31]
+hostname = kg37-12
+[osd.32]
+hostname = kg37-12
+[osd.33]
+hostname = kg37-12
+[osd.34]
+hostname = kg37-12
+########## kg37-15 ##########
+[osd.35]
+hostname = kg37-15
+[osd.36]
+hostname = kg37-15
+[osd.37]
+hostname = kg37-15
+[osd.38]
+hostname = kg37-15
+[osd.39]
+hostname = kg37-15
+########## kg37-16 ##########
+[osd.40]
+hostname = kg37-16
+[osd.41]
+hostname = kg37-16
+[osd.42]
+hostname = kg37-16
+[osd.43]
+hostname = kg37-16
+[osd.44]
+hostname = kg37-16
+########## kg37-17 ##########
+[osd.45]
+hostname = kg37-17
+[osd.46]
+hostname = kg37-17
+[osd.47]
+hostname = kg37-17
+[osd.48]
+hostname = kg37-17
+[osd.49]
+hostname = kg37-17
+########## kg37-18 ##########
+[osd.50]
+hostname = kg37-18
+[osd.51]
+hostname = kg37-18
+[osd.52]
+hostname = kg37-18
+[osd.53]
+hostname = kg37-18
+[osd.54]
+hostname = kg37-18
+########## kg37-19 ##########
+[osd.55]
+hostname = kg37-19
+[osd.56]
+hostname = kg37-19
+[osd.57]
+hostname = kg37-19
+[osd.58]
+hostname = kg37-19
+[osd.59]
+hostname = kg37-19
+########## kg37-20 ##########
+[osd.60]
+hostname = kg37-20
+[osd.61]
+hostname = kg37-20
+[osd.62]
+hostname = kg37-20
+[osd.63]
+hostname = kg37-20
+[osd.64]
+hostname = kg37-20
+########## kg37-21 ##########
+[osd.65]
+hostname = kg37-21
+[osd.66]
+hostname = kg37-21
+[osd.67]
+hostname = kg37-21
+[osd.68]
+hostname = kg37-21
+[osd.69]
+hostname = kg37-21
+########## kg37-23 ##########
+[osd.70]
+hostname = kg37-23
+[osd.71]
+hostname = kg37-23
+[osd.72]
+hostname = kg37-23
+[osd.73]
+hostname = kg37-23
+[osd.74]
+hostname = kg37-23
+########## kg37-24 ##########
+[osd.75]
+hostname = kg37-24
+[osd.76]
+hostname = kg37-24
+[osd.77]
+hostname = kg37-24
+[osd.78]
+hostname = kg37-24
+[osd.79]
+hostname = kg37-24
+########## kg37-25 ##########
+[osd.80]
+hostname = kg37-25
+[osd.81]
+hostname = kg37-25
+[osd.82]
+hostname = kg37-25
+[osd.83]
+hostname = kg37-25
+[osd.84]
+hostname = kg37-25
+########## kg37-26 ##########
+[osd.85]
+hostname = kg37-26
+[osd.86]
+hostname = kg37-26
+[osd.87]
+hostname = kg37-26
+[osd.88]
+hostname = kg37-26
+[osd.89]
+hostname = kg37-26
+########## kg37-27 ##########
+[osd.90]
+hostname = kg37-27
+[osd.91]
+hostname = kg37-27
+[osd.92]
+hostname = kg37-27
+[osd.93]
+hostname = kg37-27
+[osd.94]
+hostname = kg37-27
+########## kg37-28 ##########
+[osd.95]
+hostname = kg37-28
+[osd.96]
+hostname = kg37-28
+[osd.97]
+hostname = kg37-28
+[osd.98]
+hostname = kg37-28
+[osd.99]
+hostname = kg37-28
+############################ KG31 ############################ 
+########## kg31-2 ##########
+[osd.100]
+hostname = kg31-2
+[osd.102]
+hostname = kg31-2
+[osd.103]
+hostname = kg31-2
+[osd.104]
+hostname = kg31-2
+[osd.105]
+hostname = kg31-2
+[osd.106]
+hostname = kg31-2
+[osd.107]
+hostname = kg31-2
+[osd.108]
+hostname = kg31-2
+[osd.109]
+hostname = kg31-2
+[osd.110]
+hostname = kg31-2
+[osd.111]
+hostname = kg31-2
+[osd.112]
+hostname = kg31-2
+[osd.113]
+hostname = kg31-2
+[osd.114]
+hostname = kg31-2
+[osd.115]
+hostname = kg31-2
+[osd.116]
+hostname = kg31-2
+[osd.117]
+hostname = kg31-2
+[osd.118]
+hostname = kg31-2
+[osd.119]
+hostname = kg31-2
+[osd.120]
+hostname = kg31-2
+[osd.121]
+hostname = kg31-2
+[osd.122]
+hostname = kg31-2
+[osd.123]
+hostname = kg31-2
+[osd.124]
+hostname = kg31-2
+[osd.125]
+hostname = kg31-2
+[osd.126]
+hostname = kg31-2
+[osd.127]
+hostname = kg31-2
+[osd.128]
+hostname = kg31-2
+[osd.129]
+hostname = kg31-2
+[osd.130]
+hostname = kg31-2
+[osd.131]
+hostname = kg31-2
+[osd.132]
+hostname = kg31-2
+[osd.133]
+hostname = kg31-2
+########## kg31-3 ##########
+[osd.134]
+hostname = kg31-3
+[osd.135]
+hostname = kg31-3
+[osd.136]
+hostname = kg31-3
+[osd.137]
+hostname = kg31-3
+[osd.138]
+hostname = kg31-3
+[osd.139]
+hostname = kg31-3
+[osd.140]
+hostname = kg31-3
+[osd.141]
+hostname = kg31-3
+[osd.142]
+hostname = kg31-3
+[osd.143]
+hostname = kg31-3
+[osd.144]
+hostname = kg31-3
+[osd.145]
+hostname = kg31-3
+[osd.146]
+hostname = kg31-3
+[osd.147]
+hostname = kg31-3
+[osd.148]
+hostname = kg31-3
+[osd.149]
+hostname = kg31-3
+[osd.150]
+hostname = kg31-3
+[osd.151]
+hostname = kg31-3
+[osd.152]
+hostname = kg31-3
+[osd.153]
+hostname = kg31-3
+[osd.154]
+hostname = kg31-3
+[osd.155]
+hostname = kg31-3
+[osd.156]
+hostname = kg31-3
+[osd.157]
+hostname = kg31-3
+[osd.158]
+hostname = kg31-3
+[osd.159]
+hostname = kg31-3
+[osd.160]
+hostname = kg31-3
+[osd.161]
+hostname = kg31-3
+[osd.162]
+hostname = kg31-3
+[osd.163]
+hostname = kg31-3
+[osd.164]
+hostname = kg31-3
+[osd.165]
+hostname = kg31-3
+[osd.166]
+hostname = kg31-3
+[osd.167]
+hostname = kg31-3
+########## kg31-4 ##########
+[osd.168]
+hostname = kg31-4
+[osd.169]
+hostname = kg31-4
+[osd.170]
+hostname = kg31-4
+[osd.171]
+hostname = kg31-4
+[osd.172]
+hostname = kg31-4
+[osd.173]
+hostname = kg31-4
+[osd.174]
+hostname = kg31-4
+[osd.175]
+hostname = kg31-4
+[osd.176]
+hostname = kg31-4
+[osd.177]
+hostname = kg31-4
+[osd.178]
+hostname = kg31-4
+[osd.179]
+hostname = kg31-4
+[osd.180]
+hostname = kg31-4
+[osd.181]
+hostname = kg31-4
+[osd.182]
+hostname = kg31-4
+[osd.183]
+hostname = kg31-4
+[osd.184]
+hostname = kg31-4
+[osd.185]
+hostname = kg31-4
+[osd.186]
+hostname = kg31-4
+[osd.187]
+hostname = kg31-4
+[osd.188]
+hostname = kg31-4
+[osd.189]
+hostname = kg31-4
+[osd.190]
+hostname = kg31-4
+[osd.191]
+hostname = kg31-4
+[osd.192]
+hostname = kg31-4
+[osd.193]
+hostname = kg31-4
+[osd.194]
+hostname = kg31-4
+[osd.195]
+hostname = kg31-4
+[osd.196]
+hostname = kg31-4
+[osd.197]
+hostname = kg31-4
+[osd.198]
+hostname = kg31-4
+[osd.199]
+hostname = kg31-4
+[osd.200]
+hostname = kg31-4
+[osd.201]
+hostname = kg31-4
+########## kg31-5 ##########
+[osd.202]
+hostname = kg31-5
+[osd.203]
+hostname = kg31-5
+[osd.204]
+hostname = kg31-5
+[osd.205]
+hostname = kg31-5
+[osd.206]
+hostname = kg31-5
+[osd.207]
+hostname = kg31-5
+[osd.208]
+hostname = kg31-5
+[osd.209]
+hostname = kg31-5
+[osd.210]
+hostname = kg31-5
+[osd.211]
+hostname = kg31-5
+[osd.212]
+hostname = kg31-5
+[osd.213]
+hostname = kg31-5
+[osd.214]
+hostname = kg31-5
+[osd.215]
+hostname = kg31-5
+[osd.216]
+hostname = kg31-5
+[osd.217]
+hostname = kg31-5
+[osd.218]
+hostname = kg31-5
+[osd.219]
+hostname = kg31-5
+[osd.220]
+hostname = kg31-5
+[osd.221]
+hostname = kg31-5
+[osd.222]
+hostname = kg31-5
+[osd.223]
+hostname = kg31-5
+[osd.224]
+hostname = kg31-5
+[osd.225]
+hostname = kg31-5
+[osd.226]
+hostname = kg31-5
+[osd.227]
+hostname = kg31-5
+[osd.228]
+hostname = kg31-5
+[osd.229]
+hostname = kg31-5
+[osd.230]
+hostname = kg31-5
+[osd.231]
+hostname = kg31-5
+[osd.232]
+hostname = kg31-5
+[osd.233]
+hostname = kg31-5
+[osd.234]
+hostname = kg31-5
+[osd.235]
+hostname = kg31-5
+########## kg31-7 ##########
+[osd.236]
+hostname = kg31-7
+[osd.237]
+hostname = kg31-7
+[osd.238]
+hostname = kg31-7
+[osd.239]
+hostname = kg31-7
+[osd.240]
+hostname = kg31-7
+[osd.101]
+hostname = kg31-7
+[osd.241]
+hostname = kg31-7
+[osd.242]
+hostname = kg31-7
+[osd.243]
+hostname = kg31-7
+[osd.244]
+hostname = kg31-7
+[osd.245]
+hostname = kg31-7
+[osd.246]
+hostname = kg31-7
+[osd.247]
+hostname = kg31-7
+[osd.248]
+hostname = kg31-7
+[osd.249]
+hostname = kg31-7
+[osd.250]
+hostname = kg31-7
+[osd.251]
+hostname = kg31-7
+[osd.252]
+hostname = kg31-7
+[osd.253]
+hostname = kg31-7
+[osd.254]
+hostname = kg31-7
+[osd.255]
+hostname = kg31-7
+[osd.256]
+hostname = kg31-7
+[osd.257]
+hostname = kg31-7
+[osd.258]
+hostname = kg31-7
+[osd.259]
+hostname = kg31-7
+[osd.260]
+hostname = kg31-7
+[osd.261]
+hostname = kg31-7
+[osd.262]
+hostname = kg31-7
+[osd.263]
+hostname = kg31-7
+[osd.264]
+hostname = kg31-7
+[osd.265]
+hostname = kg31-7
+[osd.266]
+hostname = kg31-7
+[osd.267]
+hostname = kg31-7
+[osd.268]
+hostname = kg31-7
+########## kg31-8 ##########
+[osd.269]
+hostname = kg31-8
+[osd.270]
+hostname = kg31-8
+[osd.271]
+hostname = kg31-8
+[osd.272]
+hostname = kg31-8
+[osd.273]
+hostname = kg31-8
+[osd.274]
+hostname = kg31-8
+[osd.275]
+hostname = kg31-8
+[osd.276]
+hostname = kg31-8
+[osd.277]
+hostname = kg31-8
+[osd.278]
+hostname = kg31-8
+[osd.279]
+hostname = kg31-8
+[osd.280]
+hostname = kg31-8
+[osd.281]
+hostname = kg31-8
+[osd.282]
+hostname = kg31-8
+[osd.283]
+hostname = kg31-8
+[osd.284]
+hostname = kg31-8
+[osd.285]
+hostname = kg31-8
+[osd.286]
+hostname = kg31-8
+[osd.287]
+hostname = kg31-8
+[osd.288]
+hostname = kg31-8
+[osd.289]
+hostname = kg31-8
+[osd.290]
+hostname = kg31-8
+[osd.291]
+hostname = kg31-8
+[osd.292]
+hostname = kg31-8
+[osd.293]
+hostname = kg31-8
+[osd.294]
+hostname = kg31-8
+[osd.295]
+hostname = kg31-8
+[osd.296]
+hostname = kg31-8
+[osd.297]
+hostname = kg31-8
+[osd.298]
+hostname = kg31-8
+[osd.299]
+hostname = kg31-8
+[osd.300]
+hostname = kg31-8
+[osd.301]
+hostname = kg31-8
+[osd.302]
+hostname = kg31-8
+########## kg31-10 ##########
+[osd.303]
+hostname = kg31-10
+[osd.304]
+hostname = kg31-10
+[osd.305]
+hostname = kg31-10
+[osd.306]
+hostname = kg31-10
+[osd.307]
+hostname = kg31-10
+[osd.308]
+hostname = kg31-10
+[osd.309]
+hostname = kg31-10
+[osd.310]
+hostname = kg31-10
+[osd.311]
+hostname = kg31-10
+[osd.312]
+hostname = kg31-10
+[osd.313]
+hostname = kg31-10
+[osd.314]
+hostname = kg31-10
+[osd.315]
+hostname = kg31-10
+[osd.316]
+hostname = kg31-10
+[osd.317]
+hostname = kg31-10
+[osd.318]
+hostname = kg31-10
+[osd.319]
+hostname = kg31-10
+[osd.320]
+hostname = kg31-10
+[osd.321]
+hostname = kg31-10
+[osd.322]
+hostname = kg31-10
+[osd.323]
+hostname = kg31-10
+[osd.324]
+hostname = kg31-10
+[osd.325]
+hostname = kg31-10
+[osd.326]
+hostname = kg31-10
+[osd.327]
+hostname = kg31-10
+[osd.328]
+hostname = kg31-10
+[osd.329]
+hostname = kg31-10
+[osd.330]
+hostname = kg31-10
+[osd.331]
+hostname = kg31-10
+[osd.332]
+hostname = kg31-10
+[osd.333]
+hostname = kg31-10
+[osd.334]
+hostname = kg31-10
+[osd.335]
+hostname = kg31-10
+[osd.336]
+hostname = kg31-10
+

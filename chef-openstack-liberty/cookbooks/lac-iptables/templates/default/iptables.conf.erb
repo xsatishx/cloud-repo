@@ -1,0 +1,236 @@
+### WARNING , do not add new chains (-A MY_NEW_CHAIN) in the top part of this file.
+###   There is a section towards the bottom clearly labeled for that purpose.
+
+#This is a stopgap generic firewall config.
+#All this does is let the system talk to various internal services.
+#You should choose a better template or better default to put here
+
+*filter
+:INPUT DROP [1:32]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+:GENEOS_SERVER - [0:0]
+:GENETORRENT_SERVERS - [0:0]
+:GENETORRENT_PORTS - [0:0]
+:S3_ENDPOINTS - [0:0]
+:HTTP_ALLOWED - [0:0]
+:OICR_SENSA - [0:0]
+:CEPH_MON - [0:0]
+:MONITORING - [0:0]
+:DNS - [0:0]
+:GNOS_GLUSTER - [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# allow full privnet access
+-A INPUT -s 10.16.0.0/16 -j ACCEPT
+-A INPUT -s 10.17.0.0/16 -j ACCEPT
+-A INPUT -s 10.18.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.16.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.17.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.18.0.0/16 -j ACCEPT
+
+# allow access to the internal apt-repo
+-A OUTPUT -d 10.8.1.31 -p tcp --dport 80 -j ACCEPT
+
+#Ceph
+-A INPUT -s 10.16.64.0/18  -j ACCEPT
+-A OUTPUT -d 10.16.64.0/18 -j ACCEPT
+
+#PXE
+-A INPUT -s pxeboot  -j ACCEPT
+-A OUTPUT -d pxeboot -j ACCEPT
+
+#Nagios
+-A INPUT -j MONITORING
+-A OUTPUT -j MONITORING
+
+#DNS
+-A OUTPUT -p tcp -m tcp --dport 53 -j DNS
+-A OUTPUT -p udp -m udp --dport 53 -j DNS
+
+#####################################################################################
+## Put any generic port rules (not bound to ips/subnets_ below this DROP or else    #
+##  They will be able to escape out to other nodes in ohter clouds from VMs         #
+#####################################################################################
+
+#These rules goven both the VM and HOST
+#MAIL Server
+-A OUTPUT -ptcp -mtcp --dport 25 -j MAIL
+-A OUTPUT -ptcp -mtcp --dport 587 -j MAIL
+
+#DHCP
+-A INPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+#Talk to ceph OSDs (radosgw-admin?)
+-A OUTPUT -d 10.16.64.0/18  -p tcp -m tcp --dport 6800:6899 -j ACCEPT
+
+###############################
+### ADD CUSTOM CHAINS BELOW ###
+###############################
+
+#Genetorrent
+-A GENEOS_SERVER -p tcp -m tcp --dport 443 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 21111 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 6881:6899 -j ACCEPT
+
+-A GENETORRENT_SERVERS -d 10.103.114.26 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.36 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.38 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.192/29  -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.35.223.0/24 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.192/29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.200/29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 134.75.238.126/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.174.55.67/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.174.55.76/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.62.52.0/28 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.62.54.0/27 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 202.175.151.211/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 84.88.52.64/28 -j GENETORRENT_PORTS
+#target-data.nci.nih.gov=137.187.67.139
+-A GENETORRENT_SERVERS -d 137.187.67.139  -j GENETORRENT_PORTS
+#tcga-data.nci.nih.gov=165.112.32.155
+-A GENETORRENT_SERVERS -d 165.112.32.155  -j GENETORRENT_PORTS
+#https://dream.annailabs.com
+-A GENETORRENT_SERVERS -d 132.249.227.6 -j GENETORRENT_PORTS
+
+
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 80 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 443 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 21111 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 6881:6899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 6881:6899 -j ACCEPT
+#CGHUB
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 20893:20923 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 20893:20923 -j ACCEPT
+#etri
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 6881:6999 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 6881:6999 -j ACCEPT
+#dkfz
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 7881:7899 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 8881:8899 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 9881:9899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 7881:7899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 8881:8899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 9881:9899 -j ACCEPT
+
+
+#Various S3/swift endpoints
+#CHANGEME
+#10.16.64.77 ko35-10
+#10.16.64.78 ko35-11
+#10.16.64.79 ko35-12
+# 10.1.64.107 devrack ceph
+-A S3_ENDPOINTS -d 10.16.64.77 -j ACCEPT
+-A S3_ENDPOINTS -d 10.16.64.78  -j ACCEPT
+-A S3_ENDPOINTS -d 10.16.64.79  -j ACCEPT
+-A S3_ENDPOINTS -d 10.1.64.107  -j ACCEPT
+#These are the griffin endpoints
+-A S3_ENDPOINTS -d 192.170.228.107 -j ACCEPT
+-A S3_ENDPOINTS -d 192.170.228.105 -j ACCEPT
+-A S3_ENDPOINTS -d 192.170.228.106 -j ACCEPT
+
+#Cleversafe in kh27
+-A S3_ENDPOINTS -d 10.16.64.91  -j ACCEPT
+-A S3_ENDPOINTS -d 10.16.64.92  -j ACCEPT
+-A S3_ENDPOINTS -d 10.16.64.93  -j ACCEPT
+
+
+#Tukey essentially
+# www.opensciencedatacloud.org=192.170.232.39
+# bionimnus-pdc.opensciencedatacloud.org=192.170.232.97
+-A HTTP_ALLOWED -d 192.170.232.39 -j ACCEPT
+-A HTTP_ALLOWED -d 192.170.232.97 -j ACCEPT
+
+#Salesfroce connections for account creations
+-A SALESFORCE -d 96.43.144.0/20 -j ACCEPT
+
+#Connect to our mail server if needed
+# The mail server has auth/whitlist in case we need to allow email
+#mail.opensciencedatacloud.org=192.170.232.104
+#tickets.opensciencedatacloud.org=128.135.107.139
+-A MAIL -d 192.170.232.104 -j ACCEPT
+-A MAIL -d 128.135.107.139 -j ACCEPT
+-A MAIL -d 74.125.141.27  -j ACCEPT
+
+
+#Nagios IPs
+-A MONITORING  -s 10.103.110.249  -j ACCEPT
+-A MONITORING -d 10.103.110.249 -j ACCEPT
+-A MONITORING  -s 10.8.0.21 -j ACCEPT
+-A MONITORING -d 10.8.0.21 -j ACCEPT
+-A MONITORING  -s 10.8.1.13 -j ACCEPT
+-A MONITORING -d 10.8.1.13 -j ACCEPT
+-A MONITORING  -s 10.64.1.20 -j ACCEPT
+-A MONITORING -d 10.64.1.20 -j ACCEPT
+
+-A MONITORING -d 128.135.107.139 -j ACCEPT
+-A MONITORING -s 128.135.107.139 -j ACCEPT
+-A MONITORING -d 10.64.64.49 -j ACCEPT
+-A MONITORING -s 10.64.64.49 -j ACCEPT
+-A MONITORING -d 10.100.100.252 -j ACCEPT
+-A MONITORING -s 10.100.100.252 -j ACCEPT
+-A MONITORING -d 10.100.100.251 -j ACCEPT
+-A MONITORING -s 10.100.100.251 -j ACCEPT
+
+-A DNS -d 10.100.100.251 -j ACCEPT
+-A DNS -d 10.100.100.252 -j ACCEPT
+-A DNS -d 172.16.128.1 -j ACCEPT
+-A DNS -d 10.24.0.2 -j ACCEPT
+-A DNS -d 192.170.228.84 -j ACCEPT
+-A DNS -d 192.170.228.88 -j ACCEPT
+
+#ko35-7 10.16.64.74
+#ko35-8 10.16.64.75
+#ko35-9 10.16.64.76
+-A CEPH_MON -d 10.16.64.74 -j ACCEPT
+-A CEPH_MON -d 10.16.64.75 -j ACCEPT
+-A CEPH_MON -d 10.16.64.76 -j ACCEPT
+
+#ensembldb.ensembl.org
+#useastdb.ensembl.org
+#asiadb.ensembl.org
+#martdb.ensembl.org
+#genome-mysql.cse.ucsc.edu
+#By hostname is keeping iptables from getting loaded automatically :(
+#These may break, and need to be replaced by newer IPs
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 193.62.203.187 --match multiport --dports  3306,5306,3337,4306 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 23.23.134.114 --match multiport --dports  3306,5306 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 54.243.218.95 --match multiport --dports  3306,5306 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 54.251.55.75 --match multiport --dports  3306,5306 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 46.137.214.242 --match multiport --dports  3306,5306 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 193.62.203.188 --match multiport --dports 3316,5316 -j ACCEPT
+-A ENSEMBLE_MYSQL -p tcp -m tcp -d 128.114.119.174 --dport 3306  -j ACCEPT
+
+-A OICR_SENSA -p tcp -m tcp --dport 5671  -j ACCEPT
+-A OICR_SENSA -p udp -m udp --dport 5671  -j ACCEPT
+
+-A GNOS_GLUSTER -d  10.16.64.2 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.3 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.4 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.5 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.6 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.7 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.8 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.9 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.10 -j ACCEPT
+-A GNOS_GLUSTER -d  10.16.64.81/32 -j ACCEPT
+
+
+
+COMMIT

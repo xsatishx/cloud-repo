@@ -1,0 +1,29 @@
+{
+  "name": "nrpe",
+  "description": "nrpe file",
+  "long_description": "nrpe Cookbook\n=================\nThis cookbook rolls out nrpe file.\n",
+  "maintainer": "Laboratory for Advanced Computing",
+  "maintainer_email": "rpowell1@uchicago.edu",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.3.1"
+}

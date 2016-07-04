@@ -1,0 +1,198 @@
+dn: ou=people,<%= node['ldap']['dc'] %>
+ou: People
+objectClass: organizationalUnit
+
+dn: ou=group,<%= node['ldap']['dc'] %>
+ou: Group
+objectClass: organizationalUnit
+
+dn: uid=keystone,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: keystone
+cn: keystone
+sn: keystone
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 120
+gidNumber: 120
+homeDirectory: /var/lib/keystone
+
+dn: uid=glance,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: glance
+cn: glance
+sn: glance
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 121
+gidNumber: 121
+homeDirectory: /var/lib/glance
+
+dn: uid=nova,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: nova
+cn: nova
+sn: nova
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 122
+gidNumber: 122
+homeDirectory: /var/lib/nova
+
+dn: uid=swift,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: swift
+cn: swift
+sn: swift
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 123
+gidNumber: 123
+homeDirectory: /var/lib/swift
+
+dn: uid=cinder,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: cinder
+cn: cinder
+sn: cinder
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 124
+gidNumber: 124
+homeDirectory: /var/lib/cinder
+
+dn: uid=neutron,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: neutron
+cn: neutron
+sn: neutron
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 125
+gidNumber: 125
+homeDirectory: /var/lib/neutron
+
+dn: uid=ceph,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: ceph
+cn: ceph
+sn: ceph
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 126
+gidNumber: 126
+homeDirectory: /home/ceph
+
+dn: uid=ceilometer,ou=People,<%= node['ldap']['dc'] %>
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: ceilometer
+cn: ceilometer
+sn: ceilometer
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 127
+gidNumber: 127
+homeDirectory: /var/lib/ceilometer
+
+
+dn: cn=keystone,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: keystone
+gidNumber: 120
+
+dn: cn=glance,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: glance
+gidNumber: 121
+
+dn: cn=nova,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: nova
+gidNumber: 122
+
+dn: cn=swift,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: swift
+gidNumber: 123
+
+dn: cn=cinder,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: cinder
+gidNumber: 124
+
+dn: cn=neutron,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: neutron
+gidNumber: 125
+
+dn: cn=ceph,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: ceph
+gidNumber: 126
+
+dn: cn=ceph,ou=group,dc=bionimbus-pdc,dc=opensciencedatacloud,dc=org
+changetype: modify
+add: memberUid
+memberUid: nova
+-
+add: memberUid
+memberUid: glance
+-
+add: memberUid
+memberUid: keystone
+-
+add: memberUid
+memberUid: cinder
+
+dn: cn=ceilometer,ou=Group,<%= node['ldap']['dc'] %>
+objectClass: posixGroup
+objectClass: top
+cn: ceilometer
+gidNumber: 127

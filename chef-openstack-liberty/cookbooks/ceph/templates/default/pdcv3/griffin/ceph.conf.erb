@@ -1,0 +1,151 @@
+#Created by Chef.  Edit on pxeboot
+[global]
+fsid = bd284b72-085a-4524-a059-29b0179c057c
+mon_initial_members = kh28-10, kh28-11, kh28-12
+mon_host = 10.24.64.20,10.24.64.21,10.24.64.22
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+filestore_xattr_use_omap = true
+mon_compact_on_start = true
+public_network = 10.24.64.0/18
+cluster_network = 10.24.128.0/18
+
+[mon]
+mon_compact_on_start = true
+mon_osd_min_down_reports = 30
+mon_accept_timeout = 30
+
+[osd]
+osd_mount_options_btrfs = "noatime,autodefrag,space_cache,recovery"
+osd_journal_size = 81920
+
+[client.rgw.kh28-10]
+host = kh28-10
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.radosgw.rgw01]
+host = kh28-10
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.rgw.kh28-11]
+host = kh28-11
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.radosgw.rgw02]
+host = kh28-11
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.rgw.kh28-12]
+host = kh28-12
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.radosgw.rgw03]
+host = kh28-12
+rgw_dns_name = griffin-objstore.opensciencedatacloud.org
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+rgw_socket_path = /var/run/ceph/ceph.radosgw.fastcgi.sock
+log_file = /var/log/radosgw/client.radosgw.log
+rgw_print_continue = true
+rgw_keystone_admin_token = 2b63f56ed1f20be029dd67
+rgw_keystone_url = http://api-griffin.osdc.io:5000
+rgw_keystone_accepted_roles = _member_,admin,swiftoperator,uploader,downloader
+rgw_keystone_token_cache_size = 200
+rgw_keystone_revocation_interval = 60
+rgw_s3_auth_use_keystone = true
+nss_db_path = /var/ceph/nss
+debug_civetweb = 10
+debug_rgw = 5
+rgw_frontends = "civetweb port=80"
+rgw_enable_ops_log = true
+rgw_ops_log_rados = true
+
+[client.glance]
+keyring = /etc/ceph/ceph.client.glance.keyring
+ 
+[client.cinder]
+keyring = /etc/ceph/ceph.client.cinder.keyring
+  
+[client.cinder-backup]
+keyring = /etc/ceph/ceph.client.cinder-backup.keyring
+

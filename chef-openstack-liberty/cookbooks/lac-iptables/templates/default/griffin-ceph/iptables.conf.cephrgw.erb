@@ -1,0 +1,70 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:LOGNDROP - [0:0]
+:OUTPUT ACCEPT [0:0]
+:fail2ban-apache - [0:0]
+:fail2ban-apache-attackers - [0:0]
+:fail2ban-ssh - [0:0]
+:MONITORING - [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+
+#INPUT
+##Global Accepts
+-I INPUT -i lo -j ACCEPT
+-A INPUT -s 127.0.1.1 -j ACCEPT
+-A INPUT -s 127.0.0.1 -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+##DHCP
+-A INPUT -p udp --dport 67:68 --sport 67:68 -j ACCEPT
+##SSH
+###pxea
+-A INPUT -s 10.24.127.254 -p tcp -m tcp --dport 22 -j ACCEPT
+###Allow SSH from other nodes in ceph cluster
+-A INPUT -s 10.24.64.0/18 -p tcp -m tcp --dport 22 -j ACCEPT
+##NTP
+-A INPUT -p tcp -m tcp --dport 123 -j ACCEPT
+##DNS
+-A INPUT  -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+-A INPUT  -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+##NRPE from ICINGA
+-A INPUT -s 10.100.100.251 -p tcp -m tcp --dport 5666 -m state --state NEW,ESTABLISHED -j ACCEPT
+-A INPUT -j MONITORING
+-A OUTPUT -j MONITORING
+##ceph
+-A INPUT -p tcp -s 10.24.64.0/18 --dport 6789 -j ACCEPT
+-A INPUT -p tcp -s 10.24.0.0/18 --dport 6789 -j ACCEPT
+###Gateway
+-A INPUT -p tcp -m state --state NEW,ESTABLISHED --dport 443 -j ACCEPT
+##drop all connections afterwards
+-A INPUT -j LOGNDROP
+
+#LOGNDROP Chain
+-A LOGNDROP -p tcp -m limit --limit 5/min -j LOG --log-prefix "Denied TCP: " --log-level 7
+-A LOGNDROP -p udp -m limit --limit 5/min -j LOG --log-prefix "Denied UDP: " --log-level 7
+-A LOGNDROP -p icmp -m limit --limit 5/min -j LOG --log-prefix "Denied ICMP: " --log-level 7
+-A LOGNDROP -j DROP
+
+#OUTPUT Chain
+-A OUTPUT -j ACCEPT
+
+-A MONITORING -s 10.103.110.249/32 -j ACCEPT
+-A MONITORING -d 10.103.110.249/32 -j ACCEPT
+-A MONITORING -s 10.8.0.21/32 -j ACCEPT
+-A MONITORING -d 10.8.0.21/32 -j ACCEPT
+-A MONITORING -s 10.8.1.13/32 -j ACCEPT
+-A MONITORING -d 10.8.1.13/32 -j ACCEPT
+-A MONITORING -s 10.64.1.20/32 -j ACCEPT
+-A MONITORING -d 10.64.1.20/32 -j ACCEPT
+-A MONITORING -d 128.135.107.139/32 -j ACCEPT
+-A MONITORING -s 128.135.107.139/32 -j ACCEPT
+-A MONITORING -d 10.64.64.49/32 -j ACCEPT
+-A MONITORING -s 10.64.64.49/32 -j ACCEPT
+-A MONITORING -d 10.100.100.252/32 -j ACCEPT
+-A MONITORING -s 10.100.100.252/32 -j ACCEPT
+-A MONITORING -d 10.100.100.251/32 -j ACCEPT
+-A MONITORING -s 10.100.100.251/32 -j ACCEPT
+-A MONITORING -s 10.100.100.250/32 -j ACCEPT
+-A MONITORING -d 10.100.100.250/32 -j ACCEPT
+
+COMMIT

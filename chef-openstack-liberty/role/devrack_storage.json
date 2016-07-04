@@ -1,0 +1,20 @@
+{
+  "name": "devrack_storage",
+  "description": "devrack storage nodes",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[interfaces]",
+    "recipe[ssh-keys]",
+    "recipe[apt]",
+    "recipe[ntp]",
+    "recipe[nrpe]",
+    "recipe[fasterdata]"
+  ],
+  "env_run_lists": {
+  }
+}

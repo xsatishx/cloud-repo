@@ -1,0 +1,17 @@
+{
+  "name": "pdcv3_neutron",
+  "description": "Compute Node",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv3]",
+    "recipe[nova-neutron-pdc::pdcv3-neutron]",
+    "recipe[lac-iptables::pdcv3]"
+  ],
+  "env_run_lists": {
+  }
+}

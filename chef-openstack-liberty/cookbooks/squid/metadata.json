@@ -1,0 +1,29 @@
+{
+  "name": "squid",
+  "description": "squid file",
+  "long_description": "squid Cookbook\n=================\nThis cookbook rolls out squid file.\n",
+  "maintainer": "Laboratory for Advanced Computing",
+  "maintainer_email": "rpowell1@uchicago.edu",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.3.0"
+}

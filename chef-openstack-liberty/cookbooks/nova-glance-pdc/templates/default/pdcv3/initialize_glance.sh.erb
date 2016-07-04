@@ -1,0 +1,12 @@
+#!/bin/bash
+
+    source /root/admin_auth
+
+    glance-manage db_sync
+    
+    keystone user-create --name=glance --pass=<%= node['glance']['passwd'] %> --email='admin@opensciencedatacloud.org'
+    keystone user-role-add --user=glance --tenant=service --role=admin
+    keystone service-create --name=glance --type=image --description="OpenStack Image Service"
+    keystone endpoint-create --service-id=$(keystone service-list | awk '/ image / {print $2}') --publicurl=http://<%= node['glance']['host'] %>:9292 --internalurl=http://<%= node['glance']['host'] %>:9292 --adminurl=http://<%= node['glance']['host'] %>:9292
+
+

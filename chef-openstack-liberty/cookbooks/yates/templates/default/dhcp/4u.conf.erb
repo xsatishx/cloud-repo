@@ -1,0 +1,4 @@
+group { option routers 10.103.110.201; filename "pxelinux.0"; next-server 10.103.110.201;
+    host kg10-compute-201 { hardware ethernet 00:25:90:83:06:73; option host-name "kg13-compute-201"; fixed-address 10.103.110.201; }
+    host kg10-compute-202 { hardware ethernet 00:25:90:4f:ea:1b; option host-name "kg13-compute-202"; fixed-address 10.103.110.202; }
+}

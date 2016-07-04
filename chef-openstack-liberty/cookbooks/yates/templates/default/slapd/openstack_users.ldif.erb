@@ -1,0 +1,75 @@
+dn: ou=people,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+ou: People
+objectClass: organizationalUnit
+
+dn: ou=group,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+ou: Group
+objectClass: organizationalUnit
+
+dn: uid=keystone,ou=People,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: keystone
+cn: keystone
+sn: keystone
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 120
+gidNumber: 120
+homeDirectory: /var/lib/keystone
+
+dn: uid=glance,ou=People,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: glance
+cn: glance
+sn: glance
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 121
+gidNumber: 121
+homeDirectory: /var/lib/glance
+
+dn: uid=nova,ou=People,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: nova
+cn: nova
+sn: nova
+userPassword: {CRYPT}*
+loginShell: /bin/false
+uidNumber: 122
+gidNumber: 122
+homeDirectory: /var/lib/nova
+
+dn: cn=keystone,ou=Group,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: keystone
+gidNumber: 120
+
+dn: cn=glance,ou=Group,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: glance
+gidNumber: 121
+
+dn: cn=nova,ou=Group,dc=<%= @chef_environment %>,dc=opensciencedatacloud,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: nova
+gidNumber: 122
+
+

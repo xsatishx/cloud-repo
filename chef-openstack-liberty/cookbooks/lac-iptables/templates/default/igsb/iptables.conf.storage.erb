@@ -1,0 +1,47 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:DNS - [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+# accept opened connections
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+# allow full privnet access
+-A INPUT -s 10.32.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.32.0.0/16 -j ACCEPT
+#allow nagios
+-A INPUT  -s 10.103.110.249 -j ACCEPT
+-A OUTPUT  -d 10.103.110.249 -j ACCEPT
+#allow icinga
+-A INPUT  -s 10.8.0.21 -j ACCEPT
+-A OUTPUT  -d 10.8.0.21 -j ACCEPT
+# allow ssh access
+-A INPUT -m tcp -p tcp --dport 22 -j ACCEPT
+-A OUTPUT -m tcp -p tcp  --dport 22  -j ACCEPT
+-A OUTPUT -m tcp -p tcp  --sport 22  -j ACCEPT
+#Allow in radosgw for active interfaces.
+<% @interfaces.each do %>
+<%|ifname|%>
+-A INPUT -i  <%= ifname %>  -p tcp --dport 80 -j ACCEPT
+-A INPUT -i  <%= ifname %>  -p tcp --dport 443 -j ACCEPT
+<%end%>
+-A INPUT -i p3p1.3523 -p tcp --dport 80 -j ACCEPT
+-A INPUT -i p3p1.3523 -p tcp --dport 443 -j ACCEPT
+# accept anything on loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+#Nagios and Cacti
+-A INPUT -pudp -mudp -s 10.103.110.249 -j ACCEPT
+-A INPUT -pudp -mudp --dport 161 -j REJECT
+# allow pings
+-A INPUT -p ICMP --icmp-type echo-request -j ACCEPT
+-A OUTPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+#DNS
+-A OUTPUT -p tcp -m tcp --dport 53 -j DNS
+-A OUTPUT -p udp -m udp --dport 53 -j DNS
+-A DNS -d 10.8.0.21 -j ACCEPT
+-A DNS -d 10.8.0.21 -j ACCEPT
+-A DNS -d 192.170.228.84 -j ACCEPT
+-A DNS -d 192.170.228.88 -j ACCEPT
+COMMIT

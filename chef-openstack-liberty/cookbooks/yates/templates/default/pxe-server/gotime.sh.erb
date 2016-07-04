@@ -1,0 +1,180 @@
+#!/bin/bash
+## This file managed by Chef, all changes will be overwritten ##
+
+mode=$1
+
+## Settings
+main="<%= @nic %>"
+management="eth0"
+
+## Setup SSH Keys
+function ssh_keys {
+	mkdir -p /root/.ssh /home/lacadmin/.ssh
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/misc/authorized_keys -O /root/.ssh/authorized_keys
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/misc/authorized_keys -O /home/lacadmin/.ssh/authorized_keys
+	chown -R root:root /root/.ssh
+	chmod 600 /root/.ssh/authorized_keys
+	chown -R lacadmin:lacadmin /home/lacadmin/.ssh
+	chmod 600 /home/lacadmin/.ssh/authorized_keys
+}
+
+## Protect SSH
+function protect_ssh {
+	usermod -G staff -a lacadmin
+	sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config
+	sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
+	echo "" >> /etc/ssh/sshd_config
+	echo "AllowGroups staff" >> /etc/ssh/sshd_config
+}
+
+## IPMI Modules
+function ipmi_setup {
+	echo "ipmi_msghandler" >> /etc/modules
+	echo "ipmi_devintf" >> /etc/modules
+	echo "ipmi_si" >> /etc/modules
+}
+
+## Set Hostname/IP per host entries
+function ip_set {	
+  INTERFACES=/etc/network/interfaces.new
+	second=$(echo "<%= @ip_addr %>" | cut -d '.' -f2)
+	third=$(echo "<%= @ip_addr %>" | cut -d '.' -f3)
+	fourth=$(echo "<%= @ip_addr %>" | cut -d '.' -f4)
+	gthird=$(echo "<%= @gateway %>" | cut -d '.' -f3)
+	gfourth=$(echo "<%= @gateway %>" | cut -d '.' -f4)
+	echo "auto lo" > $INTERFACES
+	echo "iface lo inet loopback" >> $INTERFACES
+	echo "" >> $INTERFACES
+#	echo "auto ${management}" >> $INTERFACES
+#	echo "iface ${management} inet static" >> $INTERFACES
+#	echo "	address 10.$((second+1)).${third}.${fourth}" >> $INTERFACES
+#	echo "	netmask 255.255.192.0" >> $INTERFACES
+#	echo "	network 10.$((second+1)).${gthird}.0" >> $INTERFACES
+#	echo "	broadcast 10.$((second+1)).$((gthird+63)).255" >> $INTERFACES
+#	echo "" >> $INTERFACES
+#	echo "auto virbr1" >> $INTERFACES
+#	echo "iface virbr1 inet static" >> $INTERFACES
+	echo "auto ${main}" >> $INTERFACES
+	echo "iface ${main} inet static" >> $INTERFACES
+#	echo "	address 10.${second}.${third}.${fourth}" >> $INTERFACES
+	echo "	address <%= @ip_addr %>" >> $INTERFACES
+	echo "	netmask 255.255.192.0" >> $INTERFACES
+	echo "	network 10.${second}.${gthird}.0" >> $INTERFACES
+	echo "	broadcast 10.${second}.$((gthird+63)).255" >> $INTERFACES
+#	echo "	gateway 10.${second}.${gthird}.${gfourth}" >> $INTERFACES
+	echo "	gateway <%= @gateway %>" >> $INTERFACES
+<%
+  if @dns.nil?
+    puts "WARNING: no DNS entry, defaulting to 10.8.0.21.  Good luck"
+    @dns="10.8.0.21"
+  end
+ %>
+	echo "	dns-nameservers <%= @dns.gsub(","," ") %>" >> $INTERFACES
+	echo "	mtu 9000" >> $INTERFACES
+#	echo "	bridge-ports ${main}" >> $INTERFACES
+#	echo "	bridge_maxwait 0" >> $INTERFACES
+#	echo '	pre-up iptables-restore  /etc/iptables.conf || /bin/true' >> $INTERFACES
+#	echo '	pre-up ip link set dev $IFACE mtu 9000 || /bin/true' >> $INTERFACES
+	echo '	post-up ip link set $IFACE txqueuelen 10000 || /bin/true' >> $INTERFACES
+#	echo '#	post-up ip route add 172.16.0.0/16 dev $IFACE' >> $INTERFACES
+#	echo '	post-up ip route add 10.0.0.0/8 via 10.16.0.1 || /bin/true' >> $INTERFACES
+#	echo '#	pre-down ip route add 172.16.0.0/16 dev $IFACE' >> $INTERFACES
+#	echo '	pre-down ip route del 10.0.0.0/8 via 10.16.0.1 || /bin/true' >> $INTERFACES
+}
+
+function hostname_set {
+	hostname=$(echo "<%= @hostname %>")
+	echo ${hostname} > /etc/hostname
+	hostname ${hostname}
+	sed -i 's%ip6-localhost%ip6host%g' /etc/hosts
+	sed -i "s%localhost%${hostname} localhost%g" /etc/hosts
+	sed -i 's%ip6host%ip6-localhost%g' /etc/hosts
+	echo "" >> /etc/hosts
+	echo "<%= @pxe_addr %>	pxeboot" >> /etc/hosts
+}
+
+## Setup First Boot Script
+function setup_reboot {
+	chmod +x /root/gotime.sh
+	sed -i '$d' /etc/rc.local
+	echo "/root/gotime.sh 2" >> /etc/rc.local
+	echo "exit 0" >> /etc/rc.local
+	reboot
+}
+
+# Switch apt Mirrors and Install Keys
+function apt_setup {
+	sed -i 's%http://us.archive.ubuntu.com/ubuntu/%http://mirror.pnl.gov/ubuntu/%g' /etc/apt/sources.list
+	sed -i 's%http://security.ubuntu.com/ubuntu%http://mirror.pnl.gov/ubuntu/%g' /etc/apt/sources.list
+	apt-get update
+	apt-get install -y --force-yes python-software-properties
+}
+
+## Sudoers
+function sudo_setup {
+	if [ -f "/etc/sudoers.tmp" ]; then
+		exit 1
+	fi
+	touch /etc/sudoers.tmp
+	cp /etc/sudoers /tmp/sudoers.new
+	echo "" >> /tmp/sudoers.new
+	echo "# Members of the staff group may execute anything without a password" >> /tmp/sudoers.new
+	echo "%staff    ALL =(ALL:ALL) NOPASSWD: ALL" >> /tmp/sudoers.new
+	echo "Defaults:%staff env_keep+=SSH_AUTH_SOCK" >> /tmp/sudoers.new
+	visudo -c -f /tmp/sudoers.new
+	if [ "$?" -eq "0" ]; then
+		cp /tmp/sudoers.new /etc/sudoers
+	fi
+	rm /etc/sudoers.tmp
+	rm /tmp/sudoers.new
+}
+
+## Cleanup
+function update {
+	#Lock to LTS
+	echo '
+	[DEFAULT]
+	Prompt=lts
+	' > /etc/update-manager/release-upgrades.moo
+	do-release-upgrade -f DistUpgradeViewNonInteractive
+}
+
+## Support Chef
+function sous_chef {
+	mkdir /etc/chef
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/chef/validation.pem -O /etc/chef/validation.pem
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/chef/client.rb -O /etc/chef/client.rb
+#	curl -L https://www.opscode.com/chef/install.sh | bash
+#	chef-client
+#  apt-get purge chef
+#  apt-get install chef -y
+}
+
+## Cleanup
+function cleanup {
+	sed -i '/gotime.sh/ d' /etc/rc.local
+	#rm /root/gotime.sh
+	reboot
+}
+
+ntpdate <%= @gateway %>
+
+## Post Install
+if [[ ${mode} == 1 ]]; then
+	ssh_keys
+	protect_ssh
+	ipmi_setup
+	hostname_set
+	setup_reboot
+	exit 0
+elif [[ ${mode} == 2 ]]; then
+	apt_setup
+	sudo_setup
+	ip_set
+	update
+	sous_chef
+	cleanup
+	exit 0
+else
+	exit 0
+fi

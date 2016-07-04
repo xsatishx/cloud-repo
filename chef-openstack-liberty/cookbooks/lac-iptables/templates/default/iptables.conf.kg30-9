@@ -1,0 +1,33 @@
+*filter
+:INPUT DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:GNOS_VMS - [0:0]
+
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+-A INPUT -s 10.16.64.0/18 -j ACCEPT
+-A INPUT -j GNOS_VMS
+
+-A INPUT -s 10.18.0.0/16 -p tcp -m tcp --dport 22 -j ACCEPT
+
+#'kg34-14', 'kg37-4', 'kg37-26', 'kg37-27'
+-A GNOS_VMS -s 10.16.0.94 -j ACCEPT
+-A GNOS_VMS -s 10.16.0.116 -j ACCEPT
+-A GNOS_VMS -s 10.16.0.138 -j ACCEPT
+-A GNOS_VMS -s 10.16.0.139 -j ACCEPT
+
+
+#allow nagios
+-A INPUT  -s 10.103.110.249 -j ACCEPT
+-A OUTPUT  -d 10.103.110.249 -j ACCEPT
+#icinga
+-A INPUT -s 10.8.0.21 -j ACCEPT
+-A OUTPUT -d 10.8.0.21 -j ACCEPT
+#allow logstash logging server
+-A INPUT -s 10.8.0.22 -j ACCEPT
+-A OUTPUT -d 10.8.0.22 -j ACCEPT
+
+
+
+COMMIT

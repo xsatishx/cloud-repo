@@ -1,0 +1,35 @@
+{
+  "recommendations": {
+  },
+  "platforms": {
+    "freebsd": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "fedora": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0"
+  },
+  "description": "Creates \"authorized_keys\" in user \"~/.ssh\" directory from a data bag",
+  "recipes": {
+  },
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "maintainer": "Nickolay Kovalev",
+  "dependencies": {
+  },
+  "groupings": {
+  },
+  "maintainer_email": "nickola@nickola.ru",
+  "conflicting": {
+  },
+  "long_description": "Description\n===========\n\nCreates `authorized_keys` in user `~/.ssh` directory from a data bag.\n\nAttributes\n==========\n\nExpects `node[:ssh_keys]` to be an hash containing the user name as key and data bag user name as value.\n\nUsage\n=====\n\nNode configuration example to create `authorized_keys` for user `root` from data bag user `user1`:\n\n    {\n      \"ssh_keys\": {\n        \"root\": \"user1\"\n      },\n      \"run_list\": [\n        \"recipe[ssh-keys]\"\n      ]\n    }\n\nNode configuration example to create `authorized_keys` for user `root` from data bag user `user1` and `user2`:\n\n    {\n      \"ssh_keys\": {\n        \"root\": [\"user1\", \"user2\"]\n      },\n      \"run_list\": [\n        \"recipe[ssh-keys]\"\n      ]\n    }\n\nUse knife to create a data bag for users:\n\n    knife data bag create users\n\nUser data bag example (compatible with Chef [users cookbook](https://github.com/opscode-cookbooks/users)):\n\n    knife data bag users user1\n    {\n      \"id\": \"user1\",\n      \"ssh_keys\": \"ssh-rsa AAAAB3Nz...yhCw== user1\"\n    }\n\n    knife data bag users user2\n    {\n      \"id\": \"user2\",\n      \"ssh_keys\": \"ssh-rsa AAAAB3Nz...5D8F== user2\"\n    }\n",
+  "name": "ssh-keys",
+  "version": "1.0.0",
+  "license": "Apache 2.0",
+  "replacing": {
+  },
+  "providing": {
+  }
+}

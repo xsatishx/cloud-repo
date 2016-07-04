@@ -1,0 +1,32 @@
+{
+  "name": "network_interfaces",
+  "version": "1.0.0",
+  "description": "Installs/Configures network on Ubuntu and Debian",
+  "long_description": "Description\n===========\n\nManage /etc/network/interfaces on debian / Ubuntu\n\nRequirements\n============\n\nifupdown-0.7~alpha3 or older :\n* debian >= squeeze\n* Ubuntu >= 11.04 (natty)\n\nAttributes\n==========\n\nUsage\n=====\nexample for a bridge with pre-up and pre-down script :\n\n    network_interfaces \"br-test\" do\n      target \"172.16.88.2\"\n      mask \"255.255.255.0\"\n      bridge [ \"none\" ]\n      pre_up \"cat /tmp/iptables-create | iptables-restore -n\"\n      post_down \"cat /tmp/iptables-delete | iptables-restore -n\"\n    end\n\nMore documentation later.\n",
+  "maintainer": "Guilhem Lettron",
+  "maintainer_email": "guilhem.lettron@youscribe.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 12.4.0",
+    "debian": ">= 6.0.8"
+  },
+  "dependencies": {
+    "modules": ">= 0.1.2"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  }
+}

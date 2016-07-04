@@ -1,0 +1,44 @@
+{
+  "name": "igsb",
+  "description": "The IGSB rack",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "canary": "tweety",
+    "pxeboot": "10.1.64.51",
+    "ssh_keys": {
+      "root": [
+        "rpowell",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ],
+      "lacadmin": [
+        "rpowell",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ]
+    },
+    "apt": {
+      "cacher_ipaddress": "pxeboot",
+      "cacher_bypass": {
+        "apt-repo.osdc.io": "http"
+      }
+    }
+  },
+  "override_attributes": {
+    "ntp": {
+      "servers": [
+        "10.32.0.21",
+        "10.32.1.29"
+      ]
+    }
+  }
+}

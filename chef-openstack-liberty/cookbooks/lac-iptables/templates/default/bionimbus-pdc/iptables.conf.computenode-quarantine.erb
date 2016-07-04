@@ -1,0 +1,129 @@
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+:VM_OUT - [0:0]
+:EMAIL - [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.16.128.0/18 ! -d 172.17.0.0/18 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.16.128.0/18 ! -d 169.254.169.254/32 -j MASQUERADE
+
+#This is how we blk outbound VM ports
+-A PREROUTING -s 172.16.128.0/18 -j VM_OUT
+#Allow in neccessary internal cloud servers
+-A VM_OUT -d kg37-24 -j ACCEPT
+-A VM_OUT -d cloud-controller -j ACCEPT
+-A VM_OUT -d 172.16.128.1 -j ACCEPT
+-A VM_OUT -d cloud-proxy -p tcp -m tcp --dport 3128 -j ACCEPT
+#Block unneccessary
+-A VM_OUT -s 172.16.128.0/18 -d 10.0.0.0/8 -p tcp -j REDIRECT --to-ports 9999
+-A VM_OUT -s 172.16.128.0/18 -d 10.0.0.0/8 -p udp -j REDIRECT --to-ports 9999
+-A VM_OUT -s 172.16.128.0/18 -d 10.0.0.0/8 -p icmp -j REDIRECT --to-ports 9999
+### this is the login VM
+-A VM_OUT -s 172.16.128.112 -j ACCEPT
+# Allow email out
+-A VM_OUT -p tcp -m tcp --dport 25 -j ACCEPT
+-A VM_OUT -p tcp -m tcp --dport 587 -j ACCEPT
+
+#Block all
+-A VM_OUT -p tcp -j REDIRECT --to-ports 9999
+-A VM_OUT -p udp -j REDIRECT --to-ports 9999
+-A VM_OUT -p icmp -j REDIRECT --to-ports 9999
+
+COMMIT
+
+
+*filter
+:INPUT DROP [1:32]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:PORTFWD_BLK - [0:0]
+:GENEOS_SERVER - [0:0]
+:FLOATING_IP - [0:0]
+:MONITORING - [0:0]
+:DNS - [0:0]
+
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+#Metadata
+-A INPUT  -s 172.16.128.0/18 -d 169.254.169.254/32 -j ACCEPT
+-A OUTPUT -d 172.16.128.0/18 -s 169.254.169.254/32 -j ACCEPT
+-A INPUT  -s 172.16.128.0/18 -d 10.16.0.0/18 -ptcp -mtcp --dport 8775  -j ACCEPT
+-A OUTPUT  -d 172.16.128.0/18 -s 10.16.0.0/18 -ptcp -mtcp --dport 8775  -j ACCEPT
+
+#DHCP
+-A INPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+#Floating IP
+-A INPUT -d 192.170.232.0/28 -j DROP
+-I FORWARD -i eth2.3526 -j FLOATING_IP
+-A INPUT -d 192.170.232.0/23 -j FLOATING_IP
+
+-A FLOATING_IP -m tcp -p tcp --dport 22 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 80 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 443 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 25 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 587 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 993 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 995 -j ACCEPT
+-A FLOATING_IP -s 190.103.184.14 -m tcp -p tcp --dport 5666 -j ACCEPT
+-A FLOATING_IP -m tcp -p tcp --dport 9000:9100 -j ACCEPT
+-A FLOATING_IP -m udp -p udp --dport 9000:9100 -j ACCEPT
+-A FLOATING_IP -j DROP
+
+#PXE
+-A INPUT -s pxeboot -j ACCEPT
+-A OUTPUT -d pxeboot -j ACCEPT
+
+#Cloud controller
+-A INPUT -s cloud-controller -j ACCEPT
+-A OUTPUT -d cloud-controller -j ACCEPT
+
+#allow nagios
+-A INPUT -s 10.100.100.251 -j MONITORING
+-A INPUT -s 10.100.100.252 -j MONITORING
+-A OUTPUT -d 10.100.100.251 -j MONITORING
+-A OUTPUT -d 10.100.100.252 -j MONITORING
+-A INPUT -s 10.8.0.21 -j MONITORING
+-A OUTPUT -d 10.8.0.21 -j MONITORING
+-A MONITORING -j ACCEPT
+
+#DNS
+-A OUTPUT -ptcp -mtcp --dport 53 -j DNS
+-A OUTPUT -pudp -mudp --dport 53 -j DNS
+-A DNS -d 10.100.100.251 -j ACCEPT
+-A DNS -d 10.100.100.252 -j ACCEPT
+
+
+#filter marked packets
+-A INPUT -s 10.0.0.0/8 -d 172.16.128.0/18 -j DROP
+-A INPUT -d 10.0.0.0/8 -s 172.16.128.0/18 -j DROP
+-A OUTPUT -s 10.0.0.0/8 -d 172.16.128.0/18 -j DROP
+-A OUTPUT -d 10.0.0.0/8 -s 172.16.128.0/18 -j DROP
+
+
+-A INPUT -s 10.0.0.0/8 -j DROP
+-A OUTPUT -d 10.0.0.0/8 -j DROP
+
+
+COMMIT
+# vi:syntax=iptables.conf

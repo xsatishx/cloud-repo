@@ -1,0 +1,11 @@
+[global]
+fsid = dcb19655-e4dc-4236-b57f-07239c266920
+ms_bind_ipv6 = true
+mon_initial_members = kd8b-4, kd8b-5, kd8b-6
+mon_host = 10.1.64.104,10.1.64.105,10.1.64.106
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+filestore_xattr_use_omap = true
+public_network = 10.1.64.0/18
+cluster_network = 10.1.128.0/18

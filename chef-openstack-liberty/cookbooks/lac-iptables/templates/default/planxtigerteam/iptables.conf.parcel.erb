@@ -1,0 +1,34 @@
+*filter
+:INPUT DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+#allow pings
+-A INPUT -p ICMP --icmp-type echo-request -j ACCEPT
+-A OUTPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+#Allow incomming ssh
+-A INPUT -mtcp -ptcp --dport 22 -j ACCEPT
+
+#Allow incomming parcel
+-A INPUT -m tcp -p tcp --dport 9000 -j ACCEPT
+-A INPUT -m udp -p udp --dport 9000 -j ACCEPT
+
+#allow icinga
+-A INPUT -s 10.8.1.14 -m tcp -p tcp --dport 5666 -j ACCEPT
+
+#PXE
+-A INPUT -s 10.8.1.11 -j ACCEPT
+-A INPUT -s 10.16.63.254  -j ACCEPT
+-A OUTPUT -d 10.16.63.254 -j ACCEPT
+
+COMMIT

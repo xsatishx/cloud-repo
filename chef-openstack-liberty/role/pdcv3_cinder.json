@@ -1,0 +1,19 @@
+{
+  "name": "pdcv3_cinder",
+  "description": "Compute Node",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv3]",
+    "recipe[lac-iptables::pdcv3]",
+    "recipe[nova-apt-sources]",
+    "recipe[nova-cinder-pdc::pdcv3-service_node]",
+    "recipe[ceph::pdcv3-cinder]"
+  ],
+  "env_run_lists": {
+  }
+}

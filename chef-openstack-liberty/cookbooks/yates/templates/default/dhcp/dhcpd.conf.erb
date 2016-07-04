@@ -1,0 +1,94 @@
+# File managed by Chef
+
+ddns-update-style none;
+authoritative;
+log-facility local7;
+default-lease-time 86400;
+max-lease-time 604800;
+
+subnet 10.1.0.0 netmask 255.255.192.0 {
+                option broadcast-address 10.1.63.255;
+                next-server 10.1.0.51;
+                filename "pxelinux.0";
+}
+subnet 10.1.64.0 netmask 255.255.192.0 {
+                option broadcast-address 10.16.127.255;
+                next-server 10.1.64.51;
+                filename "pxelinux.0";
+}
+subnet 10.1.128.0 netmask 255.255.192.0 {
+                option broadcast-address 10.1.191.255;
+                next-server 10.16.128.51;
+                filename "pxelinux.0";
+}
+subnet 10.16.0.0 netmask 255.255.192.0 {
+		option broadcast-address 10.16.63.255;
+		next-server 10.16.63.254;
+		filename "pxelinux.0";
+}
+subnet 10.16.64.0 netmask 255.255.192.0 {
+		option broadcast-address 10.16.127.255;
+		next-server 10.16.127.254;
+		filename "pxelinux.0";
+}
+subnet 10.24.0.0 netmask 255.255.192.0 {
+		option broadcast-address 10.24.63.255;
+		next-server 10.24.63.254;
+		filename "pxelinux.0";
+}
+subnet 10.24.64.0 netmask 255.255.192.0 {
+		option broadcast-address 10.24.127.255;
+		next-server 10.24.127.254;
+		filename "pxelinux.0";
+}
+subnet 10.103.0.0 netmask 255.255.0.0 {
+        option broadcast-address 10.103.255.255;
+}
+subnet 10.32.0.0 netmask 255.255.255.0 {
+    option broadcast-address 10.32.0.255;
+    next-server 10.32.0.11;
+    filename "pxelinux.0";
+}
+subnet 10.32.1.0 netmask 255.255.255.0 {
+    option broadcast-address 10.32.1.255;
+    next-server 10.32.1.11;
+    filename "pxelinux.0";
+}
+subnet 10.18.64.0 netmask 255.255.192.0 {
+    option broadcast-address 10.18.127.255;
+    next-server 10.18.64.254;
+    filename "pxelinux.0";
+}
+subnet 10.66.64.0 netmask 255.255.192.0 {
+    option broadcast-address 10.66.127.255;
+    next-server 10.66.64.51;
+}
+
+<% @nodes.each do |hostname,data| -%>
+  <% next if hostname=="id" -%>
+  <%
+    if data["dns"].nil?
+      puts "DANGER DANGER WILL ROBINSON!  No DNS servers listed, so fudging it with 10.8.0.21"
+      data["dns"]='10.8.0.21'
+    end
+  %>
+  host <%= hostname %> {
+    option host-name "<%= hostname %>";
+    hardware ethernet <%= data["mac"] %>;
+    fixed-address <%= data["ip"] %>;
+    option routers <%= data["router"] %>;
+    option domain-name-servers <%= data["dns"] %>;
+  }
+<% end -%>
+
+<% #just mac based reservations -%>
+<% @reservations.each do |hostname,data| -%>
+  <% next if hostname=="id" -%>
+  host <%= hostname %> {
+    option host-name "<%= hostname %>";
+    hardware ethernet <%= data["mac"] %>;
+    fixed-address <%= data["ip"] %>;
+    option routers <%= data["router"] %>;
+    option domain-name-servers <%= data["dns"] %>;
+  }
+<% end -%>

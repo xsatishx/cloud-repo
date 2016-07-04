@@ -1,0 +1,157 @@
+#! /bin/bash
+## This file managed by Chef, all changes will be overwritten ##
+
+mode=$1
+
+## Settings
+main="<%= @main_int %>"
+management="<%= @manage_int %>"
+dnssearch="lac.uchicago.edu"
+
+## Setup SSH Keys
+function ssh_keys {
+	mkdir -p /root/.ssh /home/lacadmin/.ssh
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/misc/authorized_keys -O /root/.ssh/authorized_keys
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/misc/authorized_keys -O /home/lacadmin/.ssh/authorized_keys
+	chown -R root:root /root/.ssh
+	chmod 600 /root/.ssh/authorized_keys
+	chown -R lacadmin:lacadmin /home/lacadmin/.ssh
+	chmod 600 /home/lacadmin/.ssh/authorized_keys
+}
+
+## Protect SSH
+function protect_ssh {
+	usermod -G staff -a lacadmin
+	sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config
+	sed -i "s/UsePAM yes/UsePAM no/" /etc/ssh/sshd_config
+	echo "" >> /etc/ssh/sshd_config
+	echo "AllowGroups staff" >> /etc/ssh/sshd_config
+}
+
+## IPMI Modules
+function ipmi_setup {
+	echo "ipmi_msghandler" >> /etc/modules
+	echo "ipmi_devintf" >> /etc/modules
+	echo "ipmi_si" >> /etc/modules
+}
+
+## Set Hostname/IP per host entries
+function ip_set {
+	second=$(echo "<%= @ip_addr %>" | cut -d '.' -f2)
+	third=$(echo "<%= @ip_addr %>" | cut -d '.' -f3)
+	fourth=$(echo "<%= @ip_addr %>" | cut -d '.' -f4)
+	echo "auto lo" > /etc/network/interfaces
+	echo "iface lo inet loopback" >> /etc/network/interfaces
+	echo "" >> /etc/network/interfaces
+	if [ ${management} = "eth0" -o ${management} = "p9p1" ]; then
+		echo "auto ${management}" >> /etc/network/interfaces
+		echo "iface ${management} inet static" >> /etc/network/interfaces
+		echo "	address 10.102.$((<%= @subnet %>-100)).${fourth}" >> /etc/network/interfaces
+		echo "	netmask 255.255.255.0" >> /etc/network/interfaces
+		echo "	network 10.102.$((<%= @subnet %>-100)).0" >> /etc/network/interfaces
+		echo "	broadcast 10.102.$((<%= @subnet %>-100)).255" >> /etc/network/interfaces
+		echo "" >> /etc/network/interfaces
+	fi
+	echo "auto ${main}" >> /etc/network/interfaces
+	echo "iface ${main} inet static" >> /etc/network/interfaces
+	echo "	address <%= @ip_addr %>" >> /etc/network/interfaces
+	echo "	netmask 255.255.0.0" >> /etc/network/interfaces
+	echo "	network 10.103.0.0" >> /etc/network/interfaces
+	echo "	broadcast 10.103.255.255" >> /etc/network/interfaces
+	echo "	gateway 10.103.<%= @subnet %>.1" >> /etc/network/interfaces
+	echo "	dns-nameservers <%= @dns %>" >> /etc/network/interfaces
+	echo "	dns-search ${dnssearch}" >> /etc/network/interfaces
+  echo "	mtu 9000" >> /etc/network/interfaces
+	if [ ${main} = "eth2" -o ${main} = "p6p1" ]; then
+		echo "	post-up ip link set ${main} txqueuelen 10000" >> /etc/network/interfaces
+		echo "" >> /etc/network/interfaces
+	elif [ ${main} = "eth0" ]; then
+		echo "" >> /etc/network/interfaces
+	fi
+	
+}
+
+function hostname_set {
+	hostname=$(echo "<%= @hostname %>")
+	echo ${hostname} > /etc/hostname
+	hostname ${hostname}
+	sed -i 's%ip6-localhost%ip6host%g' /etc/hosts
+	sed -i "s%localhost%${hostname} localhost%g" /etc/hosts
+	sed -i 's%ip6host%ip6-localhost%g' /etc/hosts
+	echo "" >> /etc/hosts
+	echo "<%= @pxe_addr %>	pxeboot" >> /etc/hosts
+}
+
+## Setup First Boot Script
+function setup_reboot {
+	chmod +x /root/gotime.sh
+	sed -i '$d' /etc/rc.local
+	echo "/root/gotime.sh 2" >> /etc/rc.local
+	echo "exit 0" >> /etc/rc.local
+	reboot
+}
+
+# Switch apt Mirrors and Install Keys
+function apt_setup {
+	sed -i 's%http://us.archive.ubuntu.com/ubuntu/%http://mirror.anl.gov/pub/ubuntu/%g' /etc/apt/sources.list
+	sed -i 's%http://security.ubuntu.com/ubuntu%http://mirror.anl.gov/pub/ubuntu/%g' /etc/apt/sources.list
+	apt-get update
+	apt-get install -y --force-yes python-software-properties
+}
+
+## Sudoers
+function sudo_setup {
+	if [ -f "/etc/sudoers.tmp" ]; then
+		exit 1
+	fi
+	touch /etc/sudoers.tmp
+	cp /etc/sudoers /tmp/sudoers.new
+	echo "" >> /tmp/sudoers.new
+	echo "# Members of the staff group may execute anything without a password" >> /tmp/sudoers.new
+	echo "%staff    ALL =(ALL:ALL) NOPASSWD: ALL" >> /tmp/sudoers.new
+	echo "Defaults:%staff env_keep+=SSH_AUTH_SOCK" >> /tmp/sudoers.new
+	visudo -c -f /tmp/sudoers.new
+	if [ "$?" -eq "0" ]; then
+		cp /tmp/sudoers.new /etc/sudoers
+	fi
+	rm /etc/sudoers.tmp
+	rm /tmp/sudoers.new
+}
+
+## Support Chef
+function sous_chef {
+	mkdir /etc/chef
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/chef/validation.pem -O /etc/chef/validation.pem
+	wget http://<%= @pxe_addr %>:<%= node['lighttpd']['port'] %>/chef/client.rb -O /etc/chef/client.rb
+#	curl -L https://www.opscode.com/chef/install.sh | sudo bash
+#	chef-client
+#  #The ugliest ugly of ugly hacks and ugly can hack
+#  apt-get purge chef
+#  apt-get install -y chef
+}
+
+## Cleanup
+function cleanup {
+	sed -i '/gotime.sh/ d' /etc/rc.local
+	#rm /root/gotime.sh
+	reboot
+}
+
+## Post Install
+if [[ ${mode} == 1 ]]; then
+	ssh_keys
+	protect_ssh
+	ipmi_setup
+	ip_set
+	hostname_set
+	setup_reboot
+	exit 0
+elif [[ ${mode} == 2 ]]; then
+	apt_setup
+	sudo_setup
+	sous_chef
+	cleanup
+	exit 0
+else
+	exit 0
+fi

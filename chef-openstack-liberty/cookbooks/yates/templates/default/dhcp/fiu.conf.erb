@@ -1,0 +1,40 @@
+group {
+                option routers 10.103.184.12;
+                filename "pxelinux.0";
+                next-server 10.103.184.12;
+                option domain-name-servers 8.8.8.8,8.8.4.4;
+host osdc-fiu-10 {
+        hardware ethernet 00:25:90:4a:53:9e ;
+        option host-name "osdc-fiu-10";
+        fixed-address 10.103.184.10;
+}
+host osdc-fiu-11 {
+        hardware ethernet 00:25:90:4a:b8:10 ;
+        option host-name "osdc-fiu-11";
+        fixed-address 10.103.184.11;
+}
+host osdc-fiu-12 {
+        hardware ethernet 00:25:90:4a:be:be ;
+        option host-name "osdc-fiu-12";
+        fixed-address 10.103.184.12;
+}
+host osdc-fiu-13 {
+        hardware ethernet 00:25:90:4a:be:a8 ;
+        option host-name "osdc-fiu-13";
+        fixed-address 10.103.184.13;
+}
+host osdc-fiu-14 {
+        hardware ethernet 00:25:90:4a:b9:18 ;
+        option host-name "osdc-fiu-14";
+        fixed-address 10.103.184.14;
+}
+host osdc-fiu-15 {
+        hardware ethernet 00:25:90:4a:b9:16 ;
+        option host-name "osdc-fiu-15";
+        fixed-address 10.103.184.15;
+}
+host osdc-fiu-16 {
+        hardware ethernet 00:25:90:4a:b8:a8 ;
+        option host-name "osdc-fiu-16";
+        fixed-address 10.103.184.16;
+}}

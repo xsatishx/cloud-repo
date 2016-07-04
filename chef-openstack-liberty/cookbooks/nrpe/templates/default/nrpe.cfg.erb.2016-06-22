@@ -1,0 +1,29 @@
+## This file managed by Chef, all changes will be overwritten ##
+log_facility=daemon
+pid_file=/var/run/nagios/nrpe.pid
+server_port=5666
+nrpe_user=nagios
+nrpe_group=nagios
+# ALLOWED HOST ADDRESSES
+# This is an optional comma-delimited list of IP address or hostnames
+# that are allowed to talk to the NRPE daemon. Network addresses with a bit mask
+# (i.e. 192.168.1.0/24) are also supported. Hostname wildcards are not currently
+# supported.
+#
+# Note: The daemon only does rudimentary checking of the client's IP
+# address.  I would highly recommend adding entries in your /etc/hosts.allow
+# file to allow only the specified host to connect to the port
+# you are running this daemon on.
+#
+# NOTE: This option is ignored if NRPE is running under either inetd or xinetd
+
+#allowed_hosts=127.0.0.1
+dont_blame_nrpe=0
+allow_bash_command_substitution=0
+command_prefix=/usr/bin/sudo
+debug=0
+command_timeout=1000
+connection_timeout=300
+include=/etc/nagios/nrpe_local.cfg
+include_dir=/etc/nagios/nrpe.d/
+## This file managed by Chef, all changes will be overwritten ##

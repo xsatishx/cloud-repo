@@ -1,0 +1,113 @@
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:INPUT ACCEPT [15:1068]
+:OUTPUT ACCEPT [4:240]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+#:lac-nfs-redirect - [0:0]
+:lac-samba-redirect - [0:0]
+
+#-A PREROUTING -j lac-nfs-redirect
+-A PREROUTING -j lac-samba-redirect
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.16.0.0/16 ! -d 172.16.0.0/16 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.16.0.0/16 ! -d 169.254.169.254/32 -j MASQUERADE
+
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 139 -j REDIRECT --to-ports 139
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 139 -j REDIRECT --to-ports 139
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 445 -j REDIRECT --to-ports 445
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 445 -j REDIRECT --to-ports 445
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 445 -j REDIRECT --to-ports 137
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 445 -j REDIRECT --to-ports 137
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 445 -j REDIRECT --to-ports 138
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 445 -j REDIRECT --to-ports 138
+
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p tcp -m tcp --dport 111 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p tcp -m tcp --dport 2049 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p tcp -m tcp --dport 38465:38468 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p udp -m udp --dport 111 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p udp -m udp --dport 2049 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 ! -d  172.16.0.0/16 -p udp -m udp --dport 38465:38468 -j REDIRECT --to-ports 9999
+
+
+#Blk Gluster
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 24007:24300 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 24007:24300 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 -p tcp -m tcp --dport 49152:49999 -j REDIRECT --to-ports 9999
+-A lac-samba-redirect -s 172.16.0.0/16 -p udp -m udp --dport 49152:49999 -j REDIRECT --to-ports 9999
+
+
+
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p tcp -m tcp --dport 111 -j REDIRECT
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p udp -m udp --dport 111 -j REDIRECT
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p tcp -m tcp --dport 2049 -j REDIRECT
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p udp -m udp --dport 2049 -j REDIRECT
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p tcp -m tcp --dport 38465:38468 -j REDIRECT
+#-A lac-nfs-redirect -s 172.16.0.0/16 -d 10.103.113.0/24 -p udp -m udp --dport 38465:38468 -j REDIRECT
+
+COMMIT
+*filter
+:INPUT ACCEPT [1:32]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [66:6818]
+:GENEOS_SERVER - [0:0]
+-A INPUT -s 10.103.113.0/24 -d 10.103.113.0/24 -j ACCEPT
+-A INPUT -s 10.102.13.0/24 -d 10.102.13.0/24 -j ACCEPT
+-A OUTPUT -s 10.103.113.0/24 -d 10.103.113.0/24 -j ACCEPT
+-A OUTPUT -s 10.102.13.0/24 -d 10.102.13.0/24 -j ACCEPT
+-A OUTPUT -s 10.104.13.0/24 -d 10.104.13.0/23 -j ACCEPT
+-A INPUT -s 10.103.110.249 -d 10.103.113.0/24 -j ACCEPT
+-A OUTPUT -d 10.103.110.249 -s 10.103.113.0/24 -j ACCEPT
+
+#OSDC public data sets
+-A INPUT -s 10.103.118.0/24 -p tcp -m tcp --sport 111 -j ACCEPT
+-A INPUT -s 10.103.117.0/24 -p tcp -m tcp --sport 111 -j ACCEPT
+-A INPUT -s 10.103.118.0/24 -p tcp -m tcp --sport 38465:38468 -j ACCEPT
+-A INPUT -s 10.103.117.0/24 -p tcp -m tcp --sport 38465:38468 -j ACCEPT
+-A OUTPUT -d 10.103.118.0/24 -p tcp -m tcp --dport 111 -j ACCEPT
+-A OUTPUT -d 10.103.117.0/24 -p tcp -m tcp --dport 111 -j ACCEPT
+-A OUTPUT -d 10.103.118.0/24 -p tcp -m tcp --dport 38465:38468 -j ACCEPT
+-A OUTPUT -d 10.103.117.0/24 -p tcp -m tcp --dport 38465:38468 -j ACCEPT
+
+-I OUTPUT  -m tcp -p tcp -d 10.103.105.0/24 --dport 38465:38467 -j ACCEPT
+-I OUTPUT  -m tcp -p tcp -d 10.103.105.0/24 --dport 111 -j ACCEPT
+-I OUTPUT  -m udp -p udp -d 10.103.105.0/24 --dport 111 -j ACCEPT
+-I INPUT  -m tcp -p tcp -s 10.103.105.0/24 --sport 38465:38467 -j ACCEPT
+-I INPUT  -m tcp -p tcp -s 10.103.105.0/24 --sport 111 -j ACCEPT
+-I INPUT  -m udp -p udp -s 10.103.105.0/24 --sport 111 -j ACCEPT
+
+
+#Local GenOS cluster
+-A OUTPUT -d 10.103.114.26 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.29 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.36 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.38 -j GENEOS_SERVER
+
+-A GENEOS_SERVER -p tcp -m tcp --dport 443 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 21111 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 6881:6899 -j ACCEPT
+
+
+#Block NFS
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p tcp -m tcp --dport 111 -j DROP
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p udp -m udp --dport 111 -j DROP
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p tcp -m tcp --dport 2049 -j DROP
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p udp -m udp --dport 2049 -j DROP
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p tcp -m tcp --dport 38465:38468 -j DROP
+-A INPUT -s 172.16.0.0/16 -d 10.103.105.0/24 -p udp -m udp --dport 38465:38468 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p tcp -m tcp --dport 111 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p udp -m udp --dport 111 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p tcp -m tcp --dport 2049 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p udp -m udp --dport 2049 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p tcp -m tcp --dport 38465:38468 -j DROP
+-A OUTPUT -s 172.16.0.0/16 -d 10.0.0.0/8 -p udp -m udp --dport 38465:38468 -j DROP
+
+
+
+-A INPUT -s 10.0.0.0/8 -d 10.0.0.0/8 -j REJECT --reject-with icmp-port-unreachable
+-A OUTPUT -d 10.0.0.0/8 -j REJECT --reject-with icmp-port-unreachable
+
+COMMIT

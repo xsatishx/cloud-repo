@@ -1,0 +1,493 @@
+## This file managed by Chef, all changes will be overwritten ##
+
+[DEFAULT]
+auth_region = regionOne
+bind_host = 0.0.0.0
+public_port = 5000
+admin_port = 35357
+#admin token must be generated with 'openssl rand -hex 10'
+admin_token = 5175338ea48e674987ef 
+compute_port = 8774
+verbose = True
+debug = True
+log_config = /etc/keystone/logging.conf
+
+
+
+##Need to set these to the appropriate values?
+#admin_endpoint=http://localhost:%(admin_port)s/
+#public_endpoint=http://localhost:%(public_port)s/
+
+#No clue
+#onready=<None>
+
+##Something to do with sql migration to explicti grant format
+#member_role_id=9fe2ff9ee4384b1894a90878d3e92bab
+#member_role_name=_member_
+
+
+##RabbitMQ
+rabbit_host=localhost
+rabbit_port=5672
+# RabbitMQ HA cluster host:port pairs. (list value) 
+##rabbit_hosts=$rabbit_host:$rabbit_port
+# Connect over SSL for RabbitMQ. (boolean value)
+###rabbit_use_ssl=false
+
+# The RabbitMQ userid. (string value)
+rabbit_userid=guest
+rabbit_password=ix8oichi8eeS1eiyaeXi
+#rabbit_login_method=AMQPLAIN
+#rabbit_virtual_host=/
+#rabbit_retry_backoff=2
+#rabbit_max_retries=0
+
+
+##RPC
+#rpc_thread_pool_size=64
+#notification_driver=
+#notification_topics=notifications
+#rpc_response_timeout=60
+#transport_url=<None>
+#rpc_backend=rabbit
+
+## EC2 tokens
+#keystone_ec2_url=http://localhost:5000/v2.0/ec2tokens
+
+
+## Syslog 
+#use_syslog = False
+
+## JSON file containing policy (string value)
+#policy_file=policy.json
+
+
+[assignment]
+
+[auth]
+# Default auth methods. (list value)
+#methods=external,password,token
+
+# The password auth plugin module (string value)
+#password=keystone.auth.plugins.password.Password
+
+# The token auth plugin module (string value)
+#token=keystone.auth.plugins.token.Token
+
+# The external (REMOTE_USER) auth plugin module. (string
+# value)
+#external=keystone.auth.plugins.external.DefaultDomain
+
+[cache]
+
+[catalog]
+#driver = keystone.catalog.backends.sql.Catalog
+
+[credential]
+#driver=keystone.credential.backends.sql.Credential
+
+[database]
+#backend=sqlalchemy
+connection = mysql://keystone:pomoo9oodie4Diamie5b@api.bionimbus-pdcv2.opensciencedatacloud.org/keystone
+idle_timeout = 200
+ 
+[ec2]
+#driver=keystone.contrib.ec2.backends.kvs.Ec2
+#driver = keystone.contrib.ec2.backends.sql.Ec2 <<--What we used in Essex
+
+[endpoint_filter]
+#driver=keystone.contrib.endpoint_filter.backends.sql.EndpointFilter
+#return_all_endpoints_if_no_filter=true
+
+[federation]
+
+ 
+[identity]
+#default_domain_id=default
+#domain_specific_drivers_enabled=false
+#domain_config_dir=/etc/keystone/domains
+#driver = keystone.identity.backends.sql.Identity
+ 
+[kvs]
+#backends=
+#config_prefix=keystone.kvs
+#default_lock_timeout=5
+
+[ldap]
+# to True to enable. (boolean value)
+#domain_specific_drivers_enabled=false
+#
+# Options defined in keystone
+#
+
+# URL for connecting to the LDAP server (string value)
+#url=ldap://localhost
+
+# User BindDN to query the LDAP server (string value)
+#user=<None>
+
+# Password for the BindDN to query the LDAP server (string
+# value)
+#password=<None>
+
+# LDAP server suffix (string value)
+#suffix=cn=example,cn=com
+
+#  (boolean value)
+#use_dumb_member=false
+
+#  (string value)
+#dumb_member=cn=dumb,dc=nonexistent
+
+# allow deleting subtrees (boolean value)
+#allow_subtree_delete=false
+
+# The LDAP scope for queries, this can be either "one"
+# (onelevel/singleLevel) or "sub" (subtree/wholeSubtree)
+# (string value)
+#query_scope=one
+
+# Maximum results per page; a value of zero ("0") disables
+# paging (integer value)
+#page_size=0
+
+# The LDAP dereferencing option for queries. This can be
+# either "never", "searching", "always", "finding" or
+# "default". The "default" option falls back to using default
+# dereferencing configured by your ldap.conf. (string value)
+#alias_dereferencing=default
+
+# Search base for users (string value)
+#user_tree_dn=<None>
+
+# LDAP search filter for users (string value)
+#user_filter=<None>
+
+# LDAP objectClass for users (string value)
+#user_objectclass=inetOrgPerson
+
+# LDAP attribute mapped to user id (string value)
+#user_id_attribute=cn
+
+# LDAP attribute mapped to user name (string value)
+#user_name_attribute=sn
+
+# LDAP attribute mapped to user email (string value)
+#user_mail_attribute=email
+
+# LDAP attribute mapped to password (string value)
+#user_pass_attribute=userPassword
+
+# LDAP attribute mapped to user enabled flag (string value)
+#user_enabled_attribute=enabled
+
+#  (integer value)
+#user_enabled_mask=0
+
+#  (string value)
+#user_enabled_default=True
+
+# List of attributes stripped off the user on update (list
+# value)
+#user_attribute_ignore=default_project_id,tenants
+# LDAP attribute mapped to default_project_id for users
+# (string value)
+#user_default_project_id_attribute=<None>
+
+# Allow user creation in LDAP backend (boolean value)
+#user_allow_create=true
+
+# Allow user updates in LDAP backend (boolean value)
+#user_allow_update=true
+
+# Allow user deletion in LDAP backend (boolean value)
+#user_allow_delete=true
+
+#  (boolean value)
+#user_enabled_emulation=false
+
+#  (string value)
+#user_enabled_emulation_dn=<None>
+
+# List of additional LDAP attributes used for mapping
+# Additional attribute mappings for users. Attribute mapping
+# format is <ldap_attr>:<user_attr>, where ldap_attr is the
+# attribute in the LDAP entry and user_attr is the Identity
+# API attribute. (list value)
+#user_additional_attribute_mapping=
+
+# Search base for projects (string value)
+#tenant_tree_dn=<None>
+
+# LDAP search filter for projects (string value)
+#tenant_filter=<None>
+
+# LDAP objectClass for projects (string value)
+#tenant_objectclass=groupOfNames
+
+# LDAP attribute mapped to project id (string value)
+#tenant_id_attribute=cn
+
+# LDAP attribute mapped to project membership for user (string
+# value)
+#tenant_member_attribute=member
+
+# LDAP attribute mapped to project name (string value)
+#tenant_name_attribute=ou
+
+# LDAP attribute mapped to project description (string value)
+#tenant_desc_attribute=description
+
+# LDAP attribute mapped to project enabled (string value)
+#tenant_enabled_attribute=enabled
+
+# LDAP attribute mapped to project domain_id (string value)
+#tenant_domain_id_attribute=businessCategory
+
+# List of attributes stripped off the project on update (list
+# value)
+#tenant_attribute_ignore=
+
+# Allow tenant creation in LDAP backend (boolean value)
+#tenant_allow_create=true
+
+# Allow tenant update in LDAP backend (boolean value)
+#tenant_allow_update=true
+
+# Allow tenant deletion in LDAP backend (boolean value)
+#tenant_allow_delete=true
+
+#  (boolean value)
+#tenant_enabled_emulation=false
+
+#  (string value)
+#tenant_enabled_emulation_dn=<None>
+
+# Additional attribute mappings for projects. Attribute
+# mapping format is <ldap_attr>:<user_attr>, where ldap_attr
+# is the attribute in the LDAP entry and user_attr is the
+# Identity API attribute. (list value)
+#tenant_additional_attribute_mapping=
+
+# Search base for roles (string value)
+#role_tree_dn=<None>
+
+# LDAP search filter for roles (string value)
+#role_filter=<None>
+
+# LDAP objectClass for roles (string value)
+#role_objectclass=organizationalRole
+
+# LDAP attribute mapped to role id (string value)
+#role_id_attribute=cn
+
+# LDAP attribute mapped to role name (string value)
+#role_name_attribute=ou
+
+#  (string value)
+#role_member_attribute=roleOccupant
+
+# List of attributes stripped off the role on update (list
+# value)
+#role_attribute_ignore=
+
+# Allow role creation in LDAP backend (boolean value)
+#role_allow_create=true
+
+# Allow role update in LDAP backend (boolean value)
+#role_allow_update=true
+
+# Allow role deletion in LDAP backend (boolean value)
+#role_allow_delete=true
+
+# Additional attribute mappings for roles. Attribute mapping
+# format is <ldap_attr>:<user_attr>, where ldap_attr is the
+# attribute in the LDAP entry and user_attr is the Identity
+# API attribute. (list value)
+#role_additional_attribute_mapping=
+
+# Search base for groups (string value)
+#group_tree_dn=<None>
+
+# LDAP search filter for groups (string value)
+#group_filter=<None>
+
+# LDAP objectClass for groups (string value)
+#group_objectclass=groupOfNames
+
+# LDAP attribute mapped to group id (string value)
+#group_id_attribute=cn
+
+# LDAP attribute mapped to group name (string value)
+#group_name_attribute=ou
+
+# LDAP attribute mapped to show group membership (string
+# value)
+#group_member_attribute=member
+
+# LDAP attribute mapped to group description (string value)
+#group_desc_attribute=description
+
+# List of attributes stripped off the group on update (list
+# value)
+#group_attribute_ignore=
+
+# Allow group creation in LDAP backend (boolean value)
+#group_allow_create=true
+
+# Allow group update in LDAP backend (boolean value)
+#group_allow_update=true
+
+# Allow group deletion in LDAP backend (boolean value)
+#group_allow_delete=true
+
+# Additional attribute mappings for groups. Attribute mapping
+# format is <ldap_attr>:<user_attr>, where ldap_attr is the
+# attribute in the LDAP entry and user_attr is the Identity
+# API attribute. (list value)
+#group_additional_attribute_mapping=
+
+# CA certificate file path for communicating with LDAP servers
+# (string value)
+#tls_cacertfile=<None>
+
+# CA certificate directory path for communicating with LDAP
+# servers (string value)
+#tls_cacertdir=<None>
+
+# Enable TLS for communicating with LDAP servers (boolean
+# value)
+#use_tls=false
+
+# valid options for tls_req_cert are demand, never, and allow
+# (string value)
+#tls_req_cert=demand
+
+[matchmaker_ring]
+#ringfile=/etc/oslo/matchmaker_ring.json
+
+[memcache]
+
+[oauth1]
+#driver=keystone.contrib.oauth1.backends.sql.OAuth1
+#request_token_duration=28800
+#access_token_duration=86400
+
+
+[os_inherit]
+##I think we need this set to True for the nova admin user to controll everything ?
+## Its supposed to be a use case where A cloud provider , resells to a "domain"
+## The domain admin has full admin privs to his "domain". But the Provider
+## needs to have those privs as well to kill sub user vms.
+enabled=true
+
+
+[paste_deploy]
+#config_file=keystone-paste.ini
+
+[policy]
+#driver=keystone.policy.backends.sql.Policy
+# driver = keystone.policy.backends.rules.Policy << What we used in Essex
+#list_limit=<None>
+
+
+[revoke]
+#driver=keystone.contrib.revoke.backends.kvs.Revoke
+#expiration_buffer=1800
+
+
+
+[signing]
+# Deprecated in favor of provider in the [token] section
+# (string value)
+#token_format=<None>
+
+# Path of the certfile for token signing. (string value)
+#certfile=/etc/keystone/ssl/certs/signing_cert.pem
+
+# Path of the keyfile for token signing. (string value)
+#keyfile=/etc/keystone/ssl/private/signing_key.pem
+
+# Path of the CA for token signing. (string value)
+#ca_certs=/etc/keystone/ssl/certs/ca.pem
+
+# Path of the CA Key for token signing (string value)
+#ca_key=/etc/keystone/ssl/private/cakey.pem
+
+# Key Size (in bits) for token signing cert (auto generated
+# certificate) (integer value)
+#key_size=2048
+
+# Day the token signing cert is valid for (auto generated
+# certificate) (integer value)
+#valid_days=3650
+
+# Certificate Subject (auto generated certificate) for token
+# signing. (string value)
+#cert_subject=/C=US/ST=Unset/L=Unset/O=Unset/CN=www.example.com
+
+
+[ssl]
+# Toggle for SSL support on the keystone eventlet servers.
+# (boolean value)
+#enable=false
+
+# Path of the certfile for SSL. (string value)
+#certfile=/etc/keystone/ssl/certs/keystone.pem
+
+# Path of the keyfile for SSL. (string value)
+#keyfile=/etc/keystone/ssl/private/keystonekey.pem
+
+# Path of the ca cert file for SSL. (string value)
+#ca_certs=/etc/keystone/ssl/certs/ca.pem
+
+# Path of the CA key file for SSL (string value)
+#ca_key=/etc/keystone/ssl/private/cakey.pem
+
+#  (boolean value)
+#cert_required=false
+
+# SSL Key Length (in bits) (auto generated certificate)
+# (integer value)
+#key_size=1024
+
+# Days the certificate is valid for once signed (auto
+# generated certificate) (integer value)
+#valid_days=3650
+
+# SSL Certificate Subject (auto generated certificate) (string
+# value)
+#cert_subject=/C=US/ST=Unset/L=Unset/O=Unset/CN=localhost
+
+
+[stats]
+#driver=keystone.contrib.stats.backends.kvs.Stats
+
+[token]
+driver = keystone.token.backends.sql.Token
+expiration = 86400
+ 
+[trust]
+
+ 
+#[filter:json_body]
+#paste.filter_factory = keystone.middleware:JsonBodyMiddleware.factory
+ 
+#[pipeline:public_api]
+#pipeline = token_auth admin_token_auth xml_body json_body debug ec2_extension public_service
+#keystone-paste.ini-pipeline = sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body json_body ec2_extension user_crud_extension public_service
+ 
+#[pipeline:admin_api]
+#pipeline = token_auth admin_token_auth xml_body json_body debug ec2_extension crud_extension admin_service
+#pipeline = sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body json_body ec2_extension s3_extension crud_extension admin_service
+ 
+#[pipeline:public_version_api]
+#pipeline = xml_body public_version_service
+#pipeline = sizelimit url_normalize xml_body public_version_service
+ 
+#[pipeline:admin_version_api]
+#pipeline = xml_body admin_version_service
+#pipeline = sizelimit url_normalize xml_body admin_version_service 
+
+
+# This file was auto-generated by Chef for <%=node['ipaddress']%>

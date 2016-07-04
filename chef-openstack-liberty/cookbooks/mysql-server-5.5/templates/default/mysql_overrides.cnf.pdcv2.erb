@@ -1,0 +1,11 @@
+[mysqld]
+bind-address = 10.16.0.2
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
+innodb_file_per_table 
+
+#Icehouse spams mysql connections that never close
+max_connections = 10000
+#interactive_timeout=600
+#wait_timeout=600

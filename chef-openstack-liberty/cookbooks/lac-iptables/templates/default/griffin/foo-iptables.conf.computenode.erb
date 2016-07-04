@@ -1,0 +1,290 @@
+### WARNING , do not add new chains (-A MY_NEW_CHAIN) in the top part of this file.
+###   There is a section towards the bottom clearly labeled for that purpose.
+
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.16.0.0/12 ! -d 172.16.0.0/12 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.16.0.0/12 ! -d 169.254.169.254/32 -j MASQUERADE
+
+COMMIT
+
+*filter
+:INPUT DROP [1:32]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+:INPUT_VM_AND_HOST - [0:0]
+:OUTPUT_VM_AND_HOST - [0:0]
+:OUTPUT_VM_ONLY - [0:0]
+:GENEOS_SERVER - [0:0]
+:GENETORRENT_SERVERS - [0:0]
+:GENETORRENT_PORTS - [0:0]
+:FLOATING_IP_IN - [0:0]
+:FLOATING_IP_OUT - [0:0]
+:SALESFORCE - [0:0]
+:MAIL - [0:0]
+:S3_ENDPOINTS - [0:0]
+:HTTP_ALLOWED - [0:0]
+:CLOUD_CONTROLLER_SERVICES - [0:0]
+:OICR_SENSA - [0:0]
+:nova-filter-top - [0:0]
+:CEPH_MON - [0:0]
+
+#-I FORWARD -j LOG --log-prefix "IPTables-FORWARD: " --log-level 4
+#-I INPUT -j LOG --log-prefix "IPTables-INPUT: " --log-level 4
+#-I OUTPUT -j LOG --log-prefix "IPTables-OUTPUT: " --log-level 4
+#-I OUTPUT_VM_AND_HOST -j LOG --log-prefix "IPTables-OUTPUT_VM_AND_HOST: " --log-level 4
+#-I OUTPUT_VM_ONLY -j LOG --log-prefix "IPTables-OUTPUT_VM_ONLY: " --log-level 4
+#-I FLOATING_IP_IN -j LOG --log-prefix "IPTables-FLOATING_IP_IN: " --log-level 4
+#-I MAIL -j LOG --log-prefix "IPTables-MAIL: " --log-level 4
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+
+#nova-api-Metadata
+#  this needs to be above the SCIDMZ drop rule, otherwise
+#  the packet is dropped.  Because Openstack is stupid and
+#  Auto redirects this traffic to the SCIDMZ and not the internal IP
+-A INPUT -s 172.16.0.0/12 -p tcp -m tcp --dport 8775 -j ACCEPT
+-A INPUT -s 172.16.0.0/12 -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -s 172.16.0.0/12 -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -s 172.16.0.0/12 -p udp -m udp --dport 53 -j ACCEPT
+#CHANGEME: Change this -d 172.16.X.X -j DROP to the first ip in the VM subnet
+-A INPUT -s 172.16.0.0/12 -d 172.16.192.1 -j DROP
+
+
+
+
+#This controls INBOUND connections to the floating IP
+# Forms a UNION with secgroup rules.
+# Requires iptables_top_regex to forece our rules above nova.
+# EX: iptables_top_regex='\-\S\s+INPUT|\-\S\s+OUTPUT|\-\S\s+FORWARD'
+# I DONT THINK THE INPUT CHAIN for the /23  DOES ANYTHING :(
+#CHANGEME to reflect correct public IPs for the datacenter
+-A INPUT -d 192.170.232.0/28 -j DROP
+-A INPUT -d 192.170.232.0/23 -j FLOATING_IP_IN
+-A FORWARD -i bond0.3526 -j FLOATING_IP_IN
+
+# allow full privnet access
+-A INPUT -s 10.32.1.0/24 -j ACCEPT
+-A INPUT -s 10.32.0.0/24 -j ACCEPT
+-A OUTPUT -d 10.32.1.0/24 -j ACCEPT
+-A OUTPUT -d 10.32.0.0/24 -j ACCEPT
+
+#PXE
+-A INPUT -s pxeboot  -j ACCEPT
+-A OUTPUT -d pxeboot -j ACCEPT
+
+#Nagios
+-A INPUT  -s 10.103.110.249  -j ACCEPT
+-A OUTPUT -d 10.103.110.249 -j ACCEPT
+-A INPUT  -s 10.8.0.21 -j ACCEPT
+-A OUTPUT -d 10.8.0.21 -j ACCEPT
+
+#If the cloud-proxy ever ebcome seperate from the cloud-controller
+#-A INPUT -p tcp -m tcp -s cloud-proxy --sport 3128 -j ACCEPT
+#-A OUTPUT -p tcp -m tcp -d cloud-proxy --dport 3128 -j ACCEPT
+
+#Allow the cloud-controller to connect
+-A OUTPUT -d cloud-controller -j ACCEPT
+-A INPUT  -s cloud-controller -j ACCEPT
+
+#The outbound VM packets never hit the INPUT/OUTPUT chain.
+# To keep the VMs bound to the same rules as the HOST
+# We put the INPUT/OUPUT rules into custom chains
+# OUTPUT_VM_AND_HOST and INPUT_VM_AND_HOST, which
+# are callable by -j
+# Things that ONLY effect HOST node go in OUTPUT/INPUT .
+# Things that need to effect both go in OUTPUT_VM_AND_HOST/INPUT .
+# Most everything should be in OUTPUT_VM_AND_HOST/INPUT_VM_AND_HOST
+# with a few additional -j ACCEPTs for the host node.
+
+-A INPUT -j INPUT_VM_AND_HOST
+-A OUTPUT -j OUTPUT_VM_AND_HOST
+
+#This rule controls OUTBOUND connections from floating IP'ed VMs
+# to EXTERNAL ip ranges.  The -o is necessarry.
+#CHANGEME to reflect correct interface for the scidmz vlan.
+-A FORWARD -i virbr1 -o bond0.3526 -s 172.16.0.0/12 ! -d 172.16.0.0/12 -j OUTPUT_VM_ONLY
+
+#This rule controls OUTBOUND connnections from floating IP'ed VMs
+# to INTERNAL ip ranges. Floating IP enabled VMs never seem to hit the
+# INPUT/OUTPUT chain. So we force from the FORWARD to our chain.
+-A FORWARD -i virbr1 -o virbr1 -s 172.16.0.0/12 -j OUTPUT_VM_ONLY
+
+#The rules for INBOUND FLOATING IP RULES (UNIONS with the secgroup list applied by OpenStack)
+#ssh
+-A FLOATING_IP_IN -m tcp -p tcp --dport 22 -j nova-filter-top
+#Http/Https
+-A FLOATING_IP_IN -m tcp -p tcp --dport 80 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 443 -j nova-filter-top
+#Email
+-A FLOATING_IP_IN -m tcp -p tcp --dport 25 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 587 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 993 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 995 -j nova-filter-top
+#GNOS Server
+-A FLOATING_IP_IN -m tcp -p tcp --dport 1194 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 21111 -j nova-filter-top
+-A FLOATING_IP_IN -m tcp -p tcp --dport 6881:6899 -j nova-filter-top
+-A FLOATING_IP_IN -m udp -p udp --dport 6881:6899 -j nova-filter-top
+#UDR/Parcel
+-A FLOATING_IP_IN -m tcp -p tcp --dport 9000:9100 -j nova-filter-top
+-A FLOATING_IP_IN -m udp -p udp --dport 9000:9100 -j nova-filter-top
+#rsync --- NEVER!
+#-A FLOATING_IP_IN -m tcp -p tcp --dport 873 -j nova-filter-top
+#The Tukey ssh service
+-A FLOATING_IP_IN -m tcp -p tcp --dport 5005 -j nova-filter-top
+#Drop all else!
+-A FLOATING_IP_IN -j DROP
+
+#The rules for OUTBOUND VM RULES.
+# If you ALLOW something here it needs to be also OUTBOUND from the host itself?
+-A OUTPUT_VM_ONLY -d cloud-controller -j CLOUD_CONTROLLER_SERVICES
+-A OUTPUT_VM_ONLY -d cloud-controller -j DROP
+#Various web endpoints that can bypass the squid proxy
+-A OUTPUT_VM_ONLY -p tcp -m tcp --dport 80 -j S3_ENDPOINTS
+-A OUTPUT_VM_ONLY -p tcp -m tcp --dport 443 -j S3_ENDPOINTS
+-A OUTPUT_VM_ONLY -p tcp -m tcp --dport 80 -j HTTP_ALLOWED
+-A OUTPUT_VM_ONLY -p tcp -m tcp --dport 443 -j HTTP_ALLOWED
+-A OUTPUT_VM_ONLY -m tcp -p tcp --dport 443 -j SALESFORCE
+-A OUTPUT_VM_ONLY -p tcp -m tcp -d monitor.oicrsofteng.org  -j OICR_SENSA
+#Put any generic port rules (not bound to ips/subnets_ below this DROP or else
+# They will be able to escape out to other nodes in ohter clouds from VMs
+-A OUTPUT_VM_ONLY -d 10.0.0.0/8 -j DROP
+-A OUTPUT_VM_ONLY -m tcp -p tcp --dport 22 -j ACCEPT
+-A OUTPUT_VM_ONLY -j GENETORRENT_SERVERS
+-A OUTPUT_VM_ONLY -p tcp -m tcp -d gtrepo-osdc-tcga.annailabs.com --dport 22 -j ACCEPT
+-A OUTPUT_VM_ONLY -m tcp -p tcp --dport 9000:9100 -j ACCEPT
+-A OUTPUT_VM_ONLY -m udp -p udp --dport 9000:9100 -j ACCEPT
+-A OUTPUT_VM_ONLY -j OUTPUT_VM_AND_HOST
+
+#These rules goven both the VM and HOST
+#VM talk to vms
+-A INPUT_VM_AND_HOST -s 172.16.0.0/12 -d 172.16.0.0/12 -j ACCEPT
+-A OUTPUT_VM_AND_HOST -s 172.16.0.0/12 -d 172.16.0.0/12 -j ACCEPT
+
+#MAIL Server
+-A OUTPUT_VM_AND_HOST -ptcp -mtcp --dport 25 -j MAIL
+-A OUTPUT_VM_AND_HOST -ptcp -mtcp --dport 587 -j MAIL
+
+#DHCP
+-A INPUT_VM_AND_HOST -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT_VM_AND_HOST -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT_VM_AND_HOST -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT_VM_AND_HOST -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT_VM_AND_HOST -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT_VM_AND_HOST -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+#CEph monitor nodes for acct creation stuff
+-A OUTPUT_VM_AND_HOST -p tcp -m tcp  --dport 6789 -j CEPH_MON
+
+#This need to be the last two lines of this chain.
+# Prevents the use of 22 to internal machiens from VMs
+#-A OUTPUT_VM_AND_HOST -d 10.0.0.0/8 -j DROP
+#-A OUTPUT_VM_AND_HOST -p tcp -m tcp --dport 22  -j ACCEPT
+-A OUTPUT_VM_AND_HOST -j DROP
+
+
+###############################
+### ADD CUSTOM CHAINS BELOW ###
+###############################
+#Allow VM to talk to various services on cloud-controller
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 35357 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 45357 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 6080 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 8773 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 8774 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 8775 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 9191 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 5000 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 8776 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 9292 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 3306 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 3128 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 636 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 389 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p tcp -m tcp --dport 123 -j ACCEPT
+-A CLOUD_CONTROLLER_SERVICES -d cloud-controller -p udp -m udp --dport 123 -j ACCEPT
+
+-A GENEOS_SERVER -p tcp -m tcp --dport 443 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 21111 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 6881:6899 -j ACCEPT
+
+-A GENETORRENT_SERVERS -d 10.103.114.26 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.36 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 10.103.114.38 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.192/29  -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.35.223.0/24 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.192/29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 192.170.233.200/29 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 134.75.238.126/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.174.55.67/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.174.55.76/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.62.52.0/28 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 193.62.54.0/27 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 202.175.151.211/32 -j GENETORRENT_PORTS
+-A GENETORRENT_SERVERS -d 84.88.52.64/28 -j GENETORRENT_PORTS
+
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 443 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 21111 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 6881:6899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 6881:6899 -j ACCEPT
+#etri
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 6881:6999 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 6881:6999 -j ACCEPT
+#dkfz
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 7881:7899 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 8881:8899 -j ACCEPT
+-A GENETORRENT_PORTS -m tcp -p tcp --dport 9881:9899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 7881:7899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 8881:8899 -j ACCEPT
+-A GENETORRENT_PORTS -m udp -p udp --dport 9881:9899 -j ACCEPT
+
+
+
+#Various S3/swift endpoints
+#CHANGEME
+-A S3_ENDPOINTS -d rados-igsb.opensciencedatacloud.org -j ACCEPT
+
+#Tukey essentially
+-A HTTP_ALLOWED -d www.opensciencedatacloud.org -j ACCEPT
+-A HTTP_ALLOWED -d bionimbus-pdc.opensciencedatacloud.org -j ACCEPT
+
+#Salesfroce connections for account creations
+-A SALESFORCE -d 96.43.144.0/20 -j ACCEPT
+
+#Connect to our mail server if needed
+# The mail server has auth/whitlist in case we need to allow email
+-A MAIL -d mail.opensciencedatacloud.org -j ACCEPT
+-A MAIL -d tickets.opensciencedatacloud.org -j ACCEPT
+-A MAIL -d 74.125.141.27  -j ACCEPT
+
+#OICR SENSA NODE
+-A OICR_SENSA -p tcp -m tcp --dport 5671
+-A OICR_SENSA -p udp -m udp --dport 5671
+-A OICR_SENSA -p tcp -m tcp --dport 2003
+-A OICR_SENSA -p udp -m udp --dport 2003
+
+#Contact Ceph Montors
+-A CEPH_MON -d kg15-4.osdc.io -j ACCEPT
+-A CEPH_MON -d kg15-5.osdc.io -j ACCEPT
+-A CEPH_MON -d kg15-6.osdc.io -j ACCEPT
+
+
+COMMIT

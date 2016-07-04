@@ -1,0 +1,29 @@
+{
+  "name": "base",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "ntp": {
+      "servers": [
+        "pxeboot"
+      ]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[ssh-keys]",
+    "recipe[apt]",
+    "recipe[apt::cacher-client]",
+    "recipe[osdc_ca]",
+    "recipe[nscd]",
+    "recipe[fasterdata]",
+    "recipe[ntp]",
+    "recipe[nrpe]",
+    "recipe[niceties]",
+    "recipe[sshd]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,103 @@
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+:VM_OUT - [0:0]
+:VM_OUT_GENETORRENT - [0:0]
+:GRIFFIN_RADOSGW - [0:0]
+
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.167.192.0/16 ! -d 172.167.192.0/16 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.167.192.0/16 ! -d 169.254.169.254/32 -j MASQUERADE
+
+#This is how we blk outbound VM ports
+-A PREROUTING -s 172.167.192.0/16 -j VM_OUT
+-A VM_OUT -p tcp -m tcp --sport 22 -j ACCEPT
+-A VM_OUT -p tcp -m tcp --dport 22 -j ACCEPT
+-A VM_OUT -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+-A VM_OUT -d 172.167.192.0/18 -j ACCEPT
+-A VM_OUT -d 10.24.0.0/16 -j ACCEPT
+-A VM_OUT -d 192.35.223.0/24 -j VM_OUT_GENETORRENT
+-A VM_OUT -p tcp -m tcp --dport 80 -j GRIFFIN_RADOSGW
+-A VM_OUT -p tcp -m tcp --dport 443 -j GRIFFIN_RADOSGW
+-A VM_OUT -p tcp -j REDIRECT --to-ports 9999
+-A VM_OUT -p udp -j REDIRECT --to-ports 9999
+
+#-A GRIFFIN_RADOSGW  -d 10.32.1.26  -j ACCEPT
+#-A GRIFFIN_RADOSGW  -d 192.170.228.91  -j ACCEPT
+
+COMMIT
+
+
+*filter
+:INPUT DROP [1:32]
+:FORWARD ACCEPT [0:0]
+:OUTPUT DROP [0:0]
+:PORTFWD_BLK - [0:0]
+:GENEOS_SERVER - [0:0]
+:DNS - [0:0]
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+#Metadata
+-A INPUT  -s 172.167.192.0/16 -d 169.254.169.254/32 -j ACCEPT
+-A OUTPUT -d 172.167.192.0/16 -s 169.254.169.254/32 -j ACCEPT
+-A INPUT  -s 172.167.192.0/16 -d 10.24.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+-A OUTPUT  -d 172.167.192.0/16 -s 10.24.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+#-A INPUT  -d 169.254.169.254 -j ACCEPT
+#-A OUTPUT -s 169.254.169.254 -j ACCEPT
+#-A INPUT -ptcp -mtcp --dport 8775 -j ACCEPT
+
+
+#VM talk to vms
+-A INPUT -s 172.167.192.0/16 -d 172.167.192.0/16 -j ACCEPT
+-A OUTPUT -s 172.167.192.0/16 -d 172.167.192.0/16 -j ACCEPT
+
+#DHCP
+-A INPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+
+# allow full privnet access
+-A INPUT -s 10.24.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.24.0.0/16 -j ACCEPT
+
+#Nagios
+-A INPUT -s 10.103.110.249  -j ACCEPT
+-A OUTPUT -d 10.103.110.249 -j ACCEPT
+
+#allow icinga
+-A INPUT  -s 10.8.0.21 -j ACCEPT
+-A OUTPUT  -d 10.8.0.21 -j ACCEPT
+
+#allow logstash
+-A INPUT  -s 10.8.0.22 -j ACCEPT
+-A OUTPUT  -d 10.8.0.22 -j ACCEPT
+
+#PXE
+-A INPUT -s 10.24.63.254  -j ACCEPT
+-A OUTPUT -d 10.24.63.254 -j ACCEPT
+
+#DNS
+-A OUTPUT -p tcp -m tcp --dport 53 -j DNS
+-A OUTPUT -p udp -m udp --dport 53 -j DNS
+
+-A DNS -d 10.8.0.21 -j ACCEPT
+-A DNS -d 10.8.0.21 -j ACCEPT
+-A DNS -d 192.170.228.84 -j ACCEPT
+-A DNS -d 192.170.228.88 -j ACCEPT
+
+COMMIT

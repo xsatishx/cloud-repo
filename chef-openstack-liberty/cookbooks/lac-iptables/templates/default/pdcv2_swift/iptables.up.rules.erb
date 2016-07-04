@@ -1,0 +1,62 @@
+*filter
+:INPUT DROP [1:32]
+:OUTPUT DROP [0:0]
+:SWIFT_INT - [0:0]
+:SWIFT_EXT - [0:0]
+
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+# allow full privnet access
+#-A INPUT -s 10.16.0.0/16 -j ACCEPT
+#-A OUTPUT -d 10.16.0.0/16 -j ACCEPT
+-A INPUT -s 10.18.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.18.0.0/16 -j ACCEPT
+#-A INPUT -s 10.103.113.3/32 -j ACCEPT
+#-A OUTPUT -d 10.103.113.3/32 -j ACCEPT
+
+#Ntp
+-A OUTPUT -ptcp -mtcp --dport 123 -j ACCEPT
+
+#SSH
+-A INPUT -s 10.16.0.0/16 -ptcp -mtcp --dport 22 -j ACCEPT
+-A INPUT -s 10.103.0.0/16 -ptcp -mtcp --dport 22 -j ACCEPT
+
+#Web
+-A OUTPUT -ptcp -mtcp --dport 80 -j ACCEPT
+-A OUTPUT -ptcp -mtcp --dport 443 -j ACCEPT
+
+#Nagios
+-A INPUT -s 10.103.110.249  -j ACCEPT
+-A OUTPUT -d 10.103.110.249  -j ACCEPT
+
+#PXE
+-A INPUT -s 10.16.127.254  -j ACCEPT
+-A OUTPUT -d 10.16.127.254 -j ACCEPT
+
+#Cloud Controller
+-A INPUT -s 10.103.113.3 -j ACCEPT
+-A INPUT -s 10.16.0.2 -j ACCEPT
+-A OUTPUT -d 10.103.113.3 -j ACCEPT
+-A OUTPUT -d 10.16.0.2 -j ACCEPT
+
+#Swift Internal Communications
+-A INPUT -s 10.16.64.0/18 -j SWIFT_INT
+-A OUTPUT -d 10.16.64.0/18 -j SWIFT_INT
+-A SWIFT_INT -ptcp -mtcp --dport 6000:6005 -j ACCEPT
+-A SWIFT_INT -ptcp -mtcp --dport 873 -j ACCEPT
+-A SWIFT_INT -ptcp -mtcp --dport 11211 -j ACCEPT
+-A SWIFT_INT -ptcp -mtcp --dport 8080 -j ACCEPT
+
+#Swift External Communications
+-A INPUT -j SWIFT_EXT 
+-A SWIFT_EXT -ptcp -mtcp --dport 443 -j ACCEPT
+
+COMMIT

@@ -1,0 +1,66 @@
+# File managed by Chef
+
+ddns-update-style none;
+authoritative;
+log-facility local7;
+default-lease-time 86400;
+max-lease-time 604800;
+
+subnet 10.1.0.0 netmask 255.255.192.0 {
+                option broadcast-address 10.1.63.255;
+                next-server 10.1.0.51;
+                filename "pxelinux.0";
+}
+subnet 10.1.64.0 netmask 255.255.192.0 {
+                option broadcast-address 10.16.127.255;
+                next-server 10.1.64.51;
+                filename "pxelinux.0";
+}
+subnet 10.1.128.0 netmask 255.255.192.0 {
+                option broadcast-address 10.1.191.255;
+                next-server 10.16.128.51;
+                filename "pxelinux.0";
+}
+subnet 10.16.0.0 netmask 255.255.192.0 {
+		option broadcast-address 10.16.63.255;
+		next-server 10.16.63.254;
+		filename "pxelinux.0";
+}
+subnet 10.16.64.0 netmask 255.255.192.0 {
+		option broadcast-address 10.16.127.255;
+		next-server 10.16.127.254;
+		filename "pxelinux.0";
+}
+subnet 10.24.0.0 netmask 255.255.192.0 {
+		option broadcast-address 10.24.63.255;
+		next-server 10.24.63.254;
+		filename "pxelinux.0";
+}
+subnet 10.24.64.0 netmask 255.255.192.0 {
+		option broadcast-address 10.24.127.255;
+		next-server 10.24.127.254;
+		filename "pxelinux.0";
+}
+subnet 10.103.0.0 netmask 255.255.0.0 {
+        option broadcast-address 10.103.255.255;
+}
+
+<% @hosts.each do |host| -%>
+host <%= host['hostname'] %> { option host-name "<%= host['hostname'] %>"; hardware ethernet <%= host["mac"] %>; fixed-address <%= host["ip"] %>; next-server <%= @clouds["#{host['cloud']}"]['pxe_addr'] %>; filename "pxelinux.0"; option routers <%= @clouds["#{host['cloud']}"]['router'] %>; option domain-name-servers <%= @clouds["#{host['cloud']}"]['dns'].sub(' ', ',') %>; }
+<% end -%>
+
+<% @builds.each do |build| -%>
+	<% servers = @nodes["#{build['form']}"] -%>
+	<% servers.each do |hostname, mac| -%>
+		<% location = hostname.split('-') -%>
+		<% slot = location[1].to_i -%>
+		<% mac_addr = mac.gsub(":","-") -%>
+		<% settings = @racks['rack'][location[0]] -%>
+		<% start = settings['starting_ip'] -%>
+		<% octet = start.split('.') -%>
+		<% octet = octet.collect!{|i| i.to_i} -%>
+		<% ip_num = slot + octet[3] - 1 -%>
+		<% ip_addr = "#{octet[0]}"+"."+"#{octet[1]}"+"."+"#{octet[2]}"+"."+"#{ip_num}" -%>
+		host <%= "#{hostname}" %> { option host-name "<%= "#{hostname}" %>"; hardware ethernet <%= "#{mac}" %>; fixed-address <%= "#{ip_addr}" %>; option routers <%= settings['router'] %>; option domain-name-servers <%= settings['dns'].sub(' ', ',') %>; }
+	<% end -%>
+<% end -%>

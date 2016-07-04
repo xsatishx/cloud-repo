@@ -1,0 +1,22 @@
+{
+  "name": "kg15-7",
+  "chef_environment": "igsb-compute",
+  "run_list": [
+    "recipe[interfaces]",
+    "role[base]",
+    "role[pdcv3]",
+    "recipe[logstash]",
+    "role[pdcv3_cloudcontroller]",
+    "recipe[sysstat]"
+  ],
+  "normal": {
+    "tags": [
+
+    ],
+    "set_fqdn": "kg15-7.osdc.io",
+    "FQDN": "kg15-7.osdc.io",
+    "type": "cloudcontroller",
+    "slapd_preusers": true,
+    "slapd_ssl_configed": true
+  }
+}

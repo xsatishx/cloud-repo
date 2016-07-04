@@ -1,0 +1,10 @@
+#!/bin/bash
+
+    source /root/admin_auth
+
+    nova-manage db sync
+    
+    keystone user-create --name=nova --pass=<%= node['nova']['passwd'] %> --email=admin@opensciencedatacloud.org
+    keystone user-role-add --user=nova --tenant=service --role=admin
+    keystone service-create --name=nova --type=compute   --description="OpenStack Compute" 
+    keystone endpoint-create --service-id=$(keystone service-list | awk '/ compute / {print $2}') --publicurl=http://<%= node['nova']['host'] %>:8774/v2/%\(tenant_id\)s  --internalurl=http://<%= node['nova']['host'] %>:8774/v2/%\(tenant_id\)s --adminurl=<%= node['nova']['host'] %>:8774/v2/%\(tenant_id\)s

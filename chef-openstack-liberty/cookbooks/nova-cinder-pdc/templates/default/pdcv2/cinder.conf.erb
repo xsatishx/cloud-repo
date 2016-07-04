@@ -1,0 +1,32 @@
+[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+#volume_group = cinder-volumes
+verbose = True
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+
+
+rpc_backend = cinder.openstack.common.rpc.impl_kombu
+rabbit_host = api.bionimbus-pdcv2.opensciencedatacloud.org
+rabbit_port = 5672
+rabbit_userid = guest
+rabbit_password = ix8oichi8eeS1eiyaeXi
+
+[database]
+connection = mysql://cinder:waiXa6ak8Ia8eeng4bai@api.bionimbus-pdcv2.opensciencedatacloud.org/cinder
+
+[keystone_authtoken]
+auth_uri = http://api.bionimbus-pdcv2.opensciencedatacloud.org:5000
+auth_host = api.bionimbus-pdcv2.opensciencedatacloud.org
+auth_port = 35357
+auth_protocol = http
+admin_tenant_name = service
+admin_user = cinder
+admin_password = shox6roowaeYaif8ahv4
+
+

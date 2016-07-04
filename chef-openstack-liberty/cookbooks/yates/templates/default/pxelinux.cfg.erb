@@ -1,0 +1,4 @@
+DEFAULT BOOT
+LABEL BOOT
+	kernel <%= @system %>/linux
+	append noprompt priority=critical vga=788 locale=en_US auto interface=<%= @interface %>  url=http://<%= @pxe_addr %>:<%= node[:lighttpd][:port] %>/seed/<%= @hardware %>.seed initrd=<%= @system %>/initrd.gz quiet -- console=ttyS1,<%= @baud %>

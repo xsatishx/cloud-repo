@@ -1,0 +1,86 @@
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.167.192.0/16 ! -d 172.167.192.0/16 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.167.192.0/16 ! -d 169.254.169.254/32 -j MASQUERADE
+
+COMMIT
+*filter
+:INPUT DROP [1:32]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:PORTFWD_BLK - [0:0]
+:GENEOS_SERVER - [0:0]
+:<%= node['canary'].upcase %> - [0:0]
+
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+#Metadata
+-A INPUT  -s 172.167.192.0/16 -d 169.254.169.254/32 -j ACCEPT
+-A OUTPUT -d 172.167.192.0/16 -s 169.254.169.254/32 -j ACCEPT
+-A INPUT  -s 172.167.192.0/16 -d 10.24.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+-A OUTPUT  -d 172.167.192.0/16 -s 10.24.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+#-A INPUT  -d 169.254.169.254 -j ACCEPT
+#-A OUTPUT -s 169.254.169.254 -j ACCEPT
+#-A INPUT -ptcp -mtcp --dport 8775 -j ACCEPT
+
+
+#VM talk to vms
+-A INPUT -s 172.167.192.0/16 -d 172.167.192.0/16 -j ACCEPT
+-A OUTPUT -s 172.167.192.0/16 -d 172.167.192.0/16 -j ACCEPT
+
+#DHCP
+-A INPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+
+-A PORTFWD_BLK -p tcp -m tcp --dport  2049 -j REJECT
+-A PORTFWD_BLK -p udp -m udp --dport  2049 -j REJECT
+-A PORTFWD_BLK -p tcp -m tcp --dport  111 -j REJECT
+-A PORTFWD_BLK -p udp -m udp --dport  111 -j REJECT
+-A PORTFWD_BLK -p tcp -m tcp --dport  38465:38468 -j REJECT
+-A PORTFWD_BLK -p udp -m udp --dport  38465:38468 -j REJECT
+
+
+# allow full privnet access
+-A INPUT -s 10.16.0.0/16 -j ACCEPT
+-A INPUT -s 10.17.0.0/16 -j ACCEPT
+-A INPUT -s 10.18.0.0/16 -j ACCEPT
+-A INPUT -s 10.24.0.0/16 -j ACCEPT
+-A INPUT -s 10.32.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.16.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.17.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.18.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.24.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.32.0.0/16 -j ACCEPT
+
+#Nagios
+-A INPUT -s 10.103.110.249  -j ACCEPT
+-A OUTPUT -d 10.103.110.249 -j ACCEPT
+#allow icinga
+-A INPUT  -s 10.8.0.21 -j ACCEPT
+-A OUTPUT  -d 10.8.0.21 -j ACCEPT
+
+#PXE
+-A INPUT -s 10.16.63.254  -j ACCEPT
+-A OUTPUT -d 10.16.63.254 -j ACCEPT
+
+COMMIT

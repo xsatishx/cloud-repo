@@ -1,0 +1,161 @@
+## This file managed by Chef, all changes will be overwritten ##
+d-i netcfg/choose_interface select <%= @interface %>
+
+# Firmware
+d-i hw-detect/load_firmware boolean true
+
+# Clock
+d-i clock-setup/utc boolean false
+d-i time/zone string US/Eastern
+d-i clock-setup/ntp boolean true
+
+# Mirror
+d-i mirror/protocol string http
+d-i mirror/http/mirror select mirror.anl.gov
+d-i mirror/http/directory string /pub/ubuntu/
+
+# Storage
+d-i partman-auto/method string regular
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+# You can choose one of the three predefined partitioning recipes:
+# - atomic: all files in one partition
+# - home:   separate /home partition
+# - multi:  separate /home, /usr, /var, and /tmp partitions
+# d-i partman-auto/choose_recipe select multi
+# Or provide a recipe of your own...
+# If you have a way to get a recipe file into the d-i environment, you can
+# just point at it.
+# d-i partman-auto/expert_recipe_file string /hd-media/squeeze-partman.cfg
+# Partitioning using RAID
+# The method should be set to "raid".
+d-i partman-auto/method string raid
+# Specify the disks to be partitioned. They will all get the same layout,
+# so this will only work if the disks are the same size.
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd
+# Next you need to specify the physical partitions that will be used. 
+d-i partman-auto/expert_recipe string \
+      multiraid ::                                  \
+	      1 1 1 free                            \
+		      $gptonly{ }                   \
+		      $primary{ }                   \
+		      $bios_boot{ }                 \
+		      method{ biosgrub }            \
+	      .                                     \
+              33554 10000 34768 raid                \
+                     $gptonly{ }                    \
+                     $primary{ } method{ raid }     \
+              .                                     \
+              67110 10000 67536 raid                \
+                     $gptonly{ }                    \
+                     $primary{ } method{ raid }     \
+              .                                     \
+              75000 80000 85000 raid                \
+                     $gptonly{ } method{ raid }     \
+              .                                     \
+              75000 80000 85000 raid                \
+                     $gptonly{ } method{ raid }     \
+              .                                     \
+              1000 1 -1 free                        \
+                     $gptonly{ }                    \
+              .
+# Last you need to specify how the previously defined partitions will be
+# used in the RAID setup. Remember to use the correct partition numbers
+# for logical partitions. RAID levels 0, 1, 5, 6 and 10 are supported;
+# devices are separated using "#".
+# Parameters are:
+# <raidtype> <devcount> <sparecount> <fstype> <mountpoint> \
+#          <devices> <sparedevices>
+d-i partman-auto-raid/recipe string                                    \
+    1 2 2 ext4 / /dev/sda2#/dev/sdb2 /dev/sdc2#/dev/sdd2 .             \
+    1 2 2 swap - /dev/sdc3#/dev/sdd3 /dev/sda3#/dev/sdb3 .             \
+    5 4 0 ext4 /var/lib/nova /dev/sda5#/dev/sdb5#/dev/sdc5#/dev/sdd5 . \
+    5 4 0 ext4 /var/lib/glance /dev/sdd6#/dev/sdc6#/dev/sdb6#/dev/sda6 .
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+# This makes partman automatically partition without confirmation.
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+mdadm-udeb mdadm/boot_degraded boolean true
+# make sure no damn confirmation pops-up
+d-i partman-md/confirm_nooverwrite  boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+d-i partman/confirm boolean true
+d-i partman-md/confirm boolean true
+d-i partman-crypto/confirm_nooverwrite boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# Users
+d-i passwd/root-password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i passwd/make-user boolean true
+d-i passwd/user-fullname string LAC Administration
+d-i passwd/username string lacadmin
+d-i passwd/user-password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i user-setup/allow-password-weak boolean true
+d-i user-setup/encrypt-home boolean false
+
+# APT Settings
+# You can choose to install restricted and universe software, or to install
+# software from the backports repository.
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+d-i apt-setup/multiverse boolean true
+d-i apt-setup/backports boolean true
+# Uncomment this if you don't want to use a network mirror.
+# d-i apt-setup/use_mirror boolean false
+# By default the installer requires that repositories be authenticated
+# using a known gpg key. This setting can be used to disable that
+# authentication. Warning: Insecure, not recommended.
+d-i debian-installer/allow_unauthenticated boolean true
+d-i apt-setup/security-updates boolean true
+d-i apt-setup/security-updates-fail string security.ubuntu.com
+
+# Packages
+# Always install the server kernel.
+d-i base-installer/kernel/override-image string linux-server
+d-i 	tasksel/first   multiselect
+tasksel tasksel/first	multiselect
+tasksel tasksel/tasks	multiselect
+# Individual additional packages to install
+d-i pkgsel/include string openssh-server less bzip2 vim-tiny nano openipmi ipmitool curl ethtool vlan bridge-utils
+popularity-contest popularity-contest/participate boolean false
+
+# Only install basic language packs.
+d-i pkgsel/language-pack-patterns string
+
+# No language support packages.
+d-i pkgsel/install-language-support boolean false
+
+# Verbose output and no boot splash screen.
+d-i debian-installer/quiet boolean false
+d-i debian-installer/splash boolean false
+
+# GRUB
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean false
+d-i grub-installer/password-crypted password $6$rounds=5000$C8S0I1KTNRhQ7SnL$HDkRR9KlwNKUMthoBmkbPPVVXa9q/SgogHdwdKaEMt7QWjMMe.p4O2jhdjhsN52PngGe5Do5/KApEGcJykfpW0
+d-i grub-installer/bootdev string (hd0,0) (hd1,0) (hd2,0) (hd3,0)
+d-i grub-installer/timeout string 5
+
+# Finish
+d-i finish-install/reboot_in_progress note
+# d-i debian-installer/exit/poweroff boolean true
+
+# copy conf files tarball onto /target/ and install root's pubkey
+d-i preseed/late_command string wget http://10.103.184.12/fiugotime.sh -O /target/root/gotime.sh; in-target /bin/bash -x chmod 755 ./root/gotime.sh; in-target /bin/bash ./root/gotime.sh;

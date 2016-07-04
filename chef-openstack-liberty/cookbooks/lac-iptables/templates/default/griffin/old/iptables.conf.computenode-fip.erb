@@ -1,0 +1,185 @@
+*nat
+#Need for load balancing the nfs connections
+:PREROUTING ACCEPT [22:3376]
+:POSTROUTING ACCEPT [12:864]
+:lac-nova-snat-1 - [0:0]
+:lac-nova-snat-2 - [0:0]
+:VM_OUT - [0:0]
+:VM_OUT_GENETORRENT - [0:0]
+:IGSB_RADOSGW - [0:0]
+:SALESFORCE - [0:0]
+:EMAIL - [0:0]
+:ASPERA - [0:0]
+
+-A POSTROUTING -j lac-nova-snat-1
+
+-A lac-nova-snat-1 -s 172.16.0.0/16 ! -d 172.16.0.0/16 -j lac-nova-snat-2
+-A lac-nova-snat-2 -s 172.16.0.0/16 ! -d 169.254.169.254/32 -j MASQUERADE
+
+#This is how we blk outbound VM ports
+-A PREROUTING -s 172.16.0.0/16 -j VM_OUT
+-A VM_OUT -p tcp -m tcp --sport 22 -j ACCEPT
+-A VM_OUT -p tcp -m tcp --dport 22 -j ACCEPT
+-A VM_OUT -p udp -m udp --sport 67:68 --dport 67:68 -j ACCEPT
+-A VM_OUT -d 172.16.192.0/18 -j ACCEPT
+-A VM_OUT -d 10.32.0.0/16 -j ACCEPT
+-A VM_OUT -d 192.35.223.0/24 -j VM_OUT_GENETORRENT
+-A VM_OUT -p tcp -m tcp --dport 80 -j IGSB_RADOSGW
+-A VM_OUT -p tcp -m tcp --dport 443 -j IGSB_RADOSGW
+-A VM_OUT -ptcp -mtcp --dport 443 -j SALESFORCE
+-A VM_OUT -p tcp -m tcp --dport 25 -j EMAIL
+-A VM_OUT -j ASPERA
+#For Jason Grundstad
+-A VM_OUT -p tcp -m tcp --dport 33001 -j ACCEPT
+-A VM_OUT -p udp -m udp --dport 33001 -j ACCEPT
+#More for Jason
+-A VM_OUT -p tcp -m tcp --dport 8080 -j ACCEPT
+-A VM_OUT -p udp -m udp --dport 8080 -j ACCEPT
+-A VM_OUT -p tcp -m tcp --dport 8081 -j ACCEPT
+-A VM_OUT -p udp -m udp --dport 8081 -j ACCEPT
+-A VM_OUT -p tcp -j REDIRECT --to-ports 9999
+-A VM_OUT -p udp -j REDIRECT --to-ports 9999
+
+
+-A VM_OUT_GENETORRENT -p tcp -m tcp --dport 443 -j ACCEPT
+-A VM_OUT_GENETORRENT -p tcp -m tcp --dport 21111 -j ACCEPT
+-A VM_OUT_GENETORRENT -p tcp -m tcp --dport 20893:20923 -j ACCEPT
+
+-A IGSB_RADOSGW -d 10.32.1.26  -j ACCEPT
+-A IGSB_RADOSGW -d 192.170.228.91  -j ACCEPT
+
+#ALLOW SALESFORCE
+-A SALESFORCE -d 96.43.144.0/20 -j ACCEPT
+
+#Allow email through satelite
+-A EMAIL -d 128.135.107.139 -j ACCEPT
+-A EMAIL -d mail.opensciencedatacloud.org -j ACCEPT
+
+#ASPERA
+-A ASPERA -p udp -m udp --dport 33001  -j ACCEPT
+-A ASPERA -p tcp -m tcp --dport 33001 -j ACCEPT
+
+
+
+
+COMMIT
+*filter
+:INPUT DROP [1:32]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:PORTFWD_BLK - [0:0]
+:GENEOS_SERVER - [0:0]
+:FLOATING_IP_IN - [0:0]
+:FLOATING_IP_OUT - [0:0]
+:SALESFORCE - [0:0]
+:MAIL - [0:0]
+
+
+#Established should work
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+#loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+#Floating IP
+-A INPUT -d 192.170.232.208 -j DROP
+-A FORWARD -d 192.170.232.0/23 -j FLOATING_IP_IN
+-A INPUT -d 192.170.232.0/23 -j FLOATING_IP_IN
+
+-A FLOATING_IP_IN -m tcp -p tcp --dport 22 -j ACCEPT
+-A FLOATING_IP_IN -m tcp -p tcp --dport 443 -j ACCEPT
+-A FLOATING_IP_IN -m tcp -p tcp --dport 873 -j ACCEPT
+-A FLOATING_IP_IN -m tcp -p tcp --dport 9000:9100 -j ACCEPT
+-A FLOATING_IP_IN -m udp -p udp --dport 9000:9100 -j ACCEPT
+### For Jason Grundstad
+-A FLOATING_IP_IN -p tcp -m tcp --dport 33001 -j ACCEPT
+-A FLOATING_IP_IN -p udp -m udp --dport 33001 -j ACCEPT
+-A FLOATING_IP_IN -p tcp -m tcp --dport 8080 -j ACCEPT
+-A FLOATING_IP_IN -p udp -m udp --dport 8080 -j ACCEPT
+-A FLOATING_IP_IN -p tcp -m tcp --dport 8081 -j ACCEPT
+-A FLOATING_IP_IN -p udp -m udp --dport 8081 -j ACCEPT
+###
+-A FLOATING_IP_IN -j FLOATING_IP_OUT
+-A FLOATING_IP_OUT -m tcp -p tcp --sport 22 -j ACCEPT
+-A FLOATING_IP_OUT -m tcp -p tcp --sport 21111 -j ACCEPT
+-A FLOATING_IP_OUT -m tcp -p tcp --sport 9000:9100 -j ACCEPT
+-A FLOATING_IP_OUT -m udp -p udp --sport 9000:9100 -j ACCEPT
+-A FLOATING_IP_OUT -m tcp -p tcp --sport 6881:6899 -j ACCEPT
+-A FLOATING_IP_OUT -m udp -p udp --sport 6881:6899 -j ACCEPT
+-A FLOATING_IP_OUT -ptcp -mtcp --sport 443 -j SALESFORCE
+-A FLOATING_IP_OUT -ptcp -mtcp --sport 25 -j MAIL
+
+#JIC
+-A FLOATING_IP_OUT -j DROP
+
+-A MAIL -s mail.opensciencedatacloud.org -j ACCEPT
+
+
+#Metadata
+-A INPUT  -s 172.16.0.0/16 -d 169.254.169.254/32 -j ACCEPT
+-A OUTPUT -d 172.16.0.0/16 -s 169.254.169.254/32 -j ACCEPT
+-A INPUT  -s 172.16.0.0/16 -d 10.32.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+-A OUTPUT  -d 172.16.0.0/16 -s 10.32.0.0/16 -ptcp -mtcp --dport 8775  -j ACCEPT
+
+#VM talk to vms
+-A INPUT -s 172.16.0.0/16 -d 172.16.0.0/16 -j ACCEPT
+-A OUTPUT -s 172.16.0.0/16 -d 172.16.0.0/16 -j ACCEPT
+
+#DHCP
+-A INPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 67:68 -j ACCEPT
+-A OUTPUT -p udp -m udp --sport 67:68 -j ACCEPT
+-A INPUT -s 0.0.0.0/32 -d 255.255.255.255/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 68 --dport 67 -j ACCEPT
+-A OUTPUT -s 255.255.255.255/32 -d 0.0.0.0/32 -p udp -m state --state NEW,RELATED,ESTABLISHED -m udp --sport 67 --dport 68 -j ACCEPT
+
+
+#Local GenOS cluster
+-A OUTPUT -d 10.103.114.26 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.29 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.36 -j GENEOS_SERVER
+-A OUTPUT -d 10.103.114.38 -j GENEOS_SERVER
+
+-A GENEOS_SERVER -p tcp -m tcp --dport 443 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 21111 -j ACCEPT
+-A GENEOS_SERVER -p tcp -m tcp --dport 6881:6899 -j ACCEPT
+
+# allow full privnet access
+-A INPUT -s 10.16.0.0/16 -j ACCEPT
+-A INPUT -s 10.17.0.0/16 -j ACCEPT
+-A INPUT -s 10.18.0.0/16 -j ACCEPT
+-A INPUT -s 10.32.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.16.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.17.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.18.0.0/16 -j ACCEPT
+-A OUTPUT -d 10.32.0.0/16 -j ACCEPT
+
+#Nagios
+-A INPUT -s 10.103.110.249  -j ACCEPT
+-A OUTPUT -d 10.103.110.249 -j ACCEPT
+#allow icinga
+-A INPUT  -s 10.8.0.21 -j ACCEPT
+-A OUTPUT  -d 10.8.0.21 -j ACCEPT
+
+#PXE
+-A INPUT -s 10.16.63.254  -j ACCEPT
+-A OUTPUT -d 10.16.63.254 -j ACCEPT
+
+#ALLOW SALESFORCE
+-A OUTPUT -ptcp -mtcp --dport 443 -j SALESFORCE
+-A SALESFORCE -d 96.43.144.0/20 -j ACCEPT
+
+#For Jason Grundstad
+-A OUTPUT -p tcp -m tcp --dport 33001 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 33001 -j ACCEPT
+#More for Jason
+-A OUTPUT -p tcp -m tcp --dport 8080 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 8080 -j ACCEPT
+-A OUTPUT -p tcp -m tcp --dport 8081 -j ACCEPT
+-A OUTPUT -p udp -m udp --dport 8081 -j ACCEPT
+
+COMMIT

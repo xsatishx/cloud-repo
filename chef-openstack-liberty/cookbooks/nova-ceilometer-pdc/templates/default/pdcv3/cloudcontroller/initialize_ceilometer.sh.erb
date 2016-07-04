@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mongo --host <%= node['ceilometer']['host'] %> --eval '
+db = db.getSiblingDB("ceilometer");
+db.addUser({user: "ceilometer",
+            pwd: "'<%= node['ceilometer']['mongodb_passwd'] %>'",
+            roles: [ "readWrite", "dbAdmin" ]})'
+
+
+source /root/admin_auth
+
+keystone user-create --name=ceilometer --pass=<%= node['ceilometer']['passwd'] %> --email=admin@opensciencedatacloud.org
+keystone user-role-add --user=ceilometer --tenant=service --role=admin
+
+keystone service-create --name=ceilometer --type=metering --description="Telemetry"
+keystone endpoint-create --service-id=$(keystone service-list | awk '/ metering / {print $2}') --publicurl=http://<%= node['ceilometer']['host'] %>:8777 --internalurl=http://<%= node['ceilometer']['host'] %>:8777  --adminurl=http://<%= node['ceilometer']['host'] %>:8777
+
+

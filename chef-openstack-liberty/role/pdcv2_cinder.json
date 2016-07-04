@@ -1,0 +1,16 @@
+{
+  "name": "pdcv2_cinder",
+  "description": "cinder storage server",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv2_storage]",
+    "recipe[nova-cinder-pdc::service_node]"
+  ],
+  "env_run_lists": {
+  }
+}

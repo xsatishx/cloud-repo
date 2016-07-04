@@ -1,0 +1,70 @@
+--- a/nova/tests/virt/libvirt/test_imagebackend.py
++++ b/nova/tests/virt/libvirt/test_imagebackend.py
+@@ -13,11 +13,13 @@
+ #    License for the specific language governing permissions and limitations
+ #    under the License.
+ 
++import contextlib
+ import os
+ import shutil
+ import tempfile
+ 
+ import fixtures
++import mock
+ from oslo.config import cfg
+ 
+ import inspect
+@@ -879,6 +881,37 @@ class RbdTestCase(_ImageTestCase, test.NoDBTestCase):
+ 
+         self.assertEqual(image.path, rbd_path)
+ 
++    def test_resize(self):
++        class fake_rbd(object):
++            class Error(object):
++                pass
++
++            class Image(object):
++                def __init__(self, ioctx, name, snapshot):
++                    pass
++
++                def resize(self, size):
++                    pass
++
++                def close(self):
++                    pass
++
++        def fake_resize(size):
++            self.assertEqual(self.SIZE, size)
++
++        image = self.image_class(self.INSTANCE, self.NAME)
++        with contextlib.nested(
++            mock.patch.object(image, "_connect_to_rados",
++                              lambda p: (None, None)),
++            mock.patch.object(image, "_disconnect_from_rados",
++                              lambda io, ctx: True)):
++            image.rbd = fake_rbd()
++            vol = imagebackend.RBDVolumeProxy(image, image.rbd_name)
++
++            with contextlib.nested(
++                mock.patch.object(vol, "resize", fake_resize)):
++                image._resize(image.rbd_name, self.SIZE)
++
+ 
+ class BackendTestCase(test.NoDBTestCase):
+     INSTANCE = {'name': 'fake-instance',
+diff --git a/nova/virt/libvirt/imagebackend.py b/nova/virt/libvirt/imagebackend.py
+index 6511496..f66b4f2 100644
+--- a/nova/virt/libvirt/imagebackend.py
++++ b/nova/virt/libvirt/imagebackend.py
+@@ -655,10 +655,8 @@ class Rbd(Image):
+         return False
+ 
+     def _resize(self, volume_name, size):
+-        size = int(size) * units.Ki
+-
+         with RBDVolumeProxy(self, volume_name) as vol:
+-            vol.resize(size)
++            vol.resize(int(size))
+ 
+     def create_image(self, prepare_template, base, size, *args, **kwargs):
+         if self.rbd is None:

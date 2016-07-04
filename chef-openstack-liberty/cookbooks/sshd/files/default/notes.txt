@@ -1,0 +1,35 @@
+If krlfile doesn't exist, use ssh-keygen to generate a new file
+ssh-keygen -kf <path to kill file to create> <path to public key to blacklist>
+
+IE:
+    ssh-keygen -kf krlfile /home/ubuntu/.ssh/authorized_keys
+
+Adding ssh-keys to the killfile needs the -u flag to update them
+    ssh-keygen -kf krlfile -u /home/ubuntu/.ssh/authorized_keys
+
+I've included the corresponding private key as testkey, so we have a way to test
+this.
+
+Make sure your key-agent is off before testing, as it will pass keys in your
+keychain.  Just makes life easier.
+
+ssh -vv -i testkey <somehostname>
+
+Towards the end of the debug messages, you should see this:
+debug2: key: testkey ((nil)), explicit
+debug1: Authentications that can continue: publickey
+debug1: Next authentication method: publickey
+debug1: Trying private key: testkey
+debug1: key_parse_private2: missing begin marker
+debug1: read PEM private key done: type RSA
+debug2: we sent a publickey packet, wait for reply
+debug1: Authentications that can continue: publickey
+debug2: we did not send a packet, disable method
+debug1: No more authentication methods to try.
+Permission denied (publickey).
+
+
+It looks just like any other time you try a key that's not valid for that account.
+
+In /var/log/auth.log on the target server, you should see a message like this:
+Jan 13 16:48:45 kh21-1 sshd[37374]: error: WARNING: authentication attempt with a revoked RSA key 79:92:67:d4:4e:d3:3c:01:81:2a:9f:fc:68:38:99:ba 

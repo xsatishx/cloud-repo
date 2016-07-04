@@ -1,0 +1,5 @@
+<% @baud="115200" if @baud.nil? %>
+DEFAULT RESCUE
+LABEL RESCUE
+	kernel sysrec/rescue64
+	append initrd=sysrec/initram.igz dodhcp netboot=http://<%= @pxe_addr %>:<%= node[:lighttpd][:port] %>/sysrec/sysrcd.dat -- console=ttyS1,<%= @baud %> console=tty0

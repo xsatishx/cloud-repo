@@ -1,0 +1,36 @@
+[global]
+workgroup = PDC
+dns proxy = no
+log file = /var/log/samba/log.%m
+max log size = 1000
+syslog = 0
+panic action = /usr/share/samba/panic-action %d
+security = user
+encrypt passwords = true
+obey pam restrictions = yes
+unix password sync = yes
+passwd program = /usr/bin/passwd %u
+passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+pam password change = yes
+
+passdb backend = ldapsam:ldaps://ldap.bionimbus.nih.uchicago.edu
+ldap ssl = off
+ldap suffix = dc=bionimbus,dc=nih,dc=uchicago,dc=edu
+ldap user suffix = ou=people
+ldap group suffix = ou=group
+ldap debug level = -1
+ldap admin dn = cn=admin,dc=bionimbus,dc=nih,dc=uchicago,dc=edu
+
+[glusterfs]
+comment = glusterfs reshare
+path = /glusterfs/
+hide unreadable = yes
+#valid users = @samba
+browseable = yes
+writeable = yes
+printable = no
+public = no
+create mask = 664
+force create mode = 664
+directory mask = 775
+force directory mode = 775

@@ -1,0 +1,285 @@
+#
+# Cookbook Name:: yates
+# Recipe:: pxe-server
+#
+# Copyright 2013, rafael
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+node.normal[:lighttpd][:port] = 8080
+node.normal[:lighttpd][:use_ipv6] = "disable"
+
+include_recipe 'chef-lighttpd'
+include_recipe 'tftp::server'
+include_recipe 'yates::dhcpd'
+
+dirs=["/var/lib/tftpboot/pxelinux.cfg","/var/www/seed","/var/www/scripts","/var/lib/tftpboot/trusty","/var/lib/tftpboot/utopic"]
+dirs.each do
+|d|
+  puts "Creating directory #{d}"
+  directory d do
+    owner "nobody"
+    group "nogroup"
+    mode 00755
+    action :create
+  end
+end
+
+remote_directory '/var/www' do
+  source "www"
+  owner "root"
+  group "root"
+  mode 00755
+  files_owner "root"
+  files_group "root"
+  files_mode 00644
+  recursive true
+  action :create
+end
+
+directory '/var/lib/tftpboot/pxelinux.cfg' do
+  owner "nobody"
+  group "nogroup"
+  mode 00755
+  action :create
+end
+
+directory '/var/www/seed' do
+  owner "nobody"
+  group "nogroup"
+  mode 00755
+  action :create
+end
+
+remote_file "/var/lib/tftpboot/pxelinux.0" do
+  source "http://mirror.pnl.gov/ubuntu/dists/trusty/main/installer-amd64/current/images/netboot/pxelinux.0"
+  mode "755"
+  owner "nobody"
+  group "nogroup"
+end
+
+%w{trusty utopic}.each do |system|
+  directory "/var/lib/tftpboot/#{system}" do
+    owner "nobody"
+    group "nogroup"
+    mode 00755
+    action :create
+  end
+  
+  %w{initrd.gz linux}.each do |file|
+    remote_file "/var/lib/tftpboot/#{system}/#{file}" do
+      mode "755"
+      owner "nobody"
+      group "nogroup"
+      source "http://mirror.pnl.gov/ubuntu/dists/#{system}/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/#{file}"
+    end
+  end
+end
+
+pxe_hosts_old = data_bag_item("yates", "pxe_hosts_old")
+install_params = data_bag_item("yates", "install_parameters")
+hosts = pxe_hosts_old['hosts']
+hosts.each do |target|
+  hardware = target['mac']
+  mac_addr = hardware.gsub(":","-")
+  ip_addr = target['ip']
+  octet = ip_addr.split(".")
+  subnet = "#{octet[2]}"
+  cloud = pxe_hosts_old['clouds']["#{target['cloud']}"]
+  settings = install_params["#{target['form']}"]
+  template "/var/lib/tftpboot/pxelinux.cfg/01-#{mac_addr}" do
+    mode 0755
+    owner "nobody"
+    group "nogroup"
+    source "pxelinux.cfg.erb"
+    variables({
+      :hardware => target['mac'],
+      :pxe_addr => cloud['pxe_addr'],
+      :baud => settings['baud'],
+      :interface => cloud['pxe_int'],
+      :system => cloud['system']
+    })
+  end
+  template "/var/www/seed/#{hardware}.seed" do
+    mode 0755
+    owner "root"
+    group "root"
+    source "seed/ubuntu.seed.erb"
+    variables({
+      :tzone => cloud['tzone'],
+      :hardware => target['mac'],
+      :pxe_addr => cloud['pxe_addr'],
+      :interface => cloud['pxe_int'],
+      :recipe => settings['recipe'],
+      :grub_bootdev => settings['grub_bootdev']
+    })
+  end
+  template "/var/www/scripts/#{hardware}.sh" do
+    mode 0755
+    owner "root"
+    group "root"
+    source "gotime.sh.erb"
+    variables({
+      :hardware => target['mac'],
+      :ip_addr => target['ip'],
+      :hostname => target['hostname'],
+      :subnet => "#{subnet}",
+      :pxe_addr => cloud['pxe_addr'],
+      :main_int => cloud['main'],
+      :manage_int => cloud['manage'],
+      :dns => cloud['dns']
+    })
+  end
+end
+
+nodes = data_bag_item("yates","nodes")
+forms = data_bag_item("yates","forms")
+safe_to_image = data_bag_item("yates","safe_to_image")
+nodes.each do
+|hostname,data|
+  next if hostname=="id"
+  mac_dashed=data["mac"].gsub(":","-")
+  form=data["form"]
+  #The forms databag needs serious overhaul
+  forms["builds"].each do
+  |build|
+    next unless build["form"]==form
+    data[:baud]=build["baud"]
+    data[:nic]=build["nic"]
+    data[:recipe]=build["recipe"]
+    data[:grub_bootdev]=build["grub_bootdev"]
+  end
+  if(safe_to_image["nodes"].include?hostname)
+    #puts "If this was doing something, #{hostname} would now be setup to pxeboot"
+    puts "WARNING: #{hostname} is now setup to pxeboot into the installer"
+    pxetemplate="pxe-server/pxelinux_image.cfg.erb"
+  else
+    #puts "If this was doing something, #{hostname} would now be setup for sysrescue"
+    pxetemplate="pxe-server/pxelinux_sysrescue.cfg.erb"
+  end 
+  template "/var/lib/tftpboot/pxelinux.cfg/01-#{mac_dashed}" do
+    mode 0755
+    owner "nobody"
+    group "nogroup"
+    #source "pxe-server/pxelinux.cfg.erb"
+    source pxetemplate
+    variables({
+      :hardware => data["mac"],
+      :pxe_addr => data['pxe_addr'],
+      :baud => data[:baud],
+      :nic => data[:nic],
+      :system => data["system"]})
+  end
+  template "/var/www/seed/#{data["mac"]}.seed" do
+    mode 0755
+    owner "root"
+    group "root"
+    source "pxe-server/ubuntu.seed.erb"
+    variables({
+      :hardware => data["mac"],
+      :nic => data[:nic],
+      :pxe_addr => data["pxe_addr"],
+      :recipe => data[:recipe],
+      :grub_bootdev => data[:grub_boottdev]})
+  end
+  template "/var/www/scripts/#{data["mac"]}.sh" do
+    mode 0755
+    owner "root"
+    group "root"
+    source "pxe-server/gotime.sh.erb"
+    variables({
+      :nic => data[:nic],
+      #:ip_addr => data["ip_addr"],
+      :ip_addr => data["ip"],
+      :hostname => hostname,
+      :pxe_addr => data['pxe_addr'],
+      :gateway => data['router'],
+      :dns => data['dns']
+    })
+  #removed
+  #:hardware => data["mac"], :subnet => "#{octet[2]}", :tzone
+  end
+end
+
+=begin
+hosts = data_bag_item("yates","pxe_hosts")
+racks = data_bag_item("yates","racks")
+forms = data_bag_item("yates","forms")
+builds = forms['builds']
+builds.each do |build|
+  servers = hosts["#{build['form']}"]
+  servers.each do |hostname, mac|
+    location = hostname.split('-')
+    slot = location[1].to_i
+    mac_addr = mac.gsub(":","-")
+    unless(racks['rack'].include?location[0])
+      puts "missing location #{location[0]}"
+      exit(-1)
+    end
+    settings = racks['rack'][location[0]]
+    if(settings.include?'starting_ip')
+      start = settings['starting_ip']
+    else
+      puts "Somehow missing startingip for #{location[0]}"
+      exit(-1)
+    end
+    octet = start.split('.')
+    octet = octet.collect!{|i| i.to_i}
+    ip_num = slot + octet[3] - 1
+    ip_addr = "#{octet[0]}"+"."+"#{octet[1]}"+"."+"#{octet[2]}"+"."+"#{ip_num}"
+    template "/var/lib/tftpboot/pxelinux.cfg/01-#{mac_addr}" do
+      mode 0755
+      owner "nobody"
+      group "nogroup"
+      source "pxe-server/pxelinux.cfg.erb"
+      variables({
+        :hardware => "#{mac}",
+        :pxe_addr => settings['pxe_addr'],
+        :baud => build['baud'],
+        :nic => build['nic'],
+        :system => settings['system']
+      })
+    end
+    template "/var/www/seed/#{mac}.seed" do
+      mode 0755
+      owner "root"
+      group "root"
+      source "pxe-server/ubuntu.seed.erb"
+      variables({
+        :tzone => settings['tzone'],
+        :hardware => "#{mac}",
+        :nic => build['nic'],
+        :pxe_addr => settings['pxe_addr'],
+        :recipe => build['recipe'],
+        :grub_bootdev => build['grub_bootdev']
+      })
+    end
+    template "/var/www/scripts/#{mac}.sh" do
+      mode 0755
+      owner "root"
+      group "root"
+      source "pxe-server/gotime.sh.erb"
+      variables({
+        :hardware => "#{mac}",
+        :nic => build['nic'],
+        :ip_addr => "#{ip_addr}",
+        :hostname => "#{hostname}",
+        :subnet => "#{octet[2]}",
+        :pxe_addr => settings['pxe_addr'],
+        :gateway => settings['router'],
+        :dns => settings['dns']
+      })
+    end
+  end
+end
+=end

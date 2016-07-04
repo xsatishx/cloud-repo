@@ -1,0 +1,315 @@
+##This filemanaged by Chef, all changes will be overwritten ##
+[DEFAULT]
+bind_port = 8080
+user = swift
+
+#ssl in server is experminetal, recommended to run nginix in front
+#cert_file = /etc/swift/swift-bionimbus-pdc.opensciencedatacloud.org.crt
+#key_file = /etc/swift/swift-bionimbus-pdc.opensciencedatacloud.org.key
+
+[pipeline:main]
+#pipeline = healthcheck cache authtoken keystoneauth proxy-server    
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk tempurl slo dlo ratelimit authtoken keystoneauth container-quotas account-quotas proxy-logging proxy-server
+
+[app:proxy-server]
+use = egg:swift#proxy
+allow_account_management = true
+account_autocreate = true
+
+[filter:keystoneauth]
+use = egg:swift#keystoneauth
+operator_roles = Member,admin,swiftoperator,memberRole,uploader
+
+[filter:authtoken]
+paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
+
+# Delaying the auth decision is required to support token-less
+# usage for anonymous referrers ('.r:*').
+delay_auth_decision = true
+
+# cache directory for signing certificate
+signing_dir = /etc/swift/keystone-signing
+
+# auth_* settings refer to the Keystone server
+auth_uri = http://api.bionimbus-pdcv2.opensciencedatacloud.org:5000
+auth_protocol = http
+auth_host = api.bionimbus-pdcv2.opensciencedatacloud.org
+auth_port = 35357
+
+# the service tenant and swift username and password created in Keystone
+admin_tenant_name = service
+admin_user = swift
+admin_password = aX7xah2queashohdu6ie
+
+
+[filter:cache]
+use = egg:swift#memcache
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:cache]
+use = egg:swift#memcache
+memcache_servers =  <%= node['memcached_servers'] %>
+
+[filter:ratelimit]
+use = egg:swift#ratelimit
+# You can override the default log routing for this filter here:
+# set log_name = ratelimit
+# set log_facility = LOG_LOCAL0
+# set log_level = INFO
+# set log_headers = false
+# set log_address = /dev/log
+#
+# clock_accuracy should represent how accurate the proxy servers' system clocks
+# are with each other. 1000 means that all the proxies' clock are accurate to
+# each other within 1 millisecond. No ratelimit should be higher than the
+# clock accuracy.
+# clock_accuracy = 1000
+#
+# max_sleep_time_seconds = 60
+#
+# log_sleep_time_seconds of 0 means disabled
+# log_sleep_time_seconds = 0
+#
+# allows for slow rates (e.g. running up to 5 sec's behind) to catch up.
+# rate_buffer_seconds = 5
+#
+# account_ratelimit of 0 means disabled
+# account_ratelimit = 0
+
+# these are comma separated lists of account names
+# account_whitelist = a,b
+# account_blacklist = c,d
+
+# with container_limit_x = r
+# for containers of size x limit write requests per second to r. The container
+# rate will be linearly interpolated from the values given. With the values
+# below, a container of size 5 will get a rate of 75.
+# container_ratelimit_0 = 100
+# container_ratelimit_10 = 50
+# container_ratelimit_50 = 20
+
+# Similarly to the above container-level write limits, the following will limit
+# container GET (listing) requests.
+# container_listing_ratelimit_0 = 100
+# container_listing_ratelimit_10 = 50
+# container_listing_ratelimit_50 = 20
+
+[filter:domain_remap]
+use = egg:swift#domain_remap
+# You can override the default log routing for this filter here:
+# set log_name = domain_remap
+# set log_facility = LOG_LOCAL0
+# set log_level = INFO
+# set log_headers = false
+# set log_address = /dev/log
+#
+# storage_domain = example.com
+# path_root = v1
+# reseller_prefixes = AUTH
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+# You can override the default log routing for this filter here:
+# set log_name = catch_errors
+# set log_facility = LOG_LOCAL0
+# set log_level = INFO
+# set log_headers = false
+# set log_address = /dev/log
+
+[filter:cname_lookup]
+# Note: this middleware requires python-dnspython
+use = egg:swift#cname_lookup
+# You can override the default log routing for this filter here:
+# set log_name = cname_lookup
+# set log_facility = LOG_LOCAL0
+# set log_level = INFO
+# set log_headers = false
+# set log_address = /dev/log
+#
+# Specify the storage_domain that match your cloud, multiple domains
+# can be specified separated by a comma
+# storage_domain = example.com
+#
+# lookup_depth = 1
+
+
+
+# Note: Put staticweb just after your auth filter(s) in the pipeline
+[filter:staticweb]
+use = egg:swift#staticweb
+
+# Note: Put tempurl before dlo, slo and your auth filter(s) in the pipeline
+[filter:tempurl]
+use = egg:swift#tempurl
+# The methods allowed with Temp URLs.
+# methods = GET HEAD PUT
+#
+# The headers to remove from incoming requests. Simply a whitespace delimited
+# list of header names and names can optionally end with '*' to indicate a
+# prefix match. incoming_allow_headers is a list of exceptions to these
+# removals.
+# incoming_remove_headers = x-timestamp
+#
+# The headers allowed as exceptions to incoming_remove_headers. Simply a
+# whitespace delimited list of header names and names can optionally end with
+# '*' to indicate a prefix match.
+# incoming_allow_headers =
+#
+# The headers to remove from outgoing responses. Simply a whitespace delimited
+# list of header names and names can optionally end with '*' to indicate a
+# prefix match. outgoing_allow_headers is a list of exceptions to these
+# removals.
+# outgoing_remove_headers = x-object-meta-*
+#
+# The headers allowed as exceptions to outgoing_remove_headers. Simply a
+# whitespace delimited list of header names and names can optionally end with
+# '*' to indicate a prefix match.
+# outgoing_allow_headers = x-object-meta-public-*
+
+# Note: Put formpost just before your auth filter(s) in the pipeline
+[filter:formpost]
+use = egg:swift#formpost
+
+# Note: Just needs to be placed before the proxy-server in the pipeline.
+[filter:name_check]
+use = egg:swift#name_check
+# forbidden_chars = '"`<>
+# maximum_length = 255
+# forbidden_regexp = /\./|/\.\./|/\.$|/\.\.$
+
+[filter:list-endpoints]
+use = egg:swift#list_endpoints
+# list_endpoints_path = /endpoints/
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+# If not set, logging directives from [DEFAULT] without "access_" will be used
+# access_log_name = swift
+# access_log_facility = LOG_LOCAL0
+# access_log_level = INFO
+# access_log_address = /dev/log
+#
+# If set, access_log_udp_host will override access_log_address
+# access_log_udp_host =
+# access_log_udp_port = 514
+#
+# You can use log_statsd_* from [DEFAULT] or override them here:
+# access_log_statsd_host = localhost
+# access_log_statsd_port = 8125
+# access_log_statsd_default_sample_rate = 1.0
+# access_log_statsd_sample_rate_factor = 1.0
+# access_log_statsd_metric_prefix =
+# access_log_headers = false
+#
+# If access_log_headers is True and access_log_headers_only is set only
+# these headers are logged. Multiple headers can be defined as comma separated
+# list like this: access_log_headers_only = Host, X-Object-Meta-Mtime
+# access_log_headers_only =
+#
+# By default, the X-Auth-Token is logged. To obscure the value,
+# set reveal_sensitive_prefix to the number of characters to log.
+# For example, if set to 12, only the first 12 characters of the
+# token appear in the log. An unauthorized access of the log file
+# won't allow unauthorized usage of the token. However, the first
+# 12 or so characters is unique enough that you can trace/debug
+# token usage. Set to 0 to suppress the token completely (replaced
+# by '...' in the log).
+# Note: reveal_sensitive_prefix will not affect the value
+# logged with access_log_headers=True.
+# reveal_sensitive_prefix = 8192
+#
+# What HTTP methods are allowed for StatsD logging (comma-sep); request methods
+# not in this list will have "BAD_METHOD" for the <verb> portion of the metric.
+# log_statsd_valid_http_methods = GET,HEAD,POST,PUT,DELETE,COPY,OPTIONS
+#
+# Note: The double proxy-logging in the pipeline is not a mistake. The
+# left-most proxy-logging is there to log requests that were handled in
+# middleware and never made it through to the right-most middleware (and
+# proxy server). Double logging is prevented for normal requests. See
+# proxy-logging docs.
+
+# Note: Put before both ratelimit and auth in the pipeline.
+[filter:bulk]
+use = egg:swift#bulk
+# max_containers_per_extraction = 10000
+# max_failed_extractions = 1000
+# max_deletes_per_request = 10000
+# max_failed_deletes = 1000
+
+# In order to keep a connection active during a potentially long bulk request,
+# Swift may return whitespace prepended to the actual response body. This
+# whitespace will be yielded no more than every yield_frequency seconds.
+# yield_frequency = 10
+
+# Note: The following parameter is used during a bulk delete of objects and
+# their container. This would frequently fail because it is very likely
+# that all replicated objects have not been deleted by the time the middleware got a
+# successful response. It can be configured the number of retries. And the
+# number of seconds to wait between each retry will be 1.5**retry
+
+# delete_container_retry_count = 0
+
+# Note: Put after auth in the pipeline.
+[filter:container-quotas]
+use = egg:swift#container_quotas
+
+# Note: Put before both ratelimit and auth in the pipeline.
+[filter:slo]
+use = egg:swift#slo
+# max_manifest_segments = 1000
+# max_manifest_size = 2097152
+# min_segment_size = 1048576
+# Start rate-limiting SLO segment serving after the Nth segment of a
+# segmented object.
+# rate_limit_after_segment = 10
+#
+# Once segment rate-limiting kicks in for an object, limit segments served
+# to N per second. 0 means no rate-limiting.
+# rate_limit_segments_per_sec = 0
+#
+# Time limit on GET requests (seconds)
+# max_get_time = 86400
+
+# Note: Put before both ratelimit and auth in the pipeline, but after
+# gatekeeper, catch_errors, and proxy_logging (the first instance).
+# If you don't put it in the pipeline, it will be inserted for you.
+[filter:dlo]
+use = egg:swift#dlo
+# Start rate-limiting DLO segment serving after the Nth segment of a
+# segmented object.
+# rate_limit_after_segment = 10
+#
+# Once segment rate-limiting kicks in for an object, limit segments served
+# to N per second. 0 means no rate-limiting.
+# rate_limit_segments_per_sec = 1
+#
+# Time limit on GET requests (seconds)
+# max_get_time = 86400
+
+[filter:account-quotas]
+use = egg:swift#account_quotas
+
+[filter:gatekeeper]
+use = egg:swift#gatekeeper
+# You can override the default log routing for this filter here:
+# set log_name = gatekeeper
+# set log_facility = LOG_LOCAL0
+# set log_level = INFO
+# set log_headers = false
+# set log_address = /dev/log
+
+[filter:container_sync]
+use = egg:swift#container_sync
+# Set this to false if you want to disallow any full url values to be set for
+# any new X-Container-Sync-To headers. This will keep any new full urls from
+# coming in, but won't change any existing values already in the cluster.
+# Updating those will have to be done manually, as knowing what the true realm
+# endpoint should be cannot always be guessed.
+# allow_full_urls = true
+
+

@@ -1,0 +1,7 @@
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 21111 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 6881:6899 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 20893:20923 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 7881:7899 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 8881:8899 -j ACCEPT
+iptables -A VM_OUT_GENETORRENT -p tcp -m tcp --dport 9881:9899 -j ACCEPT

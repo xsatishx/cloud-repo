@@ -1,0 +1,15 @@
+{
+  "name": "kg15-1",
+  "chef_environment": "igsb",
+  "run_list": [
+    "role[devrack_storage]",
+    "recipe[lac-iptables::pdcv3]",
+    "recipe[sysstat]"
+  ],
+  "normal": {
+    "tags": [
+
+    ],
+    "type": "storage"
+  }
+}

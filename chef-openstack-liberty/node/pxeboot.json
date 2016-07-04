@@ -1,0 +1,18 @@
+{
+  "name": "pxeboot",
+  "chef_environment": "PXE",
+  "run_list": [
+    "role[pxe]",
+    "recipe[yates::bind]"
+  ],
+  "normal": {
+    "tags": [
+
+    ],
+    "lighttpd": {
+      "port": 8080,
+      "bind": "10.103.136.201",
+      "use_ipv6": "disable"
+    }
+  }
+}

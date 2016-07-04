@@ -1,0 +1,21 @@
+#managed by chef
+deb http://apt-repo.osdc.io/ubuntu/ trusty main restricted
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty main restricted
+deb http://apt-repo.osdc.io/ubuntu/ trusty-updates main restricted
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty-updates main restricted
+deb http://apt-repo.osdc.io/ubuntu/ trusty universe
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty universe
+deb http://apt-repo.osdc.io/ubuntu/ trusty-updates universe
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty-updates universe
+deb http://apt-repo.osdc.io/ubuntu/ trusty multiverse
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty multiverse
+deb http://apt-repo.osdc.io/ubuntu/ trusty-updates multiverse
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty-updates multiverse
+deb http://apt-repo.osdc.io/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://apt-repo.osdc.io/ubuntu/ trusty-backports main restricted universe multiverse
+deb http://apt-repo.osdc.io/ubuntu trusty-security main restricted
+deb-src http://apt-repo.osdc.io/ubuntu trusty-security main restricted
+deb http://apt-repo.osdc.io/ubuntu trusty-security universe
+deb-src http://apt-repo.osdc.io/ubuntu trusty-security universe
+deb http://apt-repo.osdc.io/ubuntu trusty-security multiverse
+deb-src http://apt-repo.osdc.io/ubuntu trusty-security multiverse

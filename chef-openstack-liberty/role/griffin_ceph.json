@@ -1,0 +1,16 @@
+{
+  "name": "griffin_ceph",
+  "description": "Ceph Node",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[base]",
+    "recipe[lac-iptables::griffin-ceph]"
+  ],
+  "env_run_lists": {
+  }
+}

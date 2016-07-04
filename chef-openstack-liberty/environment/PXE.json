@@ -1,0 +1,39 @@
+{
+  "name": "PXE",
+  "description": "The PXE Chef environment",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "ssh_keys": {
+      "root": [
+        "rpowell",
+        "aheath",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ],
+      "lacadmin": [
+        "rpowell",
+        "aheath",
+        "jspring",
+        "rarya",
+        "ssullivan",
+        "kschmitt",
+        "jmazzone"
+      ]
+    },
+    "ntp": {
+      "servers": [
+        "ntp-0.uchicago.edu",
+        "ntp-1.uchicago.edu",
+        "ntp-2.uchicago.edu"
+      ]
+    }
+  },
+  "override_attributes": {
+  }
+}

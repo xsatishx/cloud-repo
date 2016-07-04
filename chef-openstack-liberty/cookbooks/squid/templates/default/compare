@@ -1,0 +1,37 @@
+irb(main):071:0> aclnames.each{|k,v| puts "#{k} #{v.length}: #{v.sort.join(", ")}"};nil
+REMOTEdebian 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+KeyService 5: bionimbus-pdc, devrack-compute, igsb-compute, l05, pdcv2
+MetadataService 4: bionimbus-pdc, devrack-compute, igsb-compute, pdcv2
+cghub 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+git 3: bionimbus-pdc, devrack-compute, igsb-compute
+openid 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+clam 3: bionimbus-pdc, devrack-compute, igsb-compute
+nova 5: bionimbus-pdc, devrack-compute, igsb-compute, l05, pdcv2
+python 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+bioconductor 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+R 4: bionimbus-pdc, devrack-compute, igsb-compute, l05
+icgc 2: bionimbus-pdc, devrack-compute
+icgc_ftp 3: bionimbus-pdc, devrack-compute, pdcv2
+perl 3: bionimbus-pdc, devrack-compute, igsb-compute
+sourceforge 3: bionimbus-pdc, devrack-compute, igsb-compute
+annai_upload_site 4: bionimbus-pdc, devrack-compute, igsb-compute, pdcv2
+nih 3: bionimbus-pdc, devrack-compute, igsb-compute
+apache 3: bionimbus-pdc, devrack-compute, igsb-compute
+postgres 3: bionimbus-pdc, devrack-compute, igsb-compute
+novo 3: bionimbus-pdc, devrack-compute, igsb-compute
+java 3: bionimbus-pdc, devrack-compute, igsb-compute
+igsbimg 3: bionimbus-pdc, devrack-compute, igsb-compute
+shibboleth 3: bionimbus-pdc, devrack-compute, igsb-compute
+completegenomics 3: bionimbus-pdc, devrack-compute, igsb-compute
+georgemihaiescu 2: bionimbus-pdc, pdcv2
+cleversafe 1: bionimbus-pdc
+oink 3: bionimbus-pdc, devrack-compute, igsb-compute
+igsb 1: igsb-compute
+igsb_ftp 1: igsb-compute
+Oracle 1: l05
+internal 1: l05
+cpan 1: l05
+cloudera 1: l05
+hriordan 1: l05
+chef 1: l05
+nih_ftp 1: pdcv2

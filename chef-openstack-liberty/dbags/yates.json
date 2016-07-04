@@ -1,0 +1,11 @@
+[
+  "builds",
+  "forms",
+  "install_parameters",
+  "nodes",
+  "pxe_hosts",
+  "pxe_hosts_old",
+  "racks",
+  "reservations",
+  "safe_to_image"
+]
