@@ -7,12 +7,7 @@
   "override_attributes": {
     "ntp": {
       "servers": [
-        "owamp.chic.net.internet2.edu",
-        "owamp.newy.net.internet2.edu",
-        "owamp.salt.net.internet2.edu",
-        "owamp.kans.net.internet2.edu",
-        "owamp.losa.net.internet2.edu",
-        "owamp.atla.net.internet2.edu"
+        "10.0.2.252"
       ]
     }
   },

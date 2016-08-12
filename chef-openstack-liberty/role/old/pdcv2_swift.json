@@ -1,0 +1,19 @@
+{
+  "name": "pdcv2_swift",
+  "description": "swift storage and proxy server",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[pdcv2_storage]",
+    "recipe[memcached]",
+    "recipe[nginx]",
+    "recipe[nova-swift-pdc::service_node]",
+    "recipe[nova-swift-pdc::proxy_node]"
+  ],
+  "env_run_lists": {
+  }
+}
