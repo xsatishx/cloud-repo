@@ -1,3 +1,0 @@
-export OS_TOKEN=healthseq
-export OS_URL=http://dev-controller:35357/v3/
-export OS_IDENTITY_API_VERSION=3

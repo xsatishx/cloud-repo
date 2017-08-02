@@ -1,4 +1,4 @@
-#
+kummat#
 # Cookbook Name:: ntp
 # Attributes:: default
 #
