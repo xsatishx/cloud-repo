@@ -7,7 +7,6 @@
       "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
       "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud."
     },
-
     "InstanceType": {
       "Description": "WebServer EC2 instance type",
       "Type": "String",
@@ -32,20 +31,32 @@
   "Resources": {
     "EC2Instance1": {
       "Type": "AWS::EC2::Instance",
-	  "Metadata" : {
-        "Comment" : "Install a simple application",
-        "AWS::CloudFormation::Init" : {
-          "config" : {
-          "files" : {
-              "/tmp/setup.mysql" : {
-                "content" : { "Fn::Join" : ["", ["[default]\n","region=",{"Ref": "AWS::Region"}]]},
-                "mode"    : "000775",
-                "owner"   : "ec2-user",
-                "group"   : "ec2-user"
-              }       
+      "Metadata": {
+        "Comment": "Install a simple application",
+        "AWS::CloudFormation::Init": {
+          "config": {
+            "files": {
+              "/tmp/setup.mysql": {
+                "content": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "[default]\n",
+                      "region=",
+                      {
+                        "Ref": "AWS::Region"
+                      }
+                    ]
+                  ]
+                },
+                "mode": "000775",
+                "owner": "ec2-user",
+                "group": "ec2-user"
+              }
+            }
           }
-          }
-          } },
+        }
+      },
       "Properties": {
         "SecurityGroups": [
           {
@@ -62,25 +73,24 @@
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [
-              "\n",
+              "",
               [
-                "#!/bin/bash",
-               "echo 'wp_mysql_db: ", {
-									"Ref": "InstanceType"
-								}, "' >> /tmp/main.yml\n"
-
-			  ]
+              "#!/bin/bash -e\n",
+              "echo 'define(\"'DB_NAME'\",\"", {"Ref": "InstanceType" },"\");'  >> /tmp/main.yml\n",
+              "echo 'define(\"'DB_USER'\",\"", {"Ref": "InstanceType" },"\");'  >> /tmp/main.yml\n",
+              "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "InstanceType" },"\");'  >> /tmp/main.yml\n",
+              "echo 'define(\"'DB_NAME'\",\"", {"Ref": "InstanceType" },"\");' >> /tmp/main.yml\n"
+              ]
             ]
           }
         }
       }
     },
- 
     "InstanceSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
-		"SecurityGroupIngress": [
+        "SecurityGroupIngress": [
           {
             "IpProtocol": "tcp",
             "FromPort": "22",

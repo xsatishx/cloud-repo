@@ -1,0 +1,244 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Creates 2 instances, 1 load balancer, 1 RDS and installs wordpress via chef.",
+  "Parameters": {
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id",
+      "Description": "VpcId of your existing Virtual Private Cloud (VPC)",
+      "ConstraintDescription": "must be the VPC Id of an existing Virtual Private Cloud."
+    },
+
+    "InstanceType": {
+      "Description": "WebServer EC2 instance type",
+      "Type": "String",
+      "Default": "t2.small",
+      "ConstraintDescription": "must be a valid EC2 instance type."
+    },
+    "KeyName": {
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+    },
+    "SSHLocation": {
+      "Description": "The IP address range that can be used to SSH to the EC2 instances",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+    },
+	  "DBName" : {
+      "Default": "wordpressdb",
+      "Description" : "The WordPress database name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DBUser" : {
+      "NoEcho": "true",
+      "Description" : "The WordPress database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "DBPassword" : {
+      "NoEcho": "true",
+      "Description" : "The WordPress database admin account password",
+      "Type": "String",
+      "MinLength": "8",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
+    }
+  },
+  "Resources": {
+    "ApplicationLoadBalancer": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "HealthCheck": {
+          "HealthyThreshold": "2",
+          "Interval": "5",
+          "Target": "HTTP:80/",
+          "Timeout": "3",
+          "UnhealthyThreshold": "2"
+        },
+        "Listeners": [
+          {
+            "InstancePort": "80",
+            "InstanceProtocol": "HTTP",
+            "LoadBalancerPort": "80",
+            "Protocol": "HTTP"
+          }
+        ],
+        "Scheme": "internet-facing",
+        "AvailabilityZones": { "Fn::GetAZs": "" },
+        "SecurityGroups": [
+          {
+              "Fn::GetAtt" : [ "InstanceSecurityGroup", "GroupId" ] 
+          }
+        ],
+        "Instances": [
+          {
+            "Ref": "EC2Instance1"
+          },
+          {
+            "Ref": "EC2Instance2"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "name",
+            "Value": "loadbalancer-wordpress-demo"
+          }
+        ]
+      }
+    },
+    "EC2Instance1": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "SecurityGroups": [
+          {
+            "Ref": "InstanceSecurityGroup"
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "ImageId": "ami-43a15f3e",
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash\n",
+                "apt-get update\n",
+                "curl -L https://www.opscode.com/chef/install.sh | bash\n",
+				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
+				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
+				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+			  ]
+            ]
+          }
+        }
+      }
+    },
+    "EC2Instance2": {
+      "Type": "AWS::EC2::Instance",
+	  "Properties": {
+        "SecurityGroups": [
+          {
+            "Ref": "InstanceSecurityGroup"
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "ImageId": "ami-43a15f3e",
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash\n",
+                "apt-get update\n",
+                "curl -L https://www.opscode.com/chef/install.sh | bash\n",
+				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
+				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
+				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+			    "echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "InstanceSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
+		"SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+	
+	 "DBEC2SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription": "Open database for access",
+        "SecurityGroupIngress" : [{
+        "IpProtocol" : "tcp",
+        "FromPort" : "3306",
+        "ToPort" : "3306",
+        "SourceSecurityGroupId" : { "Fn::GetAtt" : [ "InstanceSecurityGroup", "GroupId" ] }
+        }],
+        "VpcId" : { "Ref" : "VpcId" }
+      }
+    },
+	
+	  "DBInstance" : {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBName"            : { "Ref" : "DBName" },
+        "Engine"            : "MySQL",
+        "MultiAZ"           : "false",
+        "MasterUsername"    : { "Ref" : "DBUser" },
+        "MasterUserPassword": { "Ref" : "DBPassword" },
+        "DBInstanceClass"   : "db.t2.small",
+        "AllocatedStorage"  : "5",
+        "VPCSecurityGroups" : [{ "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ]}]
+      }
+    }
+	
+  },
+  "Outputs": {
+    "WebsiteURL": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "http://",
+            {
+              "Fn::GetAtt": [
+                "ApplicationLoadBalancer",
+                "DNSName"
+              ]
+            }
+          ]
+        ]
+      },
+      "Description": "URL for the stack"
+    }
+  }
+}
