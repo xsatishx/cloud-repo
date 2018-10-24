@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Creates 2 instances, 1 load balancer, 1 RDS and installs wordpress via chef.",
+  "Description": "Creates 2 instances, 1 load balancer, 1 mysql on ec2 via chef and installs wordpress via chef.",
   "Parameters": {
     "VpcId": {
       "Type": "AWS::EC2::VPC::Id",
@@ -11,16 +11,16 @@
     "InstanceType": {
       "Description": "WebServer EC2 instance type",
       "Type": "String",
-      "Default": "t2.small",
+      "Default": "t2.micro",
       "ConstraintDescription": "must be a valid EC2 instance type."
     },
     "KeyName": {
-      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Description": "Name of an existing EC2 KeyPair",
       "Type": "AWS::EC2::KeyPair::KeyName",
       "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
     },
     "SSHLocation": {
-      "Description": "The IP address range that can be used to SSH to the EC2 instances",
+      "Description": "The IP address range that can be used to SSH"Default": "wordpressdb",",
       "Type": "String",
       "MinLength": "9",
       "MaxLength": "18",
@@ -28,34 +28,41 @@
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
-	  "DBName" : {
+	"DBName": {
       "Default": "wordpressdb",
-      "Description" : "The WordPress database name",
+      "Description": "The WordPress database name",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "64",
-      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
-      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+      "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
     },
-
-    "DBUser" : {
-      "NoEcho": "true",
-      "Description" : "The WordPress database admin account username",
+    "DBUser": {
+	  "Default": "wordpressuser",
+      "Description": "The WordPress database admin account username",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "16",
-      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
-      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+      "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
     },
-
-    "DBPassword" : {
+    "DBrootPassword": {
       "NoEcho": "true",
-      "Description" : "The WordPress database admin account password",
+      "Description": "The MySQL root account password",
       "Type": "String",
       "MinLength": "8",
       "MaxLength": "41",
-      "AllowedPattern" : "[a-zA-Z0-9]*",
-      "ConstraintDescription" : "must contain only alphanumeric characters."
+      "AllowedPattern": "[a-zA-Z0-9]*",
+      "ConstraintDescription": "must contain only alphanumeric characters."
+    },
+    "DBPassword": {
+      "NoEcho": "true",
+      "Description": "The WordPress database admin account password",
+      "Type": "String",
+      "MinLength": "8",
+      "MaxLength": "41",
+      "AllowedPattern": "[a-zA-Z0-9]*",
+      "ConstraintDescription": "must contain only alphanumeric characters."
     }
   },
   "Resources": {
@@ -122,13 +129,17 @@
               [
                 "#!/bin/bash\n",
                 "apt-get update\n",
+				"apt-get install git\n",
                 "curl -L https://www.opscode.com/chef/install.sh | bash\n",
 				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
 				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
 				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
-				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+			    "echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
                 "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
-                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["EC2Instance3", "PublicIp"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
 			  ]
             ]
           }
@@ -157,69 +168,80 @@
               [
                 "#!/bin/bash\n",
                 "apt-get update\n",
+				"apt-get install git\n",
                 "curl -L https://www.opscode.com/chef/install.sh | bash\n",
 				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
 				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
 				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
-			    "echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+                "echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
                 "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
-                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n"
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["EC2Instance3", "PublicIp"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
               ]
             ]
           }
         }
       }
     },
+	
+	  "EC2Instance3": {
+      "Type": "AWS::EC2::Instance",
+	  "Properties": {
+        "SecurityGroups": [
+          {
+            "Ref": "InstanceSecurityGroup"
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "ImageId": "ami-43a15f3e",
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash\n",
+                "apt-get update\n",
+				"apt-get install git\n",
+                "curl -L https://www.opscode.com/chef/install.sh | bash\n",
+				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
+				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
+				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+				"echo 'mysql-server-5.5 mysql-server/root_password       password ",{"Ref": "DBrootPassword"},"'  >> /tmp/mysql_seed\n",
+                "echo 'mysql-server-5.5 mysql-server/root_password_again       password ",{"Ref": "DBrootPassword"},"'  >> /tmp/mysql_seed\n",
+                "echo '",{"Ref": "DBrootPassword"},"' >> /tmp/creds\n",
+				"echo '",{"Ref": "DBName"},"' >> /tmp/creds\n",
+				"echo '",{"Ref": "DBUser"},"' >> /tmp/creds\n",
+				"echo '",{"Ref": "DBPassword"},"' >> /tmp/creds\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j webms.json\n"
+              ]
+            ]
+          }
+        }
+      }
+    },
+	
     "InstanceSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "Enable SSH access and HTTP access on the inbound port",
 		"SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
-            "CidrIp": {
-              "Ref": "SSHLocation"
-            }
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "80",
-            "ToPort": "80",
-            "CidrIp": "0.0.0.0/0"
-          }
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}},
+		  {"IpProtocol" : "tcp", "FromPort" : "3306", "ToPort" : "3306", "CidrIp" : "0.0.0.0/0"}
         ]
       }
-    },
-	
-	 "DBEC2SecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties" : {
-        "GroupDescription": "Open database for access",
-        "SecurityGroupIngress" : [{
-        "IpProtocol" : "tcp",
-        "FromPort" : "3306",
-        "ToPort" : "3306",
-        "SourceSecurityGroupId" : { "Fn::GetAtt" : [ "InstanceSecurityGroup", "GroupId" ] }
-        }],
-        "VpcId" : { "Ref" : "VpcId" }
-      }
-    },
-	
-	  "DBInstance" : {
-      "Type": "AWS::RDS::DBInstance",
-      "Properties": {
-        "DBName"            : { "Ref" : "DBName" },
-        "Engine"            : "MySQL",
-        "MultiAZ"           : "false",
-        "MasterUsername"    : { "Ref" : "DBUser" },
-        "MasterUserPassword": { "Ref" : "DBPassword" },
-        "DBInstanceClass"   : "db.t2.small",
-        "AllocatedStorage"  : "5",
-        "VPCSecurityGroups" : [{ "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ]}]
-      }
     }
+	
+
+	
 	
   },
   "Outputs": {
@@ -241,4 +263,4 @@
       "Description": "URL for the stack"
     }
   }
-}
+}	

@@ -11,7 +11,7 @@
     "InstanceType": {
       "Description": "WebServer EC2 instance type",
       "Type": "String",
-      "Default": "t2.small",
+      "Default": "t2.micro",
       "ConstraintDescription": "must be a valid EC2 instance type."
     },
     "KeyName": {
@@ -39,7 +39,7 @@
     },
 
     "DBUser" : {
-      "NoEcho": "true",
+      "Default": "wordpress",
       "Description" : "The WordPress database admin account username",
       "Type": "String",
       "MinLength": "1",
@@ -118,18 +118,21 @@
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [
-              "\n",
+              "",
               [
-                "#!/bin/bash",
-                "apt-get update",
-                "apt-get -y install apache2",
-                "curl -L https://www.opscode.com/chef/install.sh | bash",
-				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master",
-				"cd /home/ubuntu && tar -xvf /home/ubuntu/master",
-				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo",
-				"mkdir -p /home/ubuntu/chef-repo/.chef",
-				"wget https://s3-ap-southeast-1.amazonaws.com/healthseq-internal-files/knife.rb -O /home/ubuntu/chef-repo/.chef/knife.rb"
-
+                "#!/bin/bash\n",
+                "apt-get update\n",
+				"apt-get install git\n",
+                "curl -L https://www.opscode.com/chef/install.sh | bash\n",
+				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
+				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
+				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["DBInstance", "Endpoint.Address"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
 			  ]
             ]
           }
@@ -154,18 +157,21 @@
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [
-              "\n",
+              "",
               [
-                "#!/bin/bash",
-                "apt-get update",
-                "apt-get -y install apache2",
-                "curl -L https://www.opscode.com/chef/install.sh | bash",
-				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master",
-				"cd /home/ubuntu && tar -xvf /home/ubuntu/master",
-				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo",
-				"mkdir -p /home/ubuntu/chef-repo/.chef",
-				"wget https://s3-ap-southeast-1.amazonaws.com/healthseq-internal-files/knife.rb -O /home/ubuntu/chef-repo/.chef/knife.rb"
-						
+                "#!/bin/bash\n",
+                "apt-get update\n",
+				"apt-get install git\n",
+                "curl -L https://www.opscode.com/chef/install.sh | bash\n",
+				"wget http://github.com/opscode/chef-repo/tarball/master -O /home/ubuntu/master\n",
+				"cd /home/ubuntu && tar -xvf /home/ubuntu/master\n",
+				"mv /home/ubuntu/chef-* /home/ubuntu/chef-repo\n",
+				"cd /home/ubuntu && git clone https://github.com/xsatishx/cloudformation.git\n",
+				"echo 'define(\"'DB_NAME'\",\"", {"Ref": "DBName" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_USER'\",\"", {"Ref": "DBUser" },"\");'  >> /tmp/main.yml\n",
+                "echo 'define(\"'DB_PASSWORD'\",\"", {"Ref": "DBPassword" },"\");'  >> /tmp/main.yml\n",
+				"echo 'define(\"'DB_HOST'\",\"", {"Fn::GetAtt" : ["DBInstance", "Endpoint.Address"]},"\");' >> /tmp/main.yml\n",
+				"cd /home/ubuntu/cloudformation && chef-solo -c solo.rb -j web.json\n"
               ]
             ]
           }
@@ -217,7 +223,7 @@
         "MultiAZ"           : "false",
         "MasterUsername"    : { "Ref" : "DBUser" },
         "MasterUserPassword": { "Ref" : "DBPassword" },
-        "DBInstanceClass"   : "db.t2.small",
+        "DBInstanceClass"   : "db.t2.micro",
         "AllocatedStorage"  : "5",
         "VPCSecurityGroups" : [{ "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ]}]
       }
