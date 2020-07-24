@@ -270,7 +270,7 @@ def images(project_id):
                 }
             ],
             "id": "d892dfaf-2a5a-4084-bcaa-948e1acf932e",
-            "name": "slave_v22",
+            "name": "subordinate_v22",
             "created": "2013-07-17T14:56:00Z",
             "minDisk": 0,
             "server": {
@@ -361,7 +361,7 @@ def images(project_id):
                 }
             ],
             "id": "0a97a0b3-ee4f-4041-aa0b-b7febb4d5072",
-            "name": "hadoop_slave4",
+            "name": "hadoop_subordinate4",
             "created": "2013-07-17T14:27:04Z",
             "minDisk": 0,
             "server": {
